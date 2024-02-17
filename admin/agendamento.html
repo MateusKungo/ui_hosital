@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="constumer.css">
     <!-- Meu CSS -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="agenda.css">
     <style>
         /* Adicione estilos específicos do hospital aqui */
     </style>
@@ -22,7 +24,7 @@
         </a>
         <ul class="side-menu top">
             <li class="active">
-                <a href="#">
+                <a href="instituicao.html">
                     <i class='bx bxs-dashboard'></i>
                     <span class="text">Instituições</span>
                 </a>
@@ -37,12 +39,6 @@
                 <a href="#">
                     <i class='bx bxs-bed'></i>
                     <span class="text">Marcações</span>
-                </a>
-            </li>
-			<li>
-                <a href="#">
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">Consultas</span>
                 </a>
             </li>
 			<li>
@@ -106,68 +102,42 @@
         <!-- BARRA DE NAVEGAÇÃO -->
 
         <!-- PRINCIPAL -->
-        <main class="lista_instituicao">
-          <div class="instituicao">
-            <div class="header">
-                <h2>Nome Instituição</h2>
+        <main class="agendaBody">
+         
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Minha agenda</h3>
+                        <i class='bx bx-search'></i>
+                        <i class='bx bx-filter'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo de Serviço</th>
+                                <th>Data & Hora</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p>Exame</p>
+                                </td>
+                                <td>01-10-2021 09:00</td>
+                                <td><span class="status completed">Concluído</span></td>
+                            </tr>
+                            <!-- Outras linhas de agendamento aqui -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="imge_instituicoa">
-                <img src="img/logo.webp" alt="">
-            </div>
-            <div class="body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, quam rem? Quae, rem id eius quos, doloremque atque reiciendis facilis ducimus itaque maiores adipisci suscipit error aspernatur. Veniam, consequuntur accusantium?</p>
-            </div>
-            <div class="footer">
-                <a href="perfilhospital.html" class="btn btn_vermais">Saber mais</a>
-            </div>
-          </div>
-          <div class="instituicao">
-            <div class="header">
-                <h2>Nome Instituição</h2>
-            </div>
-            <div class="imge_instituicoa">
-                <img src="img/logo.webp" alt="">
-            </div>
-            <div class="body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, quam rem? Quae, rem id eius quos, doloremque atque reiciendis facilis ducimus itaque maiores adipisci suscipit error aspernatur. Veniam, consequuntur accusantium?</p>
-            </div>
-            <div class="footer">
-                <a href="perfilhospital.html" class="btn btn_vermais">Saber mais</a>
-            </div>
-          </div>
-          <div class="instituicao">
-            <div class="header">
-                <h2>Nome Instituição</h2>
-            </div>
-            <div class="imge_instituicoa">
-                <img src="img/logo.webp" alt="">
-            </div>
-            <div class="body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, quam rem? Quae, rem id eius quos, doloremque atque reiciendis facilis ducimus itaque maiores adipisci suscipit error aspernatur. Veniam, consequuntur accusantium?</p>
-            </div>
-            <div class="footer">
-                <a href="perfilhospital.html" class="btn btn_vermais">Saber mais</a>
-            </div>
-          </div>
-          <div class="instituicao">
-            <div class="header">
-                <h2>Nome Instituição</h2>
-            </div>
-            <div class="imge_instituicoa">
-                <img src="img/logo.webp" alt="">
-            </div>
-            <div class="body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, quam rem? Quae, rem id eius quos, doloremque atque reiciendis facilis ducimus itaque maiores adipisci suscipit error aspernatur. Veniam, consequuntur accusantium?</p>
-            </div>
-            <div class="footer">
-                <a href="perfilhospital.html" class="btn btn_vermais">Saber mais</a>
-            </div>
-          </div>
         </main>
         <!-- PRINCIPAL -->
     </section>
     <!-- CONTEÚDO -->
 
     <script src="script.js"></script>
+    <script src="modal.js"></script>
 </body>
 </html>
