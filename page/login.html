@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/formStep.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  
+    <title>Criar conta</title>
+</head>
+<body>
+    <section>
+        <div class="form">
+            <div class="header">
+                <h2>Crear uma Conta</h2>
+                <p>ue officiis in tempore, fugiat beatae neque itaque accusamus.</p>
+            </div>
+            <div class="body">
+                <div class="pagination">
+                    <div class="number active">1</div>
+                    <div class="bar"></div>
+                    <div class="number">2</div>
+                    <div class="bar"></div>
+                    <div class="number">3</div>
+                    <div class="bar"></div>
+                    <div class="number">4</div>
+                    <div class="bar"></div>
+                    <div class="number">5</div>
+                    <div class="bar"></div>
+    
+                </div>
+    
+                <div class="steps">
+                    <div class="step">
+                        <h2>Detalhes de Contacto</h2>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <div class="grid">
+                            <div class="col">
+                                <label for="nome">Nome Completo</label>
+                                <input type="text" id="nome" placeholder="Seu Nome*">
+                            </div>
+                            <div class="col">
+                                <label for="bi">Número BI</label>
+                                <input type="tex" id="bi" placeholder="Número de Identidade*">
+                            </div>
+                            <div class="col">
+                                <label for="passport">Número de Passaporte</label>
+                                <input type="tel" id="passport" placeholder="Número de Passaporte*">
+                            </div>
+                            <div class="col">
+                                <label for="email">Seu Email</label>
+                                <input type="email" id="email" placeholder="Email*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h2>Detalhes de Contacto</h2>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <div class="grid">
+                            <div class="col">
+                                <label for="nome">Categória</label>
+                                <select name="" id="" class="selectCategoria">
+                                    <option value="">Utente</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="telfone">Telefone</label>
+                                <input type="tel" id="telfone" placeholder="Número de Telefone*">
+                            </div>
+                            <div class="col">
+                                <label for="telfoneAlt">Telefone Altenativo</label>
+                                <input type="tel" id="tel" placeholder="Telefone Altenativo*">
+                            </div>
+                            <div class="col">
+                                <label for="codigopos">Código Postal</label>
+                                <input type="genero" id="codigopos" placeholder="Código Postal*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h2>Credeciais de Segurança</h2>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <div class="grid">
+                            <div class="col">
+                                <label for="nomeuser">Nomo de Usuário</label>
+                                <input type="text" id="nomeuser" placeholder="Nome Usuário*">
+                            </div>
+                            <div class="col">
+                                <label for="password">Palavra-Passe</label>
+                                <input type="password" id="password" placeholder="Palavra-Passe*">
+                            </div>
+                            <div class="col">
+                                <label for="password">Telefone Altenativo</label>
+                                <input type="password" id="password" placeholder="Confirmar Palavra-Passe*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                       <div class="carrgarImagem">
+                            <h2>Carregar Imagem</h2>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                           <div class="image">
+                                <img src="../assets/images/departamento_1-removebg-preview.png" alt="" id="imagemExibida">
+                           </div>
+                           <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()" class="exibir">
+                            <label for="inputFile" class="lb_imagem btn">Buscar Imagem</label>
+                       </div>
+                   
+                    </div>
+                    <div class="step">
+                        <div class="confirmation">
+                            <h2>Informação de Confirmação</h2>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        
+                            <button class="btn">Salvar os Dados</button>
+                        </div>
+                   
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+            <button class="voltar" disabled>Voltar</button>
+            <button class="continuar">Continuar</button>
+            </div>
+        </div>
+
+
+        <script src="../assets/js/fromStep.js"></script>
+        <script src="../assets/js/imgem.js"></script>
+    </section>
+</body>
+</html>
