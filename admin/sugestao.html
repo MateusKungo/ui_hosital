@@ -13,6 +13,7 @@
     <!-- Meu CSS -->
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="perfil_hospital.css" />
+    <link rel="stylesheet" href="sugestoa.css">
     <link rel="stylesheet" href="modal.css" />
     <style>
       /* Adicione estilos específicos do hospital aqui */
@@ -22,9 +23,9 @@
     <!-- BARRA LATERAL -->
     <section id="sidebar">
       <a href="utente.html" class="brand">
-        <i class="bx bxs-hospital"></i>
+        <i class='bx bxs-hospital'></i>
         <span class="text">Hospital</span>
-      </a>
+    </a>
       <ul class="side-menu top">
         <li class="active">
             <a href="instituicao.html">
@@ -89,50 +90,19 @@
       <!-- BARRA DE NAVEGAÇÃO -->
 
       <!-- PRINCIPAL -->
-      <main class="perfilHospital">
-        <div class="table-data">
-            <div class="order">
-                <div class="head">
-                    <h3>Meu Histórico</h3>
-                    <i class='bx bx-search'></i>
-                    <i class='bx bx-filter'></i>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Paciente</th>
-                            <th>Data & Hora</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="img/people.png" alt="Paciente">
-                                <p>João Silva</p>
-                            </td>
-                            <td>01-10-2021 09:00</td>
-                            <td><span class="status completed">Concluído</span></td>
-                        </tr>
-                        <!-- Outras linhas de agendamento aqui -->
-                    </tbody>
-                </table>
-            </div>
+      <main class="sugestaomin">
+        <div class="message">
+            <h2>Escreva Aqui sua Sugestão</h2>
+            <textarea name="" id="" cols="30" rows="10" placeholder="Escreva aqui sua Sugestão">
+
+            </textarea>
+
+
+            <button class="btn">Enviar</button>
+
         </div>
       </main>
-      <!-- PRINCIPAL -->
-      <div class="popup" id="popup">
-        <img src="img/logo.webp" alt="" />
-        <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
-        <select name="" id="" class="comosente">
-          <option value="">Estomatologia...</option>
-        </select>
-        <h3>Como você está se sentindo?</h3>
-        <textarea name="" id="" cols="30" rows="10" class="descrever">
-        </textarea>
-        <h2 id="valorConsulta"><span></span></h2>
-        <button onclick="closePopup()">ok</button>
-      </div>
+     
      
     <!-- CONTEÚDO -->
 
