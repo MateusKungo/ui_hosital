@@ -100,28 +100,24 @@
           <div class="main_perfilHospital">
             <div class="header">
               <div class="image">
-                <img src="img/logo.webp" alt="" />
+                <img  alt=""  id="imagemInstituicao"/>
               </div>
               <div class="title">
-                <h2>Nome do Hospital</h2>
-                <h3>Email: <span>emailhospital</span></h3>
+                <h2 id="nomeHospital"></h2>
+                <h3>Email: <span id="emailHospital"></span></h3>
                 <h3>Descrição</h3>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo
-                  accusantium tenetur consequuntur recusandae molestiae libero
-                  facilis quisquam, nam quas numquam temporibus dolorem,
-                  voluptate corporis facere doloribus. Provident inventore dolor
-                  consequatur!
+                <p id="descricaoHospital">
+                  
                 </p>
                 <div class="sugestao">
-                  <h3>Contacto <span>+244 999 999 999</span></h3>
+                  <h3>Contacto<span id="numeroHospital"></span></h3>
                   <a class="btnConsulata btn sugestaoBtn" href="sugestao.html">
                     Sugestão
                   </a>
                 </div>
                 <h4>Agendar:</h4>
                 <div class="agendar">
-                  <button class="btnConsulata btn" onclick="openPopup('Selecione o Tipo de Consulta:','Valor de Consulta')">
+                  <button class="btnConsulata btn" onclick="">
                     Consulta
                   </button>
                   <button class="btnExame btn" onclick="openPopup('Selecione o Tipo de Exame:','Valor de Exame')">
@@ -149,50 +145,8 @@
                   <th>Contacto</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <img src="img/people.png" alt="Paciente" />
-                    <p>João Silva</p>
-                  </td>
-                  <td>Especialidade</td>
-                  <td><button class="btnConsulata btn" onclick="openPopup('Selecione o Tipo de Consulta:','Valor de Consulta')">
-                    Consulta
-                  </button></td>
-                  <td><button class="btnExame btn" onclick="openPopup('Selecione o Tipo de Exame:','Valor de Exame')">Exame</button></td>
-                  <td>
-                    <span class="status completed">+244 999 999 999</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="img/people.png" alt="Paciente" />
-                    <p>João Silva</p>
-                  </td>
-                  <td>Especialidade</td>
-                  <td><button class="btnConsulata btn" onclick="openPopup('Selecione o Tipo de Consulta:','Valor de Consulta')">
-                    Consulta
-                  </button></td>
-                  <td><button class="btnExame btn" onclick="openPopup('Selecione o Tipo de Exame:','Valor de Exame')">Exame</button></td>
-                  <td>
-                    <span class="status completed">+244 999 999 999</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="img/people.png" alt="Paciente" />
-                    <p>João Silva</p>
-                  </td>
-                  <td>Especialidade</td>
-                  <td><button class="btnConsulata btn" onclick="openPopup('Selecione o Tipo de Consulta:','Valor de Consulta')">
-                    Consulta
-                  </button></td>
-                  <td><button class="btnExame btn" onclick="openPopup('Selecione o Tipo de Exame:','Valor de Exame')">Exame</button></td>
-                  <td>
-                    <span class="status completed">+244 999 999 999</span>
-                  </td>
-                </tr>
-                <!-- Outras linhas de agendamento aqui -->
+              <tbody id="paiMedicos">
+               
               </tbody>
             </table>
           </div>
@@ -200,21 +154,24 @@
       </main>
       <!-- PRINCIPAL -->
       <div class="popup" id="popup">
-        <img src="img/logo.webp" alt="" />
-        <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
-        <select name="" id="" class="comosente">
-          <option value="">Estomatologia...</option>
-        </select>
-        <h3>Como você está se sentindo?</h3>
-        <textarea name="" id="" cols="30" rows="10" class="descrever">
-        </textarea>
-        <h2 id="valorConsulta"><span></span></h2>
-        <button onclick="closePopup()">ok</button>
+            <img src="img/logo.webp" alt="" />
+            <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
+            <select name="" id="" class="comosente">
+              <option value="">Estomatologia...</option>
+            </select>
+            <h3>Como você está se sentindo?</h3>
+            <textarea name="" id="" cols="30" rows="10" class="descrever">
+            </textarea>
+            <h2 id="valorConsulta"><span></span></h2>
+            <button onclick="closePopup()">ok</button>
       </div>
      
     <!-- CONTEÚDO -->
-
+      <script src="../solicitacoes/requisicoes.js"></script>
     <script src="script.js"></script>
     <script src="modal.js"></script>
+    <script>
+      pegarUmaisntituicao()
+    </script>
   </body>
 </html>

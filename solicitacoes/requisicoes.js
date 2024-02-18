@@ -737,6 +737,7 @@ function pegarTodosUtentes() {
 
 function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,imagem) {
   // Cria um elemento div
+
   var divInstituicao = document.createElement("div");
   divInstituicao.className = "instituicao";
 
@@ -762,7 +763,7 @@ function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,im
   divBody.className = "body";
   var p = document.createElement("p");
   //p.style.textAlign="justify"
-  p.innerHTML = "A "+nome+ " esta localizado na provincia de <b>"+provincia+"</b> no monicipio de <b> "+municipio+" </b> no dostrito de <b> "+destrito+" </b> "+descricao;
+  p.innerHTML = "A "+nome+ " esta localizado na provincia de <b>"+provincia+"</b> no monicipio de <b> "+municipio+" </b> no distrito de <b> "+destrito+" </b> "+descricao;
   divBody.appendChild(p);
   divInstituicao.appendChild(divBody);
 
@@ -770,7 +771,7 @@ function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,im
   var divFooter = document.createElement("div");
   divFooter.className = "footer";
   var a = document.createElement("a");
-  a.href = "perfilhospital.html";
+  a.href = "perfilhospital.html?idHospital="+id;
   a.className = "btn btn_vermais";
   a.textContent = "Saber mais";
   divFooter.appendChild(a);
@@ -780,6 +781,7 @@ function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,im
   return divInstituicao;
 
 }
+
 function pegarTodasInstituicoes() {
   fetch(url + "/api/instituicao/pegarTodos", {
     method: 'GET',
@@ -799,7 +801,7 @@ function pegarTodasInstituicoes() {
       divPai = document.getElementById("pai");
       dados = data.instituicoes
       for (let cont = 0; cont < dados.length; cont++) {
-        document.getElementById("lista_instituicao").appendChild(createAdivInstituicao(dados[cont].nome,dados[cont].Descricao,dados[cont].distrito.municipio.provincia.nome,dados[cont].distrito.municipio.nome,dados[cont].distrito.nome,dados[cont].imagem))
+        document.getElementById("lista_instituicao").appendChild(createAdivInstituicao(dados[cont].nome,dados[cont].Descricao,dados[cont].id,dados[cont].distrito.municipio.provincia.nome,dados[cont].distrito.municipio.nome,dados[cont].distrito.nome,dados[cont].imagem))
       }
 
 
@@ -808,6 +810,7 @@ function pegarTodasInstituicoes() {
       console.error('Erro na solicitação:', error.message);
     });
 }
+
 
 function perfilIntituicao(tag) {
   pegarUmaisntituicao(tag.name)
@@ -955,10 +958,15 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
 
 }
 
-function pegarUmaisntituicao(idInstituicao) {
+
+
+function pegarUmaisntituicao() {
   /*user= JSON.parse(localStorage.getItem("user"))
   idInstituicaoo=user.user[0].admin.instituicao_id;*/
-  fetch(url + "/api/instituicao/pegarInstituicao/" + idInstituicao, {
+  queryString= window.location.search;
+  searchParams= new URLSearchParams(queryString);
+  getUrl=Object.fromEntries(searchParams.entries());
+  fetch(url + "/api/instituicao/pegarInstituicao/" + getUrl.idHospital, {
     method: 'GET',
     headers: {
       "ngrok-skip-browser-warning": "69420"
@@ -971,29 +979,28 @@ function pegarUmaisntituicao(idInstituicao) {
       return response.json();
     })
     .then(data => {
-      divPai = document.getElementById("pai");
-      dados = data.instituicao
-      document.getElementById("imagemInstituicao").src = url + "/api/imagem/" + dados.imagem
-      document.getElementById("nomeInstituicao").innerHTML = "<b>Nome: </b> " + dados.nome;
-      document.getElementById("emailInstituicao").innerHTML = "<b>Email: </b>" + dados.email;
-      document.getElementById("descricaoInstituicao").innerHTML = "<b>Descrição: </b>" + dados.Descricao;
-      document.getElementById("Contacto").innerHTML = "<b>Contacto: </b>" + dados.contacto.telefone_principal + "/" + dados.contacto.telefone_alternativo;
-      document.getElementById("ConsultaIntituicao").addEventListener("click", function () {
-        ConsultaInstituicao(idInstituicao, 0, null, null);
-      })
-      document.getElementById("exameInstituicao").addEventListener("click", function () {
-        exameInstituicao(idInstituicao, 0, null, null);
-      })
-
-      if (dados.pclinicos.length > 0) {
-        dados = dados.pclinicos;
-        console.log(dados)
-        $("paiMedicos").empty();
-        paiMedicos = document.getElementById("paiMedicos")
-        for (cont = 0; cont < dados.length; cont++) {
-          paiMedicos.appendChild(criarCardMedico(idInstituicao, dados[cont].id, dados[cont].user.nome, dados[cont].especialidade.nome, dados[cont].user.contacto.telefone_principal, dados[cont].user.imagem));
-        }
-      }
+          //divPai = document.getElementById("pai");
+          dados = data.instituicao
+          document.getElementById("imagemInstituicao").src = url + "/api/imagem/" + dados.imagem
+          document.getElementById("nomeHospital").innerHTML = dados.nome;
+          document.getElementById("emailHospital").innerHTML = dados.email;
+          document.getElementById("descricaoHospital").innerHTML = dados.Descricao;
+          document.getElementById("numeroHospital").innerHTML =dados.contacto.telefone_principal + "/" + dados.contacto.telefone_alternativo;
+          /*document.getElementById("ConsultaIntituicao").addEventListener("click", function () {
+            ConsultaInstituicao(idInstituicao, 0, null, null);
+          })
+          document.getElementById("exameInstituicao").addEventListener("click", function () {
+          exameInstituicao(idInstituicao, 0, null, null);
+          })*/
+          if (dados.pclinicos.length > 0) {
+              dados = dados.pclinicos;
+              console.log(dados)
+              //$("paiMedicos").empty();
+              paiMedicos = document.getElementById("paiMedicos")
+              for (cont = 0; cont < dados.length; cont++) {
+                paiMedicos.appendChild(criarMedicos(dados[cont].id, dados[cont].user.nome, dados[cont].especialidade.nome, dados[cont].user.contacto.telefone_principal, dados[cont].user.imagem));
+              }
+          }
 
     })
     .catch(error => {
@@ -1001,6 +1008,48 @@ function pegarUmaisntituicao(idInstituicao) {
     });
 }
 
+function criarMedicos(id,nome,especialidade,contacto,imagem){
+    const tr = document.createElement("tr");
+    const td1 = document.createElement("td");
+    const img = document.createElement("img");
+    img.src = url+"/api/imagem/"+imagem;
+    img.alt = "Paciente";
+    const p = document.createElement("p");
+    p.textContent = nome;
+    td1.appendChild(img);
+    td1.appendChild(p);
+    tr.appendChild(td1);
+    const td2 = document.createElement("td");
+    td2.textContent = especialidade;
+    tr.appendChild(td2);
+    const td3 = document.createElement("td");
+    const btnConsulta = document.createElement("button");
+    btnConsulta.className = "btnConsulata btn";
+    btnConsulta.textContent = "Consulta";
+    btnConsulta.onclick = function() {
+        openPopup("Selecione o Tipo de Consulta:", "Valor de Consulta");
+    };
+    td3.appendChild(btnConsulta);
+    tr.appendChild(td3);
+    const td4 = document.createElement("td");
+    const btnExame = document.createElement("button");
+    btnExame.className = "btnExame btn";
+    btnExame.textContent = "Exame";
+    btnExame.onclick = function() {
+        openPopup("Selecione o Tipo de Exame:", "Valor de Exame");
+    };
+    td4.appendChild(btnExame);
+    tr.appendChild(td4);
+    const td5 = document.createElement("td");
+    const span = document.createElement("span");
+    span.className = "status completed";
+    span.textContent = contacto;
+    td5.appendChild(span);
+    tr.appendChild(td5);
+    // Adicionando a linha à tabela
+    return tr
+}
+/*
 function criarCardMedico(idInstituicao, id, nome, especialidade, contacto, imagemSrc) {
   // Criar elementos HTML
   let divCol = document.createElement('div');
@@ -1088,7 +1137,7 @@ function criarCardMedico(idInstituicao, id, nome, especialidade, contacto, image
 
   return divCol;
 }
-
+*/
 function menu(span) {
   texto = span.textContent;
   if (texto == "Instituições") {
