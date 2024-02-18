@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="agenda.css">
     <style>
 
+      .add_cancelar{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 20px;
+      }
+
       
         /* Adicione estilos específicos do hospital aqui */
     </style>
@@ -145,7 +152,11 @@
           <label for="">Telefone</label>
           <input type="tel" placeholder="telefon*">
           <h2 id="valorConsulta"><span></span></h2>
+         <div class="add_cancelar">
+          <button onclick="closePopup()" style="background-color: red;">Cancelar</button>
           <button onclick="closePopup()">Salvar</button>
+         </div>
+
       </div>
     </div>
     <script src="script.js"></script>

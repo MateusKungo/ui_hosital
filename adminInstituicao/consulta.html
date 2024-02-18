@@ -97,23 +97,23 @@
 
         <!-- PRINCIPAL -->
         <main class="agendaBody">
-          
+          <button class="btn" onclick="openPopup('Tipo de Consulta','')">Tipo de Consulta</button>
          
           <div class="table-data">
             <div class="order">
                 <div class="head">
-                    <h3>Marcaçoes</h3>
+                    <h3>Médicos</h3>
                     <i class='bx bx-search'></i>
                     <i class='bx bx-filter'></i>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Paciente</th>
-                            <th>Tipo de Serviço</th>
-                            <th>Preço</th>
-                            <th>opção</th>
-                          
+                            <th>Médicos</th>
+                            <th>Eamil</th>
+                            <th>Especilidade</th>
+                           
+                            <th>Telefone</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,10 +122,9 @@
                                 <img src="img/people.png" alt="Paciente">
                                 <p>João Silva</p>
                             </td>
-                            <td>Consulta</td>
-                            <td>4000</td>
-                            <td><button class="btn" onclick="openPopup('Informação do Utente','')">detalhes</button></td>
-                           
+                            <td>Mateuskungo@m«gmail.com</td>
+                            <td>Neurologia</td>
+                            <td><span class="status completed">+244 999 999 999</span></td>
                         </tr>
                         <!-- Outras linhas de agendamento aqui -->
                     </tbody>
@@ -141,12 +140,12 @@
     <div class="popup" id="popup">
       <img src="img/logo.webp" alt="" />
       <div class="crud">
-          <h2 class="h2_title">Tipo de Exame:</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta est nisi deserunt ex architecto repellat expedita corrupti aliquam, mollitia quae molestias, suscipit sint corporis vel sequi quasi, similique explicabo ab.</p>
-        
-          
+          <h2 class="h2_title">Tipo de Consulta:</h2>
+          <input type="text" placeholder="Tipo de Consulta:*">
+         <div class="add_cancelar">
+          <button onclick="closePopup()" style="background-color: red;">Cancelar</button>
           <button onclick="closePopup()">Salvar</button>
-        
+         </div>
 
       </div>
     </div>
