@@ -73,67 +73,79 @@
   }
 
 
-
-  .perfil_hospital{
-    background-color: #F9F9F9;
-    padding: 20px;
-    box-shadow: var(--shadow-1);
-    border-radius: var(--radius-6);
-  }
-
-  .sugestao{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  .sugestaoBtn{
-    background-color: var(--midnight-green);
-  }
-  .main_perfilHospital{
+.modal-container {
     width: 100%;
-  }
-  .header{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 10px;
-    align-items: center;
-  }
-  .agendar{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
+    position: fixed;
+    top: 30px;
+    display: none;
+    z-index: 999;
+    justify-content: center;
     align-items: center;
   }
   
-  .image img{
-    width: 100%;
-    height: 300px;
-  }
-
-  .title{
+  .modal {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    padding: 30px;
+    background-color: var(--midnight-green);
+    border-radius: 10px;
+    border: 1px solid #555;
+    box-shadow: var(--shadow-1);
+    width: 300px;
+    color: #fff;
+    margin-top: 40px;
   }
-  @media screen and (max-width: 768px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
-  }
-    
-  @media screen and (max-width: 576px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
   
-    
+  .active {
+    display: flex;
   }
+  
+  .active .modal {
+    animation: modal .4s;
+  }
+  
+  @keyframes modal {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -60px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  span {
+    margin: 10px auto;
+  }
+  
+  .btns {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .btns button {
+    font-size: medium;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btnOK {
+    border: 1px solid #ddd;
+    background-color: var(--midnight-green);
+  }
+  
+  
+   @media (max-width: 500px) {
+    .modal {
+      padding: 10px;
+      width: 80%;
+    }   
+  
+    span, .btns button {
+      font-size: smaller;
+    }
+   }

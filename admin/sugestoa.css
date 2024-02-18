@@ -72,68 +72,30 @@
   
   }
 
+  
 
+  .message{
 
-  .perfil_hospital{
-    background-color: #F9F9F9;
-    padding: 20px;
+    background-color: #fff;
     box-shadow: var(--shadow-1);
     border-radius: var(--radius-6);
-  }
-
-  .sugestao{
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-around;
-  }
-  .sugestaoBtn{
-    background-color: var(--midnight-green);
-  }
-  .main_perfilHospital{
-    width: 100%;
-  }
-  .header{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 10px;
-    align-items: center;
-  }
-  .agendar{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .image img{
-    width: 100%;
-    height: 300px;
-  }
-
-  .title{
-    display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 20px;
+    padding: 40px;
   }
-  @media screen and (max-width: 768px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
+
+
+
+  .message textarea, button{
+    width: 70%;
+    border: 1px solid var(--midnight-green);
   }
-    
-  @media screen and (max-width: 576px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
-  
-    
+  .message textarea{
+    padding: 10px;
+  }
+  .message button{
+    border: none;
   }
