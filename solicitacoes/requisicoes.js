@@ -601,7 +601,11 @@ function fazerLogin() {
     .then(data => {
       user = data
       guardarUser(user)
-      document.location.href = "../pages/dist/index.html"
+      $('#loadingModal').modal('hide');
+      if(user.user[0].categoria=="Utente"){
+        document.location.href = "admin/utente.html"
+      }
+      //document.location.href = "../pages/dist/index.html"
     })
     .catch(error => {
       $('#loadingModal').modal('hide');
@@ -822,6 +826,7 @@ function pegarTodasInstituicoes() {
     document.getElementById("especialidades").style.display = "none";
   }
 */
+
 function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("preco").textContent = "";
   document.getElementById("titulo").innerHTML = " Selecione o Tipo de Consulta:"
@@ -833,6 +838,7 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
     idUser = user.user[0].id;
+    $('#loadingModal').modal('show');
 
     const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
     //$('#loadingModal').modal('show');
@@ -880,10 +886,12 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
         return response.json();
       })
       .then(data => {
+        $('#loadingModal').modal('hide');
         console.log(data)
       })
       .catch(error => {
         //$('#loadingModal').modal('hide');
+        $('#loadingModal').modal('hide');
         console.error('Erro na solicitação:', error.message);
       });
   });
@@ -901,7 +909,8 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
 
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
-    idUser = user.user.id;
+    idUser = user.user[0].id;
+    $('#loadingModal').modal('show');
 
     const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
     //$('#loadingModal').modal('show');
@@ -952,10 +961,12 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
         return response.json();
       })
       .then(data => {
+        $('#loadingModal').modal('hide');
         console.log(data)
       })
       .catch(error => {
         //$('#loadingModal').modal('hide');
+        $('#loadingModal').modal('hide');
         console.error('Erro na solicitação:', error.message);
       });
   });
@@ -1059,6 +1070,7 @@ function criarMedicos(id,nome,especialidade,contacto,imagem){
     // Adicionando a linha à tabela
     return tr
 }
+
 /*
 function criarCardMedico(idInstituicao, id, nome, especialidade, contacto, imagemSrc) {
   // Criar elementos HTML

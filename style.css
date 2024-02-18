@@ -230,7 +230,7 @@ form .pass-txt {
     text-decoration: underline;
 }
 
-form input[type="submit"] {
+form input[type="button"] {
     height: 50px;
     margin-top: 30px;
     color: #fff;
