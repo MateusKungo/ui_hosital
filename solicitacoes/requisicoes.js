@@ -663,7 +663,7 @@ function cadastrarUser(){
 
 function cadastrarInstituicao() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-  $('#loadingModal').modal('show');
+  //$('#loadingModal').modal('show');
   const formData = new FormData();
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
@@ -674,8 +674,8 @@ function cadastrarInstituicao() {
   formData.append('telefone_alternativo', document.getElementById("telefone_alternativo").value);
   formData.append('codigo_postal', document.getElementById("codigo_postal").value);
   formData.append('distrito_id', document.getElementById("distrito").value);
-  formData.append('login', document.getElementById("login").value);
-  const imagemInput = document.getElementById('imagem');
+  //formData.append('login', document.getElementById("login").value);
+  const imagemInput = document.getElementById('inputFile');
   if (imagemInput.files.length > 0) {
     formData.append('imagem', imagemInput.files[0]);
   }
