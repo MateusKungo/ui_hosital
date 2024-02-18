@@ -71,79 +71,28 @@
     --cubic-out: cubic-bezier(0.05, 0.83, 0.52, 0.97);
   
   }
+.agendaBody{
+    position: relative;
+    height: 100%;
+}
 
-
-
-  .perfil_hospital{
-    background-color: #F9F9F9;
-    padding: 20px;
-    box-shadow: var(--shadow-1);
+.dataAgenda{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--midnight-green);
     border-radius: var(--radius-6);
-  }
+}
 
-  .sugestao{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  .sugestaoBtn{
+.btnAgendas{
     background-color: var(--midnight-green);
-  }
-  .main_perfilHospital{
-    width: 100%;
-  }
-  .header{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 10px;
-    align-items: center;
-  }
-  .agendar{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .image img{
-    width: 100%;
-    height: 300px;
-  }
-
-  .title{
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .opcbtnfooter{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .btnCancelar{
-    background-color: rgb(92, 42, 42);
-  }
-  @media screen and (max-width: 768px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
-  }
-    
-  @media screen and (max-width: 576px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
-  
-    
-  }
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    border-radius: 50%;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    box-shadow: var(--shadow-2);
+}

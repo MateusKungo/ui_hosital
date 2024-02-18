@@ -1,8 +1,7 @@
 :root {
-
     /**
-     * colors
-     */
+       * colors
+       */
   
     --rich-black-fogra-29: hsl(222, 44%, 8%);
     --middle-blue-green_40: hsla(174, 64%, 71%, 0.4);
@@ -22,38 +21,38 @@
     --black: hsl(0, 0%, 0%);
   
     /**
-     * typography
-     */
+       * typography
+       */
   
-    --ff-oswald: 'Oswald', sans-serif;
-    --ff-rubik: 'Rubik', sans-serif;
-    
+    --ff-oswald: "Oswald", sans-serif;
+    --ff-rubik: "Rubik", sans-serif;
+  
     --headline-lg: 5rem;
     --headline-md: 3rem;
     --headline-sm: 2rem;
     --title-lg: 1.8rem;
     --title-md: 1.5rem;
     --title-sm: 1.4rem;
-    
+  
     --fw-500: 500;
     --fw-700: 700;
   
     /**
-     * spacing
-     */
+       * spacing
+       */
   
     --section-padding: 120px;
   
     /**
-     * box shadow
-     */
+       * box shadow
+       */
   
     --shadow-1: 0px 2px 20px hsla(209, 36%, 72%, 0.2);
     --shadow-2: 0 4px 16px hsla(0, 0%, 0%, 0.06);
   
     /**
-     * border radius
-     */
+       * border radius
+       */
   
     --radius-circle: 50%;
     --radius-12: 12px;
@@ -61,89 +60,31 @@
     --radius-4: 4px;
   
     /**
-     * transition
-     */
+       * transition
+       */
   
     --transition-1: 0.25s ease;
     --transition-2: 0.5s ease;
     --transition-3: 1s ease;
     --cubic-in: cubic-bezier(0.51, 0.03, 0.64, 0.28);
     --cubic-out: cubic-bezier(0.05, 0.83, 0.52, 0.97);
+  }
+
   
-  }
-
-
-
-  .perfil_hospital{
-    background-color: #F9F9F9;
-    padding: 20px;
-    box-shadow: var(--shadow-1);
-    border-radius: var(--radius-6);
-  }
-
-  .sugestao{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  .sugestaoBtn{
-    background-color: var(--midnight-green);
-  }
-  .main_perfilHospital{
-    width: 100%;
-  }
-  .header{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 10px;
-    align-items: center;
-  }
-  .agendar{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .image img{
-    width: 100%;
-    height: 300px;
-  }
-
-  .title{
+  .crud{
+    width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-  }
-  .opcbtnfooter{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
     gap: 10px;
-  }
-  .btnCancelar{
-    background-color: rgb(92, 42, 42);
-  }
-  @media screen and (max-width: 768px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
-  }
     
-  @media screen and (max-width: 576px) {
-    .header{
-      grid-template-columns: 1fr;
-    }
-    .popup {
-      width: 90%;
-      gap: 5px;
-    }
-  
-    
+  }
+  .crud label{
+    font-weight: 500;
+  }
+  .crud input{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--midnight-green);
+
   }
