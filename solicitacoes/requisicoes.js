@@ -1,4 +1,4 @@
-var url = "https://c23c-105-168-76-13.ngrok-free.app";
+var url = "https://9ba5-105-172-24-28.ngrok-free.app";
 var user=null
 var apiProvincia = null
 pessoalClinico=[]
@@ -621,7 +621,7 @@ function cadastrarUser(){
   formData.append('categoria', document.getElementById("categoria").value);
   formData.append('genero', document.getElementById("genero").value);
   formData.append('telefone_principal', document.getElementById("telefone_principal").value);
-  formData.append('login', document.getElementById("login").value);
+  //formData.append('login', document.getElementById("login").value);
   formData.append('password_confirmation', document.getElementById("password_confirmation").value);
   formData.append('telefone_alternativo', document.getElementById("telefone_alternativo").value);
   formData.append('codigo_postal', document.getElementById("codigo_postal").value);
@@ -630,7 +630,7 @@ function cadastrarUser(){
      user= JSON.parse(localStorage.getItem("user"))
      formData.append('instituicao_id', user.user[0].admin.instituicao_id);
   }
-  const imagemInput = document.getElementById('imagem');
+  const imagemInput = document.getElementById('inputFile');
   if (imagemInput.files.length > 0) {
     formData.append('imagem', imagemInput.files[0]);
   }

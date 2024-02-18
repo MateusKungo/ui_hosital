@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/formStep.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +48,7 @@
                             </div>
                             <div class="col">
                                 <label for="nome">Genero</label>
-                                <select name="" id="GENERO" class="selectCategoria">
+                                <select name="" id="genero" class="selectCategoria">
                                     <option value="" selected disabled>Escola uma opção</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
@@ -58,8 +59,8 @@
                                 <input type="tex" id="bi" placeholder="Número de Identidade*">
                             </div>
                             <div class="col">
-                                <label for="email">Seu Email</label>
-                                <input type="email" id="email" placeholder="Email*">
+                                <label for="email">Seu Passaporte</label>
+                                <input type="text" id="passaporte" placeholder="Passaporte">
                             </div>
                         </div>
                     </div>
@@ -92,12 +93,16 @@
                         <p>Seja o propetário da sua conta</p>
                         <div class="grid">
                             <div class="col">
+                                <label for="email">Seu Email</label>
+                                <input type="email" id="email" placeholder="Email*">
+                            </div>
+                            <div class="col">
                                 <label for="password">Palavra-Passe</label>
                                 <input type="password" id="password" placeholder="Palavra-Passe*">
                             </div>
                             <div class="col">
-                                <label for="password">Telefone Altenativo</label>
-                                <input type="password" id="passwords" placeholder="Confirmar Palavra-Passe*">
+                                <label for="password">Confirmar a Palavra-Passe</label>
+                                <input type="password" id="password_confirmation" placeholder="Confirmar Palavra-Passe*">
                             </div>
                         </div>
                     </div>
@@ -108,7 +113,7 @@
                            <div class="image">
                                 <img src="../assets/images/departamento_1-removebg-preview.png" alt="" id="imagemExibida">
                            </div>
-                           <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()" class="exibir">
+                           <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()"  class="exibir">
                             <label for="inputFile" class="lb_imagem btn">Buscar Imagem</label>
                        </div>
                    
@@ -116,9 +121,9 @@
                     <div class="step">
                         <div class="confirmation">
                             <h2>Informação de Confirmação</h2>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            <p>Confirme os seus dados.</p>
                         
-                            <button class="btn">Salvar os Dados</button>
+                            <button class="btn" onclick="cadastrarUser()" >Salvar os Dados</button>
                         </div>
                    
                     </div>
