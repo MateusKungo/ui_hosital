@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/formStep.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,8 +15,8 @@
     <section>
         <div class="form">
             <div class="header">
-                <h2>Crear uma Conta</h2>
-                <p>ue officiis in tempore, fugiat beatae neque itaque accusamus.</p>
+                <h2>Cria uma Conta</h2>
+                <p>Suas informações estão 100% seguras.</p>
             </div>
             <div class="body">
                 <div class="pagination">
@@ -34,77 +35,85 @@
     
                 <div class="steps">
                     <div class="step">
-                        <h2>Detalhes de Contacto</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <h2>Informações Pessoais</h2>
+                        <p>Deixe conhecermos vocé.</p>
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Nome Completo</label>
                                 <input type="text" id="nome" placeholder="Seu Nome*">
                             </div>
                             <div class="col">
+                                <label for="bi">Data de Nascimento</label>
+                                <input type="date" id="data_nascimento" >
+                            </div>
+                            <div class="col">
+                                <label for="nome">Genero</label>
+                                <select name="" id="genero" class="selectCategoria">
+                                    <option value="" selected disabled>Escola uma opção</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="col">
                                 <label for="bi">Número BI</label>
                                 <input type="tex" id="bi" placeholder="Número de Identidade*">
                             </div>
                             <div class="col">
-                                <label for="passport">Número de Passaporte</label>
-                                <input type="tel" id="passport" placeholder="Número de Passaporte*">
-                            </div>
-                            <div class="col">
-                                <label for="email">Seu Email</label>
-                                <input type="email" id="email" placeholder="Email*">
+                                <label for="email">Seu Passaporte</label>
+                                <input type="text" id="passaporte" placeholder="Passaporte">
                             </div>
                         </div>
                     </div>
                     <div class="step">
                         <h2>Detalhes de Contacto</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <p>Deixe conhecermos vocé.</p>
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Categória</label>
-                                <select name="" id="" class="selectCategoria">
-                                    <option value="">Utente</option>
+                                <select name="" id="categoria" class="selectCategoria">
+                                    <option value="Utente">Utente</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <label for="telfone">Telefone</label>
-                                <input type="tel" id="telfone" placeholder="Número de Telefone*">
+                                <input type="tel" id="telefone_principal" placeholder="Número de Telefone*">
                             </div>
                             <div class="col">
                                 <label for="telfoneAlt">Telefone Altenativo</label>
-                                <input type="tel" id="tel" placeholder="Telefone Altenativo*">
+                                <input type="tel" id="telefone_alternativo" placeholder="Telefone Altenativo*">
                             </div>
                             <div class="col">
                                 <label for="codigopos">Código Postal</label>
-                                <input type="genero" id="codigopos" placeholder="Código Postal*">
+                                <input type="genero" id="codigo_postal" placeholder="Código Postal*">
                             </div>
                         </div>
                     </div>
                     <div class="step">
                         <h2>Credeciais de Segurança</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <p>Seja o propetário da sua conta</p>
                         <div class="grid">
                             <div class="col">
-                                <label for="nomeuser">Nomo de Usuário</label>
-                                <input type="text" id="nomeuser" placeholder="Nome Usuário*">
+                                <label for="email">Seu Email</label>
+                                <input type="email" id="email" placeholder="Email*">
                             </div>
                             <div class="col">
                                 <label for="password">Palavra-Passe</label>
                                 <input type="password" id="password" placeholder="Palavra-Passe*">
                             </div>
                             <div class="col">
-                                <label for="password">Telefone Altenativo</label>
-                                <input type="password" id="password" placeholder="Confirmar Palavra-Passe*">
+                                <label for="password">Confirmar a Palavra-Passe</label>
+                                <input type="password" id="password_confirmation" placeholder="Confirmar Palavra-Passe*">
                             </div>
                         </div>
                     </div>
                     <div class="step">
                        <div class="carrgarImagem">
                             <h2>Carregar Imagem</h2>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            <p>Sua imagem faz toda diferença.</p>
                            <div class="image">
                                 <img src="../assets/images/departamento_1-removebg-preview.png" alt="" id="imagemExibida">
                            </div>
-                           <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()" class="exibir">
+                           <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()"  class="exibir">
                             <label for="inputFile" class="lb_imagem btn">Buscar Imagem</label>
                        </div>
                    
@@ -112,9 +121,9 @@
                     <div class="step">
                         <div class="confirmation">
                             <h2>Informação de Confirmação</h2>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            <p>Confirme os seus dados.</p>
                         
-                            <button class="btn">Salvar os Dados</button>
+                            <button class="btn" onclick="cadastrarUser()" >Salvar os Dados</button>
                         </div>
                    
                     </div>
@@ -126,7 +135,7 @@
             </div>
         </div>
 
-
+        <script src="../solicitacoes/requisicoes.js"></script>
         <script src="../assets/js/fromStep.js"></script>
         <script src="../assets/js/imgem.js"></script>
     </section>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/formStep.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,8 +15,8 @@
     <section>
         <div class="form">
             <div class="header">
-                <h2>Crear Conta Instituição</h2>
-                <p>ue officiis in tempore, fugiat beatae neque itaque accusamus.</p>
+                <h2>Crie a sua Conta da Instituição</h2>
+                <p>Informe as suas informações.</p>
             </div>
             <div class="body">
                 <div class="pagination">
@@ -35,73 +36,52 @@
                 <div class="steps">
                     <div class="step">
                         <h2>Informação da Instituição</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <p>Informe-nos as suas informações.</p>
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Nome da Instituição</label>
-                                <input type="text" id="nomeInstituicao" placeholder="Nome da Instituição*">
+                                <input type="text" id="nome" placeholder="Nome da Instituição*">
                             </div>
                             <div class="col">
                                 <label for="bi">Email</label>
-                                <input type="email" id="Email" placeholder="Email*">
+                                <input type="email" id="email" placeholder="Email*">
                             </div>
                             <div class="col">
                                 <label for="passport">Provincia</label>
-                                <select id="provincias" onchange="mostrarMunicipios()" class="selectCategoria">
-                                    <option value="">Selecione...</option>
-                                    <option value="Bengo">Bengo</option>
-                                    <option value="Benguela">Benguela</option>
-                                    <option value="Bié">Bié</option>
-                                    <option value="Cabinda">Cabinda</option>
-                                    <option value="Cuando Cubango">Cuando Cubango</option>
-                                    <option value="Cuanza Norte">Cuanza Norte</option>
-                                    <option value="Cuanza Sul">Cuanza Sul</option>
-                                    <option value="Cunene">Cunene</option>
-                                    <option value="Huambo">Huambo</option>
-                                    <option value="Huíla">Huíla</option>
-                                    <option value="Luanda">Luanda</option>
-                                    <option value="Lunda Norte">Lunda Norte</option>
-                                    <option value="Lunda Sul">Lunda Sul</option>
-                                    <option value="Malanje">Malanje</option>
-                                    <option value="Moxico">Moxico</option>
-                                    <option value="Namibe">Namibe</option>
-                                    <option value="Uíge">Uíge</option>
-                                    <option value="Zaire">Zaire</option>
+                                <select id="provincias"  class="selectCategoria">
+                                    <option desabled selected>Selecione...</option>
+                                    
                                   </select>
                             </div>
                             <div class="col">
                                 <label for="municipios">Municipios</label>
-                                <select id="municipios"   class="selectCategoria">
+                                <select id="monicipio"   class="selectCategoria">
                                     <option value="">Selecione...</option>
                                   </select>
                             </div>
                             <div class="col">
                                 <label for="destrito">Destrito</label>
-                                <select id="destrito"   class="selectCategoria">
+                                <select id="distrito"   class="selectCategoria">
                                     <option value="">Selecione...</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="step">
-                        <h2>Informação da Instituição</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <h2>Credeciais de Segurança</h2>
+                        <p>seus dados de segurança</p>
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Telefone</label>
-                                <input type="tel" placeholder="Número de Telefone*">
+                                <input type="tel" id="telefone_principal" placeholder="Número de Telefone*">
                             </div>
                             <div class="col">
                                 <label for="telfone">Telefone Altenativo</label>
-                                <input type="tel" id="telfone" placeholder="Telefone Altenativo*">
+                                <input type="tel" id="telefone_alternativo" placeholder="Telefone Altenativo*">
                             </div>
                             <div class="col">
                                 <label for="codigopos">Código Postal</label>
-                                <input type="genero" id="codigopos" placeholder="Código Postal*">
-                            </div>
-                            <div class="col">
-                                <label for="nomeusuarioInst">Nome do Usuário</label>
-                                <input type="text" id="tel" placeholder="Nome do Usuário*">
+                                <input type="genero" id="codigo_postal" placeholder="Código Postal*">
                             </div>
                             <div class="col">
                                 <label for="password">Palavra-Passe</label>
@@ -109,26 +89,26 @@
                             </div>
                             <div class="col">
                                 <label for="password">Confirmar Palavra-Passe</label>
-                                <input type="password" id="password" placeholder="Confirmar Palavra-Passe*">
+                                <input type="password" id="password_confirmation" placeholder="Confirmar Palavra-Passe*">
                             </div>
                         </div>
                     </div>
                     <div class="step">
-                        <h2>Credeciais de Segurança</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <h2>Informação da Instituição</h2>
+                        <p>Descreve quem sobre a empresa</p>
                         <p></p>
                         <div class="">
                             <div class="descricaogrid">
                                 <p></p><p></p>
                                 <label for="descricao">Descrição</label>
-                                <textarea name="" id="" cols="30" rows="10" placeholder="Descrição*"></textarea>
+                                <textarea name="" id="descricao" cols="30" rows="10" placeholder="Descrição*"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="step">
                        <div class="carrgarImagem">
                             <h2>Carregar Imagem</h2>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            <p>Imagem da empresa</p>
                            <div class="image">
                                 <img src="../assets/images/departamento_1-removebg-preview.png" alt="" id="imagemExibida">
                            </div>
@@ -140,9 +120,9 @@
                     <div class="step">
                         <div class="confirmation">
                             <h2>Informação de Confirmação</h2>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            <p>confirme os dados.</p>
                         
-                            <button class="btn">Salvar os Dados</button>
+                            <button class="btn" onclick="cadastrarInstituicao()">Salvar os Dados</button>
                         </div>
                    
                     </div>
@@ -154,10 +134,13 @@
             </div>
         </div>
 
-
+        <script src="../solicitacoes/requisicoes.js"></script>
         <script src="../assets/js/fromStep.js"></script>
         <script src="../assets/js/imgem.js"></script>
         <script src="../assets/js/provincia.js"></script>
+        <script>
+            getAllProvincia()
+        </script>
     </section>
 </body>
 </html>
