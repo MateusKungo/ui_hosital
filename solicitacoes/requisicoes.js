@@ -526,6 +526,7 @@ function pegarTodosExameSeclectDeumaInstituicao(idInstituicao) {
 
 function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
+  
   select = document.getElementById("tipoServico");
 
   fetch(url + "/api/consulta/pegarConsultasPorInstituicao/" + idInstituicao, {
@@ -544,20 +545,21 @@ function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
 
       retorno = data.consultas;
-      $('#tipoServico').empty();
+      
+      //$('#tipoServico').empty();
       option = document.createElement("option");
       option.textContent = "Selecione";
       select.appendChild(option);
       for (cont = 0; cont < retorno.length; cont++) {
-        option = document.createElement("option");
-        option.setAttribute("value", retorno[cont].id);
-        option.setAttribute("id", +retorno[cont].instituicaos[0].preco + " Kz");
-        option.textContent = retorno[cont].nome + "-" + retorno[cont].tipo;
-        select.appendChild(option);
-        select.addEventListener("change", function () {
-          var selectedOption = this.options[this.selectedIndex];
-          document.getElementById("preco").textContent = selectedOption.id
-        })
+          option = document.createElement("option");
+          option.setAttribute("value", retorno[cont].id);
+          option.setAttribute("id",retorno[cont].instituicaos[0].preco + " Kz");
+          option.textContent = retorno[cont].nome + "-" + retorno[cont].tipo;
+          select.appendChild(option);
+          select.addEventListener("change", function () {
+              var selectedOption = this.options[this.selectedIndex];
+              document.getElementById("preco").textContent = selectedOption.getAttribute("id");
+          })
       }
 
     })
@@ -996,7 +998,7 @@ function pegarUmaisntituicao() {
 
           if (dados.pclinicos.length > 0) {
               dados = dados.pclinicos;
-              console.log(dados)
+             // console.log(dados)
               //$("paiMedicos").empty();
               paiMedicos = document.getElementById("paiMedicos")
               for (cont = 0; cont < dados.length; cont++) {
