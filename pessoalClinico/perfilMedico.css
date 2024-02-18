@@ -1,0 +1,13 @@
+.carrgarImagem{
+    width: 100%;
+}
+.image{
+    width: 200px;
+    height:200px ;
+}
+.image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100%;
+}
