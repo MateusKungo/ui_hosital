@@ -21,33 +21,27 @@
   <body>
     <!-- BARRA LATERAL -->
     <section id="sidebar">
-      <a href="utente.html" class="brand">
+      <a href="pessoalClinico.html" class="brand">
         <i class="bx bxs-hospital"></i>
         <span class="text">Hospital</span>
       </a>
       <ul class="side-menu top">
-        <li>
-            <a href="instituicao.html">
-                <i class='bx bxs-dashboard'></i>
-                <span class="text">Instituições</span>
-            </a>
-        </li>
         <li>
             <a href="agendamento.html">
                 <i class='bx bxs-calendar'></i>
                 <span class="text">Minhas Marcaçoes</span>
             </a>
         </li>
-        <li>
+  <li class="active">
             <a href="rcu_page.html">
                 <i class='bx bxs-dollar-circle'></i>
                 <span class="text">RCU</span>
             </a>
         </li>
-        <li  class="active">
-            <a href="historico.html">
+        <li>
+            <a href="diagnostico.html">
                 <i class='bx bxs-dollar-circle'></i>
-                <span class="text">Histórico</span>
+                <span class="text">Diagnostico</span>
             </a>
         </li>
     </ul>
@@ -99,25 +93,27 @@
         <div class="table-data">
             <div class="order">
                 <div class="head">
-                    <h3>Meu Histórico</h3>
+                    <h3>RCU</h3>
                     <i class='bx bx-search'></i>
                     <i class='bx bx-filter'></i>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Paciente</th>
-                            <th>Data & Hora</th>
+                          <th>Nome do Paciente</th>
+                            <th>Tipo Sanguino</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                          <td>
+                            <img src="img/people.png" alt="Paciente">
+                            <p>Mateus</p>
+                          </td>
                             <td>
-                                <img src="img/people.png" alt="Paciente">
-                                <p>João Silva</p>
+                                <p>O Positivo</p>
                             </td>
-                            <td>01-10-2021 09:00</td>
                             <td><span class="status completed">Concluído</span></td>
                         </tr>
                         <!-- Outras linhas de agendamento aqui -->
