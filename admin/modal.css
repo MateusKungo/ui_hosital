@@ -94,6 +94,7 @@
     38.1px 40.9px 33.4px rgba(0, 0, 0, 0.078),
     83px 89px 80px rgba(0, 0, 0, 0.08);
     border: 2px solid var(--midnight-green);
+    height: 95vh;
 }
 
 .open-popup {

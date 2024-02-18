@@ -598,7 +598,6 @@ function fazerLogin() {
     })
     .then(data => {
       user = data
-      console.log(user)
       guardarUser(user)
       document.location.href = "../pages/dist/index.html"
     })
@@ -635,7 +634,7 @@ function cadastrarUser() {
     formData.append('imagem', imagemInput.files[0]);
   }
 
-  console.log(formData)
+  //console.log(formData)
 
   fetch(url + "/api/user/register", {
     method: 'POST',
@@ -811,23 +810,24 @@ function pegarTodasInstituicoes() {
     });
 }
 
-
-function perfilIntituicao(tag) {
-  pegarUmaisntituicao(tag.name)
-  document.getElementById("marcacao").style.display = "none";
-  document.getElementById("ids").style.display = "none";
-  document.getElementById("perfilInstituicao").style.display = "block";
-  document.getElementById("medicos").style.display = "none";
-  document.getElementById("especialidades").style.display = "none";
-}
-
+/*
+  function perfilIntituicao(tag) {
+    pegarUmaisntituicao(tag.name)
+    document.getElementById("marcacao").style.display = "none";
+    document.getElementById("ids").style.display = "none";
+    document.getElementById("perfilInstituicao").style.display = "block";
+    document.getElementById("medicos").style.display = "none";
+    document.getElementById("especialidades").style.display = "none";
+  }
+*/
 function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("preco").textContent = "";
-  document.getElementById("exampleModalLabels").innerHTML = " Selecione o Tipo de Consulta:"
+  document.getElementById("titulo").innerHTML = " Selecione o Tipo de Consulta:"
   document.getElementById("idPreco").innerHTML = "Valor da consulta:"
-
   pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao);
-  $('#efectuarServico').modal('show');
+  let popup=document.getElementById('popup')
+  popup.classList.add('open-popup')
+  //$('#efectuarServico').modal('show');
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
     idUser = user.user[0].id;
@@ -986,12 +986,14 @@ function pegarUmaisntituicao() {
           document.getElementById("emailHospital").innerHTML = dados.email;
           document.getElementById("descricaoHospital").innerHTML = dados.Descricao;
           document.getElementById("numeroHospital").innerHTML =dados.contacto.telefone_principal + "/" + dados.contacto.telefone_alternativo;
-          /*document.getElementById("ConsultaIntituicao").addEventListener("click", function () {
-            ConsultaInstituicao(idInstituicao, 0, null, null);
+          document.getElementById("ConsultaIntituicao").addEventListener("click", function () {
+                ConsultaInstituicao(getUrl.idHospital, 0, null, null);
           })
           document.getElementById("exameInstituicao").addEventListener("click", function () {
-          exameInstituicao(idInstituicao, 0, null, null);
-          })*/
+                exameInstituicao(getUrl.idHospital, 0, null, null);
+          })
+
+
           if (dados.pclinicos.length > 0) {
               dados = dados.pclinicos;
               console.log(dados)

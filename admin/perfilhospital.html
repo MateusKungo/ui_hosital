@@ -2,6 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administração Hospitalar</title>
     <!-- Boxicons -->
@@ -117,10 +118,10 @@
                 </div>
                 <h4>Agendar:</h4>
                 <div class="agendar">
-                  <button class="btnConsulata btn" onclick="">
+                  <button class="btnConsulata btn"  id="ConsultaIntituicao">
                     Consulta
                   </button>
-                  <button class="btnExame btn" onclick="openPopup('Selecione o Tipo de Exame:','Valor de Exame')">
+                  <button class="btnExame btn" id="exameInstituicao">
                     Exame
                   </button>
                 </div>
@@ -155,16 +156,17 @@
       <!-- PRINCIPAL -->
       <div class="popup" id="popup">
             <img src="img/logo.webp" alt="" />
-            <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
-            <select name="" id="" class="comosente">
-              <option value="">Estomatologia...</option>
+            <h2 class="h2_title" id="titulo"></h2>
+            <select name="" id="tipoServico" class="comosente">
             </select>
             <h3>Como você está se sentindo?</h3>
             <textarea name="" id="" cols="30" rows="10" class="descrever">
             </textarea>
-            <h2 id="valorConsulta"><span></span></h2>
-            <button onclick="closePopup()">ok</button>
+            <h2 id="idPreco"><span id="preco"></span></h2>
+            <button id="efectuarServicoBTN" >Efectuar</button>
       </div>
+
+      
      
     <!-- CONTEÚDO -->
       <script src="../solicitacoes/requisicoes.js"></script>
