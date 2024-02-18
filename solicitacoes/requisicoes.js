@@ -1,4 +1,4 @@
-var url = "https://9ba5-105-172-24-28.ngrok-free.app";
+var url = "https://42d2-105-172-196-233.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -546,7 +546,7 @@ function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
       retorno = data.consultas;
       
-      //$('#tipoServico').empty();
+      $('#tipoServico').empty();
       option = document.createElement("option");
       option.textContent = "Selecione";
       select.appendChild(option);
@@ -892,10 +892,12 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
 
 function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("preco").textContent = "";
-  document.getElementById("exampleModalLabels").innerHTML = "Selecione o Tipo de Exame:"
+  document.getElementById("titulo").innerHTML = "Selecione o Tipo de Exame:"
   document.getElementById("idPreco").innerHTML = "Valor do exame:"
   pegarTodosExameSeclectDeumaInstituicao(idInstituicao);
-  $('#efectuarServico').modal('show');
+  //$('#efectuarServico').modal('show');
+  let popup=document.getElementById('popup')
+  popup.classList.add('open-popup')
 
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
@@ -1030,8 +1032,12 @@ function criarMedicos(id,nome,especialidade,contacto,imagem){
     const btnConsulta = document.createElement("button");
     btnConsulta.className = "btnConsulata btn";
     btnConsulta.textContent = "Consulta";
+    queryString= window.location.search;
+    searchParams= new URLSearchParams(queryString);
+    getUrl=Object.fromEntries(searchParams.entries());
+   
     btnConsulta.onclick = function() {
-        openPopup("Selecione o Tipo de Consulta:", "Valor de Consulta");
+        agendarComMedicoApi(getUrl.idHospital,id,nome,"consulta")
     };
     td3.appendChild(btnConsulta);
     tr.appendChild(td3);
@@ -1040,7 +1046,7 @@ function criarMedicos(id,nome,especialidade,contacto,imagem){
     btnExame.className = "btnExame btn";
     btnExame.textContent = "Exame";
     btnExame.onclick = function() {
-        openPopup("Selecione o Tipo de Exame:", "Valor de Exame");
+      agendarComMedicoApi( getUrl.idHospital,id,nome,"exame")
     };
     td4.appendChild(btnExame);
     tr.appendChild(td4);
