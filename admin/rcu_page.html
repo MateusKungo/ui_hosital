@@ -99,7 +99,7 @@
         <div class="table-data">
             <div class="order">
                 <div class="head">
-                    <h3>Outros Dados</h3>
+                    <h3>Registro clínico do utente</h3>
                     <i class='bx bx-search'></i>
                     <i class='bx bx-filter'></i>
                 </div>
@@ -107,39 +107,26 @@
                     <thead>
                         <tr>
                             <th>Tipo Sanguino</th>
-                            <th>Status</th>
+                            <th>estado</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p>O Positivo</p>
-                            </td>
-                            <td><span class="status completed">Concluído</span></td>
-                        </tr>
-                        <!-- Outras linhas de agendamento aqui -->
+                    <tbody id="tableRCU">
+                       
+                    
                     </tbody>
                 </table>
             </div>
         </div>
       </main>
-      <!-- PRINCIPAL -->
-      <div class="popup" id="popup">
-        <img src="img/logo.webp" alt="" />
-        <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
-        <select name="" id="" class="comosente">
-          <option value="">Estomatologia...</option>
-        </select>
-        <h3>Como você está se sentindo?</h3>
-        <textarea name="" id="" cols="30" rows="10" class="descrever">
-        </textarea>
-        <h2 id="valorConsulta"><span></span></h2>
-        <button onclick="closePopup()">ok</button>
-      </div>
-     
-    <!-- CONTEÚDO -->
+
 
     <script src="script.js"></script>
     <script src="modal.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../solicitacoes/requisicoes.js"></script>
+
+    <script>
+        getMyRCU();
+    </script>
   </body>
 </html>
