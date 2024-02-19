@@ -1,4 +1,4 @@
-var url = "https://42d2-105-172-196-233.ngrok-free.app";
+var url = "https://4ec3-102-218-85-201.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -617,6 +617,8 @@ function fazerLogin() {
 function cadastrarUser() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
+
+
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
   formData.append('password', document.getElementById("password").value);
@@ -1126,6 +1128,24 @@ function getMyRCU() {
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
     });
+}
+
+function tragaOsMeusDados(){
+  user = JSON.parse(localStorage.getItem("user"));
+  idUser = user.user[0].id;
+  document.getElementById("imagemExibida").src=url+"/api/imagem/"+user.user[0].imagem
+  document.getElementById("nome").value =user.user[0].nome
+  document.getElementById("email").value=user.user[0].email
+  document.getElementById("password").value=user.user[0].password
+  document.getElementById("bi").value=user.user[0].bi
+  document.getElementById("passaporte").value=user.user[0].passaporte
+  document.getElementById("data_nascimento").value=user.user[0].data_nascimento
+  document.getElementById("genero").value=user.user[0].genero
+  document.getElementById("telefone_principal").value=user.user[0].contacto.telefone_principal
+  document.getElementById("telefone_alternativo")=user.user[0].contacto.telefone_alternativo
+  document.getElementById("codigo_postal").value=user.user[0].contacto.codigo_postal
+  //document.getElementById("especialidade").value=user.user[0].*/
+
 }
 
 function getMyAgendamento() {
