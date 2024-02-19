@@ -1073,7 +1073,7 @@ function criarMedicos(id, nome, especialidade, contacto, imagem) {
 
 
 
-function criarTabelaRcu(nome,status) {
+function criarTabelaRcu(nome, status) {
   var tr = document.createElement("tr");
 
   var tdNome = document.createElement("td");
@@ -1099,8 +1099,8 @@ function criarTabelaRcu(nome,status) {
 function getMyRCU() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
- 
-  fetch(url + "/api/rcu/pegarPorID_USER/"+idUser, {
+
+  fetch(url + "/api/rcu/pegarPorID_USER/" + idUser, {
     method: 'GET',
     headers: {
       "ngrok-skip-browser-warning": "69420"
@@ -1114,108 +1114,200 @@ function getMyRCU() {
     })
     .then(data => {
       retorno = data.rcu;
-      if(retorno.estado==0){
-        estado="Saudável"
-      }else if(retorno.estado==1){
-        estado="doente"
-      }else{
-        estado="falecido"
+      if (retorno.estado == 0) {
+        estado = "Saudável"
+      } else if (retorno.estado == 1) {
+        estado = "doente"
+      } else {
+        estado = "falecido"
       }
-      document.getElementById("tableRCU").appendChild(criarTabelaRcu(retorno.grupo_sanguineo,estado))
+      document.getElementById("tableRCU").appendChild(criarTabelaRcu(retorno.grupo_sanguineo, estado))
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
     });
 }
 
-/*
-function criarCardMedico(idInstituicao, id, nome, especialidade, contacto, imagemSrc) {
-  // Criar elementos HTML
-  let divCol = document.createElement('div');
-  divCol.className = 'col-md-3';
-  divCol.style.width = "40%";
+function getMyAgendamento() {
+  user = JSON.parse(localStorage.getItem("user"));
+  idUser = user.user[0].id;
 
-
-  let divCard = document.createElement('div');
-  divCard.className = 'card mb-4';
-
-  let img = document.createElement('img');
-  img.src = url + "/api/imagem/" + imagemSrc;
-  img.alt = nome;
-  img.className = 'card-img-top';
-
-  let divCardBody = document.createElement('div');
-  divCardBody.className = 'card-body';
-
-  let h5 = document.createElement('h5');
-  h5.className = 'card-title';
-  h5.textContent = 'Dr. ' + nome;
-
-  let pEspecialidade = document.createElement('p');
-  pEspecialidade.className = 'card-text';
-  pEspecialidade.textContent = 'Especialidade: ' + especialidade;
-
-  let pContacto = document.createElement('p');
-  pContacto.className = 'card-text';
-  pContacto.textContent = 'Contacto: ' + contacto;
-
-  // Dropdown para Consulta e Exame
-  let divDropdown = document.createElement('div');
-  divDropdown.className = 'nav-button dropdown';
-  divDropdown.style.zIndex = '200';
-
-  let aDropdown = document.createElement('a');
-  aDropdown.className = 'dropdown-toggle';
-  aDropdown.id = 'consultasDropdown';
-  aDropdown.role = 'button';
-  aDropdown.setAttribute('data-bs-toggle', 'dropdown');
-  aDropdown.setAttribute('aria-haspopup', 'true');
-  aDropdown.setAttribute('aria-expanded', 'false');
-  aDropdown.innerHTML = '<i></i><span>Agendar</span>';
-
-  let divDropdownMenu = document.createElement('div');
-  divDropdownMenu.className = 'dropdown-menu';
-  divDropdownMenu.setAttribute('aria-labelledby', 'consultasDropdown');
-
-  let aConsulta = document.createElement('a');
-  aConsulta.className = 'dropdown-item';
-  //aConsulta.href = 'consulta/'+id;
-  aConsulta.addEventListener("click", function () {
-    //alert(id)
-    agendarComMedicoApi(idInstituicao, id, nome, "consulta")
-    //alert(id)
+  fetch(url + "/api/marcacao_user/pegarHistoricoMarcacoesUser/" + idUser, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
   })
-
-  aConsulta.innerHTML = '<i class="fas fa-flask"></i> Consulta';
-
-  let aExame = document.createElement('a');
-  aExame.className = 'dropdown-item';
-  aExame.setAttribute("name", id);
-  aExame.addEventListener("click", function () {
-    agendarComMedicoApi(idInstituicao, id, nome, "exame")
-  })
-
-  aExame.innerHTML = '<i class="fas fa-user-md"></i> Exame';
-
-  // Adicionar os elementos ao DOM
-  divDropdownMenu.appendChild(aConsulta);
-  divDropdownMenu.appendChild(aExame);
-
-  divDropdown.appendChild(aDropdown);
-  divDropdown.appendChild(divDropdownMenu);
-
-  divCardBody.appendChild(h5);
-  divCardBody.appendChild(pEspecialidade);
-  divCardBody.appendChild(pContacto);
-  divCardBody.appendChild(divDropdown);
-
-  divCard.appendChild(img);
-  divCard.appendChild(divCardBody);
-
-  divCol.appendChild(divCard);
-
-  return divCol;
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+        retorno = data.marcacoes;
+        
+        for(let a=0;a<retorno.length;a++){
+            try {
+              document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico,retorno[a].pclinico.especialidade.nome,retorno[a].data,retorno[a].hora,retorno[a].pclinico.user.nome,retorno[a].instituicao.nome,retorno[a].estado,(retorno[a].data_escolhida==null)?"Aguarde":retorno[a].data_escolhida,(retorno[a].hora_escolhida==null)?"Aguarde":retorno[a].hora_escolhidaa))
+            } catch (error) {
+               document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico,"Aguarde",retorno[a].data,retorno[a].hora,"Aguarde",retorno[a].instituicao.nome,retorno[a].estado,(retorno[a].data_escolhida==null)?"Aguarde":retorno[a].data_escolhida,(retorno[a].hora_escolhida==null)?"Aguarde":retorno[a].hora_escolhida))
+            }
+            
+        }
+     
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
 }
+
+function ListarMinhaAgenda(servico,especialidade,data,hora,clinico,hospital,estado,data1,hora1) {
+  // Crie um elemento tr (linha da tabela)
+  var tr = document.createElement("tr");
+  tr.style.display= "table-row"
+  // Crie um elemento td para o tipo de serviço (Exame)
+  var tdTipoServico = document.createElement("td");
+  var pTipoServico = document.createElement("p");
+  pTipoServico.textContent = servico;
+  tdTipoServico.appendChild(pTipoServico);
+
+  var tdEspecialidade = document.createElement("td");
+  var pEspecialidade = document.createElement("p");
+  pEspecialidade.textContent = especialidade;
+  tdEspecialidade.appendChild(pEspecialidade);
+
+  // Crie um elemento td para a data e hora
+  var tdDataHora = document.createElement("td");
+  tdDataHora.textContent = data+" "+hora;
+  var tdDataHora1 = document.createElement("td");
+  if(data1=="Aguarde"){
+    tdDataHora1.textContent = data1
+  } else{
+    tdDataHora1.textContent = data1+" "+hora1;
+  }
+  
+  // Crie elementos td para os nomes dos médicos
+  var tdMedico1 = document.createElement("td");
+  tdMedico1.textContent = clinico;
+  var tdMedico2 = document.createElement("td");
+  tdMedico2.textContent = hospital;
+  // Crie um elemento td para o status
+  var tdStatus = document.createElement("td");
+  var spanStatus = document.createElement("span");
+
+  if(estado==0){
+    spanStatus.textContent = "marcado";
+  }else if(estado==1){
+    spanStatus.textContent = "confirmado pela instituição"; 
+  }else{
+    spanStatus.textContent = "atendido"; 
+  }
+
+  spanStatus.className = "status completed"; // Adicione a classe "status" e "completed"
+  tdStatus.appendChild(spanStatus);
+
+  // Adicione os elementos td à linha tr
+  tr.appendChild(tdTipoServico);
+  tr.appendChild(tdEspecialidade);
+  tr.appendChild(tdDataHora);
+  tr.appendChild(tdMedico1);
+  tr.appendChild(tdMedico2);
+  tr.appendChild(tdDataHora1);
+  tr.appendChild(tdStatus);
+
+  return tr;
+
+}
+
+/*
+  function criarCardMedico(idInstituicao, id, nome, especialidade, contacto, imagemSrc) {
+    // Criar elementos HTML
+    let divCol = document.createElement('div');
+    divCol.className = 'col-md-3';
+    divCol.style.width = "40%";
+
+
+    let divCard = document.createElement('div');
+    divCard.className = 'card mb-4';
+
+    let img = document.createElement('img');
+    img.src = url + "/api/imagem/" + imagemSrc;
+    img.alt = nome;
+    img.className = 'card-img-top';
+
+    let divCardBody = document.createElement('div');
+    divCardBody.className = 'card-body';
+
+    let h5 = document.createElement('h5');
+    h5.className = 'card-title';
+    h5.textContent = 'Dr. ' + nome;
+
+    let pEspecialidade = document.createElement('p');
+    pEspecialidade.className = 'card-text';
+    pEspecialidade.textContent = 'Especialidade: ' + especialidade;
+
+    let pContacto = document.createElement('p');
+    pContacto.className = 'card-text';
+    pContacto.textContent = 'Contacto: ' + contacto;
+
+    // Dropdown para Consulta e Exame
+    let divDropdown = document.createElement('div');
+    divDropdown.className = 'nav-button dropdown';
+    divDropdown.style.zIndex = '200';
+
+    let aDropdown = document.createElement('a');
+    aDropdown.className = 'dropdown-toggle';
+    aDropdown.id = 'consultasDropdown';
+    aDropdown.role = 'button';
+    aDropdown.setAttribute('data-bs-toggle', 'dropdown');
+    aDropdown.setAttribute('aria-haspopup', 'true');
+    aDropdown.setAttribute('aria-expanded', 'false');
+    aDropdown.innerHTML = '<i></i><span>Agendar</span>';
+
+    let divDropdownMenu = document.createElement('div');
+    divDropdownMenu.className = 'dropdown-menu';
+    divDropdownMenu.setAttribute('aria-labelledby', 'consultasDropdown');
+
+    let aConsulta = document.createElement('a');
+    aConsulta.className = 'dropdown-item';
+    //aConsulta.href = 'consulta/'+id;
+    aConsulta.addEventListener("click", function () {
+      //alert(id)
+      agendarComMedicoApi(idInstituicao, id, nome, "consulta")
+      //alert(id)
+    })
+
+    aConsulta.innerHTML = '<i class="fas fa-flask"></i> Consulta';
+
+    let aExame = document.createElement('a');
+    aExame.className = 'dropdown-item';
+    aExame.setAttribute("name", id);
+    aExame.addEventListener("click", function () {
+      agendarComMedicoApi(idInstituicao, id, nome, "exame")
+    })
+
+    aExame.innerHTML = '<i class="fas fa-user-md"></i> Exame';
+
+    // Adicionar os elementos ao DOM
+    divDropdownMenu.appendChild(aConsulta);
+    divDropdownMenu.appendChild(aExame);
+
+    divDropdown.appendChild(aDropdown);
+    divDropdown.appendChild(divDropdownMenu);
+
+    divCardBody.appendChild(h5);
+    divCardBody.appendChild(pEspecialidade);
+    divCardBody.appendChild(pContacto);
+    divCardBody.appendChild(divDropdown);
+
+    divCard.appendChild(img);
+    divCard.appendChild(divCardBody);
+
+    divCol.appendChild(divCard);
+
+    return divCol;
+  }
 */
 function menu(span) {
   texto = span.textContent;
