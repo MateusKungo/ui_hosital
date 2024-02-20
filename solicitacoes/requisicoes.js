@@ -1,4 +1,4 @@
-var url = "https://4ec3-102-218-85-201.ngrok-free.app";
+var url = "https://8ba0-102-218-85-8.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -7,6 +7,7 @@ pessoalClinico = []
 function guardarUser(user) {
   userConvertido = JSON.stringify(user);
   localStorage.setItem("user", userConvertido);
+  localStorage.setItem("token", user.token);
 }
 
 function getAllExames() {
@@ -569,6 +570,60 @@ function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
 }
 
+function criarTabelaHistorico(data,nomeDoeca,tipDoenca,estado,idDiagnostico,resultado,hospital,medico){
+    var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow(table.rows.length);
+    var cell1 = newRow.insertCell(0);
+    var cell2 = newRow.insertCell(1);
+    var cell3 = newRow.insertCell(2);
+    var cell4 = newRow.insertCell(3);
+    var cell5 = newRow.insertCell(4);
+    var cell6 = newRow.insertCell(5);
+    var cell7 = newRow.insertCell(6);
+    var cell8 = newRow.insertCell(7);
+
+    cell1.innerHTML = data;
+    cell2.innerHTML = nomeDoeca;
+    cell3.innerHTML = tipDoenca;
+    if(estado==0){
+      cell4.innerHTML = "Curado";
+    }else if(estado==1){
+        vcell4.innerHTML = "Doente";
+    }
+    cell5.innerHTML = resultado;
+    cell6.innerHTML = "<button type='button' onclick='verReceita(this)' class='btn btn-primary'>ver receita</button>";
+    cell7.innerHTML = hospital;
+    cell8.innerHTML = medico;
+}
+
+
+function pegarMeuHistorico(){
+    user = JSON.parse(localStorage.getItem("user"));
+    fetch(url + "/api/user/pegarHistoricoUser/" +user.user[0].id, {
+      method: 'GET',
+      headers: {
+        "ngrok-skip-browser-warning": "69420"
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erro na resposta da API: status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        retorno = data.rcu[0].diagnosticos;
+        for (cont = 0; cont < retorno.length; cont++) {
+            criarTabelaHistorico(retortno[cont].data,retortno[cont].tipo_doenca,retortno[cont].estado,)
+        }
+  
+      })
+      .catch(error => {
+        console.error('Erro na solicitação:', error.message);
+      });
+
+}
+
 function fazerLogin() {
   const senha = document.getElementById("senha").value;
   const nAcesso = document.getElementById("nAcesso").value;
@@ -614,10 +669,9 @@ function fazerLogin() {
     });
 }
 
-function cadastrarUser() {
+function cadastrarOuEditar(valor) {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
-
 
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
@@ -642,30 +696,62 @@ function cadastrarUser() {
     formData.append('imagem', imagemInput.files[0]);
   }
 
+  if(valor==1){
+    fetch(url + "/api/user/register", {
+      method: 'POST',
+      headers: {
+        "ngrok-skip-browser-warning": "69420",
+        'X-CSRF-TOKEN': tokenCSRF
+      },
+      body: formData
+    })
+      .then(response => {
+        if (!response.ok) {
+          alert(response.status)
+          throw new Error(`Erro na resposta da API: status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        alert(error.message)
+        console.error('Erro na solicitação:', error.message);
+      });
+  }else{
+    user= JSON.parse(localStorage.getItem("user"))
+    idUser=user.user[0].id;
+    formData.append('user_id', idUser);
+    token=user.token
+
+    fetch(url + "/api/user/update", {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "69420",
+        'X-CSRF-TOKEN': tokenCSRF
+      },
+      body: formData
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erro na resposta da API: status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        data.user.token =JSON.parse(localStorage.getItem("user")).token
+        guardarUser(data.user)
+      })
+      .catch(error => {
+  
+        console.error('Erro na solicitação:', error.message);
+      });
+  }
   //console.log(formData)
 
-  fetch(url + "/api/user/register", {
-    method: 'POST',
-    headers: {
-      "ngrok-skip-browser-warning": "69420",
-      'X-CSRF-TOKEN': tokenCSRF
-    },
-    body: formData
-  })
-    .then(response => {
-      if (!response.ok) {
-        alert(response.status)
-        throw new Error(`Erro na resposta da API: status ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      alert(error.message)
-      console.error('Erro na solicitação:', error.message);
-    });
+  
 }
 
 function cadastrarInstituicao() {
@@ -1142,9 +1228,10 @@ function tragaOsMeusDados(){
   document.getElementById("data_nascimento").value=user.user[0].data_nascimento
   document.getElementById("genero").value=user.user[0].genero
   document.getElementById("telefone_principal").value=user.user[0].contacto.telefone_principal
-  document.getElementById("telefone_alternativo")=user.user[0].contacto.telefone_alternativo
+  document.getElementById("telefone_alternativo").value=user.user[0].contacto.telefone_alternativo 
   document.getElementById("codigo_postal").value=user.user[0].contacto.codigo_postal
   //document.getElementById("especialidade").value=user.user[0].*/
+
 
 }
 

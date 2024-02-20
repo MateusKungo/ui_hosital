@@ -2,6 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administração Hospitalar</title>
     <!-- Boxicons -->
@@ -137,6 +138,18 @@
                                 <label for="email">Seu Email</label>
                                 <input type="email" id="email" placeholder="Email*">
                             </div>
+                            <div class="col">
+                              <label for="data_nascimento">Data Nascimento</label>
+                              <input type="date" id="data_nascimento">
+                          </div>
+                          <div class="col">
+                            <label for="nome">Genero</label>
+                            <select name="" id="genero" class="selectCategoria">
+                                <option value="" selected disabled>Escola uma opção</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                            </select>
+                        </div>
                         </div>
                     </div>
                     <div class="step">
@@ -146,7 +159,7 @@
                             <div class="col">
                                 <label for="nome">Categória</label>
                                 <select name="" id="categoria" class="selectCategoria">
-                                    <option value="">Utente</option>
+                                    <option >Utente</option>
                                 </select>
                             </div>
                             <div class="col">
@@ -177,7 +190,7 @@
                             </div>
 
                             <div class="col">
-                                <button class="btn" onclick="openModalSalvo()">Editar</button>
+                                <button class="btn" onclick="cadastrarOuEditar('2')">Editar</button>
                             </div>
 
                         </div>
