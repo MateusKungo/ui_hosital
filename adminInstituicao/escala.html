@@ -27,18 +27,19 @@
         height: 30px;
       }
 
-      .Filtrarsearch{
+      .Filtrarsearch,.dataExpediente{
         outline: none;
         border: 1px solid #005761;
         padding: 8px;
         border-radius: 6px;
       }
+      
     </style>
   </head>
   <body>
     <!-- BARRA LATERAL -->
     <section id="sidebar">
-      <a href="pessoalClinico.html" class="brand">
+      <a href="instituicao.html" class="brand">
         <i class="bx bxs-hospital"></i>
         <span class="text">Hospital</span>
       </a>
@@ -46,19 +47,31 @@
         <li>
             <a href="agendamento.html">
                 <i class='bx bxs-calendar'></i>
-                <span class="text">Minhas Marcaçoes</span>
+                <span class="text">Marcaçoes</span>
             </a>
         </li>
-  <li class="active">
-            <a href="rcu_page.html">
+            <li class="active">
+            <a href="escala.html">
                 <i class='bx bxs-dollar-circle'></i>
-                <span class="text">RCU</span>
+                <span class="text">Escala</span>
             </a>
         </li>
         <li>
-            <a href="diagnostico.html">
+            <a href="medico.html">
                 <i class='bx bxs-dollar-circle'></i>
-                <span class="text">Diagnostico</span>
+                <span class="text">Médicos</span>
+            </a>
+        </li>
+        <li>
+            <a href="exame.html">
+                <i class='bx bxs-dollar-circle'></i>
+                <span class="text">Exame</span>
+            </a>
+        </li>
+        <li>
+            <a href="consulta.html">
+                <i class='bx bxs-user'></i>
+                <span class="text">Consulta</span>
             </a>
         </li>
     </ul>
@@ -110,12 +123,12 @@
       <main class="perfilHospital">
         <div class="table-data " style="display: flex; justify-content: center;">
           <div class="col">
-            <label for="">Data  e Hora Expediente</label>
-            <input type="datetime-local">
+            <label for="">Data de Inicio de Expediente: </label>
+            <input type="datetime-local" class="dataExpediente">
           </div>
           <div class="col">
-            <label for="">Data  e Hora Fim de Expediente</label>
-            <input type="datetime-local">
+            <label for="">Data  de Fim de Expediente: </label>
+            <input type="datetime-local" class="dataExpediente">
           </div>
         </div>
         <div class="table-data">
