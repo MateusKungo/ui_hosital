@@ -105,19 +105,17 @@
                         <thead>
                             <tr>
                                 <th>Tipo de Serviço</th>
+                                <th>Especialidade</th>
                                 <th>Data & Hora</th>
+                                <th>Nome pessaol clinico</th>
+                                <th>Nome do hospital</th>
+                                <th>Data e hora a realizar</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <p>Exame</p>
-                                </td>
-                                <td>01-10-2021 09:00</td>
-                                <td><span class="status completed">Concluído</span></td>
-                            </tr>
-                            <!-- Outras linhas de agendamento aqui -->
+                        <tbody id="tabelaAgendamento">
+                            
+                          
                         </tbody>
                     </table>
                 </div>
@@ -129,5 +127,9 @@
 
     <script src="script.js"></script>
     <script src="modal.js"></script>
+    <script src="../solicitacoes/requisicoes.js"></script>
+    <script>
+        getMyAgendamento() 
+    </script>
 </body>
 </html>

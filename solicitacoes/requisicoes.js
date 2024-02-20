@@ -1,4 +1,4 @@
-var url = "https://9ba5-105-172-24-28.ngrok-free.app";
+var url = "https://4ec3-102-218-85-201.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -526,7 +526,7 @@ function pegarTodosExameSeclectDeumaInstituicao(idInstituicao) {
 
 function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
-  
+
   select = document.getElementById("tipoServico");
 
   fetch(url + "/api/consulta/pegarConsultasPorInstituicao/" + idInstituicao, {
@@ -545,21 +545,21 @@ function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
 
       retorno = data.consultas;
-      
-      //$('#tipoServico').empty();
+
+      $('#tipoServico').empty();
       option = document.createElement("option");
       option.textContent = "Selecione";
       select.appendChild(option);
       for (cont = 0; cont < retorno.length; cont++) {
-          option = document.createElement("option");
-          option.setAttribute("value", retorno[cont].id);
-          option.setAttribute("id",retorno[cont].instituicaos[0].preco + " Kz");
-          option.textContent = retorno[cont].nome + "-" + retorno[cont].tipo;
-          select.appendChild(option);
-          select.addEventListener("change", function () {
-              var selectedOption = this.options[this.selectedIndex];
-              document.getElementById("preco").textContent = selectedOption.getAttribute("id");
-          })
+        option = document.createElement("option");
+        option.setAttribute("value", retorno[cont].id);
+        option.setAttribute("id", retorno[cont].instituicaos[0].preco + " Kz");
+        option.textContent = retorno[cont].nome + "-" + retorno[cont].tipo;
+        select.appendChild(option);
+        select.addEventListener("change", function () {
+          var selectedOption = this.options[this.selectedIndex];
+          document.getElementById("preco").textContent = selectedOption.getAttribute("id");
+        })
       }
 
     })
@@ -601,7 +601,11 @@ function fazerLogin() {
     .then(data => {
       user = data
       guardarUser(user)
-      document.location.href = "../pages/dist/index.html"
+      $('#loadingModal').modal('hide');
+      if (user.user[0].categoria == "Utente") {
+        document.location.href = "admin/utente.html"
+      }
+      //document.location.href = "../pages/dist/index.html"
     })
     .catch(error => {
       $('#loadingModal').modal('hide');
@@ -613,6 +617,8 @@ function fazerLogin() {
 function cadastrarUser() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
+
+
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
   formData.append('password', document.getElementById("password").value);
@@ -736,7 +742,7 @@ function pegarTodosUtentes() {
     });
 }
 
-function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,imagem) {
+function createAdivInstituicao(nome, descricao, id, provincia, municipio, destrito, imagem) {
   // Cria um elemento div
 
   var divInstituicao = document.createElement("div");
@@ -754,7 +760,7 @@ function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,im
   var divImagem = document.createElement("div");
   divImagem.className = "imge_instituicoa";
   var img = document.createElement("img");
-  img.src = url+"/api/imagem/"+imagem;
+  img.src = url + "/api/imagem/" + imagem;
   img.alt = "";
   divImagem.appendChild(img);
   divInstituicao.appendChild(divImagem);
@@ -764,7 +770,7 @@ function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,im
   divBody.className = "body";
   var p = document.createElement("p");
   //p.style.textAlign="justify"
-  p.innerHTML = "A "+nome+ " esta localizado na provincia de <b>"+provincia+"</b> no monicipio de <b> "+municipio+" </b> no distrito de <b> "+destrito+" </b> "+descricao;
+  p.innerHTML = "A " + nome + " esta localizado na provincia de <b>" + provincia + "</b> no monicipio de <b> " + municipio + " </b> no distrito de <b> " + destrito + " </b> " + descricao;
   divBody.appendChild(p);
   divInstituicao.appendChild(divBody);
 
@@ -772,7 +778,7 @@ function createAdivInstituicao(nome,descricao,id,provincia,municipio,destrito,im
   var divFooter = document.createElement("div");
   divFooter.className = "footer";
   var a = document.createElement("a");
-  a.href = "perfilhospital.html?idHospital="+id;
+  a.href = "perfilhospital.html?idHospital=" + id;
   a.className = "btn btn_vermais";
   a.textContent = "Saber mais";
   divFooter.appendChild(a);
@@ -802,7 +808,7 @@ function pegarTodasInstituicoes() {
       divPai = document.getElementById("pai");
       dados = data.instituicoes
       for (let cont = 0; cont < dados.length; cont++) {
-        document.getElementById("lista_instituicao").appendChild(createAdivInstituicao(dados[cont].nome,dados[cont].Descricao,dados[cont].id,dados[cont].distrito.municipio.provincia.nome,dados[cont].distrito.municipio.nome,dados[cont].distrito.nome,dados[cont].imagem))
+        document.getElementById("lista_instituicao").appendChild(createAdivInstituicao(dados[cont].nome, dados[cont].Descricao, dados[cont].id, dados[cont].distrito.municipio.provincia.nome, dados[cont].distrito.municipio.nome, dados[cont].distrito.nome, dados[cont].imagem))
       }
 
 
@@ -822,17 +828,19 @@ function pegarTodasInstituicoes() {
     document.getElementById("especialidades").style.display = "none";
   }
 */
+
 function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("preco").textContent = "";
   document.getElementById("titulo").innerHTML = " Selecione o Tipo de Consulta:"
   document.getElementById("idPreco").innerHTML = "Valor da consulta:"
   pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao);
-  let popup=document.getElementById('popup')
+  let popup = document.getElementById('popup')
   popup.classList.add('open-popup')
   //$('#efectuarServico').modal('show');
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
     idUser = user.user[0].id;
+    $('#loadingModal').modal('show');
 
     const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
     //$('#loadingModal').modal('show');
@@ -880,10 +888,12 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
         return response.json();
       })
       .then(data => {
+        $('#loadingModal').modal('hide');
         console.log(data)
       })
       .catch(error => {
         //$('#loadingModal').modal('hide');
+        $('#loadingModal').modal('hide');
         console.error('Erro na solicitação:', error.message);
       });
   });
@@ -892,14 +902,17 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
 
 function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("preco").textContent = "";
-  document.getElementById("exampleModalLabels").innerHTML = "Selecione o Tipo de Exame:"
+  document.getElementById("titulo").innerHTML = "Selecione o Tipo de Exame:"
   document.getElementById("idPreco").innerHTML = "Valor do exame:"
   pegarTodosExameSeclectDeumaInstituicao(idInstituicao);
-  $('#efectuarServico').modal('show');
+  //$('#efectuarServico').modal('show');
+  let popup = document.getElementById('popup')
+  popup.classList.add('open-popup')
 
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
-    idUser = user.user.id;
+    idUser = user.user[0].id;
+    $('#loadingModal').modal('show');
 
     const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
     //$('#loadingModal').modal('show');
@@ -950,10 +963,12 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
         return response.json();
       })
       .then(data => {
+        $('#loadingModal').modal('hide');
         console.log(data)
       })
       .catch(error => {
         //$('#loadingModal').modal('hide');
+        $('#loadingModal').modal('hide');
         console.error('Erro na solicitação:', error.message);
       });
   });
@@ -965,9 +980,9 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
 function pegarUmaisntituicao() {
   /*user= JSON.parse(localStorage.getItem("user"))
   idInstituicaoo=user.user[0].admin.instituicao_id;*/
-  queryString= window.location.search;
-  searchParams= new URLSearchParams(queryString);
-  getUrl=Object.fromEntries(searchParams.entries());
+  queryString = window.location.search;
+  searchParams = new URLSearchParams(queryString);
+  getUrl = Object.fromEntries(searchParams.entries());
   fetch(url + "/api/instituicao/pegarInstituicao/" + getUrl.idHospital, {
     method: 'GET',
     headers: {
@@ -981,30 +996,30 @@ function pegarUmaisntituicao() {
       return response.json();
     })
     .then(data => {
-          //divPai = document.getElementById("pai");
-          dados = data.instituicao
-          document.getElementById("imagemInstituicao").src = url + "/api/imagem/" + dados.imagem
-          document.getElementById("nomeHospital").innerHTML = dados.nome;
-          document.getElementById("emailHospital").innerHTML = dados.email;
-          document.getElementById("descricaoHospital").innerHTML = dados.Descricao;
-          document.getElementById("numeroHospital").innerHTML =dados.contacto.telefone_principal + "/" + dados.contacto.telefone_alternativo;
-          document.getElementById("ConsultaIntituicao").addEventListener("click", function () {
-                ConsultaInstituicao(getUrl.idHospital, 0, null, null);
-          })
-          document.getElementById("exameInstituicao").addEventListener("click", function () {
-                exameInstituicao(getUrl.idHospital, 0, null, null);
-          })
+      //divPai = document.getElementById("pai");
+      dados = data.instituicao
+      document.getElementById("imagemInstituicao").src = url + "/api/imagem/" + dados.imagem
+      document.getElementById("nomeHospital").innerHTML = dados.nome;
+      document.getElementById("emailHospital").innerHTML = dados.email;
+      document.getElementById("descricaoHospital").innerHTML = dados.Descricao;
+      document.getElementById("numeroHospital").innerHTML = dados.contacto.telefone_principal + "/" + dados.contacto.telefone_alternativo;
+      document.getElementById("ConsultaIntituicao").addEventListener("click", function () {
+        ConsultaInstituicao(getUrl.idHospital, 0, null, null);
+      })
+      document.getElementById("exameInstituicao").addEventListener("click", function () {
+        exameInstituicao(getUrl.idHospital, 0, null, null);
+      })
 
 
-          if (dados.pclinicos.length > 0) {
-              dados = dados.pclinicos;
-             // console.log(dados)
-              //$("paiMedicos").empty();
-              paiMedicos = document.getElementById("paiMedicos")
-              for (cont = 0; cont < dados.length; cont++) {
-                paiMedicos.appendChild(criarMedicos(dados[cont].id, dados[cont].user.nome, dados[cont].especialidade.nome, dados[cont].user.contacto.telefone_principal, dados[cont].user.imagem));
-              }
-          }
+      if (dados.pclinicos.length > 0) {
+        dados = dados.pclinicos;
+        // console.log(dados)
+        //$("paiMedicos").empty();
+        paiMedicos = document.getElementById("paiMedicos")
+        for (cont = 0; cont < dados.length; cont++) {
+          paiMedicos.appendChild(criarMedicos(dados[cont].id, dados[cont].user.nome, dados[cont].especialidade.nome, dados[cont].user.contacto.telefone_principal, dados[cont].user.imagem));
+        }
+      }
 
     })
     .catch(error => {
@@ -1012,135 +1027,307 @@ function pegarUmaisntituicao() {
     });
 }
 
-function criarMedicos(id,nome,especialidade,contacto,imagem){
-    const tr = document.createElement("tr");
-    const td1 = document.createElement("td");
-    const img = document.createElement("img");
-    img.src = url+"/api/imagem/"+imagem;
-    img.alt = "Paciente";
-    const p = document.createElement("p");
-    p.textContent = nome;
-    td1.appendChild(img);
-    td1.appendChild(p);
-    tr.appendChild(td1);
-    const td2 = document.createElement("td");
-    td2.textContent = especialidade;
-    tr.appendChild(td2);
-    const td3 = document.createElement("td");
-    const btnConsulta = document.createElement("button");
-    btnConsulta.className = "btnConsulata btn";
-    btnConsulta.textContent = "Consulta";
-    btnConsulta.onclick = function() {
-        openPopup("Selecione o Tipo de Consulta:", "Valor de Consulta");
-    };
-    td3.appendChild(btnConsulta);
-    tr.appendChild(td3);
-    const td4 = document.createElement("td");
-    const btnExame = document.createElement("button");
-    btnExame.className = "btnExame btn";
-    btnExame.textContent = "Exame";
-    btnExame.onclick = function() {
-        openPopup("Selecione o Tipo de Exame:", "Valor de Exame");
-    };
-    td4.appendChild(btnExame);
-    tr.appendChild(td4);
-    const td5 = document.createElement("td");
-    const span = document.createElement("span");
-    span.className = "status completed";
-    span.textContent = contacto;
-    td5.appendChild(span);
-    tr.appendChild(td5);
-    // Adicionando a linha à tabela
-    return tr
+function criarMedicos(id, nome, especialidade, contacto, imagem) {
+  const tr = document.createElement("tr");
+  const td1 = document.createElement("td");
+  const img = document.createElement("img");
+  img.src = url + "/api/imagem/" + imagem;
+  img.alt = "Paciente";
+  const p = document.createElement("p");
+  p.textContent = nome;
+  td1.appendChild(img);
+  td1.appendChild(p);
+  tr.appendChild(td1);
+  const td2 = document.createElement("td");
+  td2.textContent = especialidade;
+  tr.appendChild(td2);
+  const td3 = document.createElement("td");
+  const btnConsulta = document.createElement("button");
+  btnConsulta.className = "btnConsulata btn";
+  btnConsulta.textContent = "Consulta";
+  queryString = window.location.search;
+  searchParams = new URLSearchParams(queryString);
+  getUrl = Object.fromEntries(searchParams.entries());
+
+  btnConsulta.onclick = function () {
+    agendarComMedicoApi(getUrl.idHospital, id, nome, "consulta")
+  };
+  td3.appendChild(btnConsulta);
+  tr.appendChild(td3);
+  const td4 = document.createElement("td");
+  const btnExame = document.createElement("button");
+  btnExame.className = "btnExame btn";
+  btnExame.textContent = "Exame";
+  btnExame.onclick = function () {
+    agendarComMedicoApi(getUrl.idHospital, id, nome, "exame")
+  };
+  td4.appendChild(btnExame);
+  tr.appendChild(td4);
+  const td5 = document.createElement("td");
+  const span = document.createElement("span");
+  span.className = "status completed";
+  span.textContent = contacto;
+  td5.appendChild(span);
+  tr.appendChild(td5);
+  // Adicionando a linha à tabela
+  return tr
 }
+
+
+
+function criarTabelaRcu(nome, status) {
+  var tr = document.createElement("tr");
+
+  var tdNome = document.createElement("td");
+  var pNome = document.createElement("p");
+  pNome.textContent = nome;
+  tdNome.appendChild(pNome);
+
+  var tdStatus = document.createElement("td");
+  var spanStatus = document.createElement("span");
+  spanStatus.textContent = status;
+  spanStatus.className = "status completed"; // Adicione a classe "status" e "completed"
+  tdStatus.appendChild(spanStatus);
+
+  tr.appendChild(tdNome);
+  tr.appendChild(tdStatus);
+
+  return tr;
+  //document.getElementById("agendandoComMedico").appendChild(tr);
+
+}
+
+
+function getMyRCU() {
+  user = JSON.parse(localStorage.getItem("user"));
+  idUser = user.user[0].id;
+
+  fetch(url + "/api/rcu/pegarPorID_USER/" + idUser, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.rcu;
+      if (retorno.estado == 0) {
+        estado = "Saudável"
+      } else if (retorno.estado == 1) {
+        estado = "doente"
+      } else {
+        estado = "falecido"
+      }
+      document.getElementById("tableRCU").appendChild(criarTabelaRcu(retorno.grupo_sanguineo, estado))
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+}
+
+function tragaOsMeusDados(){
+  user = JSON.parse(localStorage.getItem("user"));
+  idUser = user.user[0].id;
+  document.getElementById("imagemExibida").src=url+"/api/imagem/"+user.user[0].imagem
+  document.getElementById("nome").value =user.user[0].nome
+  document.getElementById("email").value=user.user[0].email
+  document.getElementById("password").value=user.user[0].password
+  document.getElementById("bi").value=user.user[0].bi
+  document.getElementById("passaporte").value=user.user[0].passaporte
+  document.getElementById("data_nascimento").value=user.user[0].data_nascimento
+  document.getElementById("genero").value=user.user[0].genero
+  document.getElementById("telefone_principal").value=user.user[0].contacto.telefone_principal
+  document.getElementById("telefone_alternativo")=user.user[0].contacto.telefone_alternativo
+  document.getElementById("codigo_postal").value=user.user[0].contacto.codigo_postal
+  //document.getElementById("especialidade").value=user.user[0].*/
+
+}
+
+function getMyAgendamento() {
+  user = JSON.parse(localStorage.getItem("user"));
+  idUser = user.user[0].id;
+
+  fetch(url + "/api/marcacao_user/pegarHistoricoMarcacoesUser/" + idUser, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+        retorno = data.marcacoes;
+        
+        for(let a=0;a<retorno.length;a++){
+            try {
+              document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico,retorno[a].pclinico.especialidade.nome,retorno[a].data,retorno[a].hora,retorno[a].pclinico.user.nome,retorno[a].instituicao.nome,retorno[a].estado,(retorno[a].data_escolhida==null)?"Aguarde":retorno[a].data_escolhida,(retorno[a].hora_escolhida==null)?"Aguarde":retorno[a].hora_escolhidaa))
+            } catch (error) {
+               document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico,"Aguarde",retorno[a].data,retorno[a].hora,"Aguarde",retorno[a].instituicao.nome,retorno[a].estado,(retorno[a].data_escolhida==null)?"Aguarde":retorno[a].data_escolhida,(retorno[a].hora_escolhida==null)?"Aguarde":retorno[a].hora_escolhida))
+            }
+            
+        }
+     
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+}
+
+function ListarMinhaAgenda(servico,especialidade,data,hora,clinico,hospital,estado,data1,hora1) {
+  // Crie um elemento tr (linha da tabela)
+  var tr = document.createElement("tr");
+  tr.style.display= "table-row"
+  // Crie um elemento td para o tipo de serviço (Exame)
+  var tdTipoServico = document.createElement("td");
+  var pTipoServico = document.createElement("p");
+  pTipoServico.textContent = servico;
+  tdTipoServico.appendChild(pTipoServico);
+
+  var tdEspecialidade = document.createElement("td");
+  var pEspecialidade = document.createElement("p");
+  pEspecialidade.textContent = especialidade;
+  tdEspecialidade.appendChild(pEspecialidade);
+
+  // Crie um elemento td para a data e hora
+  var tdDataHora = document.createElement("td");
+  tdDataHora.textContent = data+" "+hora;
+  var tdDataHora1 = document.createElement("td");
+  if(data1=="Aguarde"){
+    tdDataHora1.textContent = data1
+  } else{
+    tdDataHora1.textContent = data1+" "+hora1;
+  }
+  
+  // Crie elementos td para os nomes dos médicos
+  var tdMedico1 = document.createElement("td");
+  tdMedico1.textContent = clinico;
+  var tdMedico2 = document.createElement("td");
+  tdMedico2.textContent = hospital;
+  // Crie um elemento td para o status
+  var tdStatus = document.createElement("td");
+  var spanStatus = document.createElement("span");
+
+  if(estado==0){
+    spanStatus.textContent = "marcado";
+  }else if(estado==1){
+    spanStatus.textContent = "confirmado pela instituição"; 
+  }else{
+    spanStatus.textContent = "atendido"; 
+  }
+
+  spanStatus.className = "status completed"; // Adicione a classe "status" e "completed"
+  tdStatus.appendChild(spanStatus);
+
+  // Adicione os elementos td à linha tr
+  tr.appendChild(tdTipoServico);
+  tr.appendChild(tdEspecialidade);
+  tr.appendChild(tdDataHora);
+  tr.appendChild(tdMedico1);
+  tr.appendChild(tdMedico2);
+  tr.appendChild(tdDataHora1);
+  tr.appendChild(tdStatus);
+
+  return tr;
+
+}
+
 /*
-function criarCardMedico(idInstituicao, id, nome, especialidade, contacto, imagemSrc) {
-  // Criar elementos HTML
-  let divCol = document.createElement('div');
-  divCol.className = 'col-md-3';
-  divCol.style.width = "40%";
+  function criarCardMedico(idInstituicao, id, nome, especialidade, contacto, imagemSrc) {
+    // Criar elementos HTML
+    let divCol = document.createElement('div');
+    divCol.className = 'col-md-3';
+    divCol.style.width = "40%";
 
 
-  let divCard = document.createElement('div');
-  divCard.className = 'card mb-4';
+    let divCard = document.createElement('div');
+    divCard.className = 'card mb-4';
 
-  let img = document.createElement('img');
-  img.src = url + "/api/imagem/" + imagemSrc;
-  img.alt = nome;
-  img.className = 'card-img-top';
+    let img = document.createElement('img');
+    img.src = url + "/api/imagem/" + imagemSrc;
+    img.alt = nome;
+    img.className = 'card-img-top';
 
-  let divCardBody = document.createElement('div');
-  divCardBody.className = 'card-body';
+    let divCardBody = document.createElement('div');
+    divCardBody.className = 'card-body';
 
-  let h5 = document.createElement('h5');
-  h5.className = 'card-title';
-  h5.textContent = 'Dr. ' + nome;
+    let h5 = document.createElement('h5');
+    h5.className = 'card-title';
+    h5.textContent = 'Dr. ' + nome;
 
-  let pEspecialidade = document.createElement('p');
-  pEspecialidade.className = 'card-text';
-  pEspecialidade.textContent = 'Especialidade: ' + especialidade;
+    let pEspecialidade = document.createElement('p');
+    pEspecialidade.className = 'card-text';
+    pEspecialidade.textContent = 'Especialidade: ' + especialidade;
 
-  let pContacto = document.createElement('p');
-  pContacto.className = 'card-text';
-  pContacto.textContent = 'Contacto: ' + contacto;
+    let pContacto = document.createElement('p');
+    pContacto.className = 'card-text';
+    pContacto.textContent = 'Contacto: ' + contacto;
 
-  // Dropdown para Consulta e Exame
-  let divDropdown = document.createElement('div');
-  divDropdown.className = 'nav-button dropdown';
-  divDropdown.style.zIndex = '200';
+    // Dropdown para Consulta e Exame
+    let divDropdown = document.createElement('div');
+    divDropdown.className = 'nav-button dropdown';
+    divDropdown.style.zIndex = '200';
 
-  let aDropdown = document.createElement('a');
-  aDropdown.className = 'dropdown-toggle';
-  aDropdown.id = 'consultasDropdown';
-  aDropdown.role = 'button';
-  aDropdown.setAttribute('data-bs-toggle', 'dropdown');
-  aDropdown.setAttribute('aria-haspopup', 'true');
-  aDropdown.setAttribute('aria-expanded', 'false');
-  aDropdown.innerHTML = '<i></i><span>Agendar</span>';
+    let aDropdown = document.createElement('a');
+    aDropdown.className = 'dropdown-toggle';
+    aDropdown.id = 'consultasDropdown';
+    aDropdown.role = 'button';
+    aDropdown.setAttribute('data-bs-toggle', 'dropdown');
+    aDropdown.setAttribute('aria-haspopup', 'true');
+    aDropdown.setAttribute('aria-expanded', 'false');
+    aDropdown.innerHTML = '<i></i><span>Agendar</span>';
 
-  let divDropdownMenu = document.createElement('div');
-  divDropdownMenu.className = 'dropdown-menu';
-  divDropdownMenu.setAttribute('aria-labelledby', 'consultasDropdown');
+    let divDropdownMenu = document.createElement('div');
+    divDropdownMenu.className = 'dropdown-menu';
+    divDropdownMenu.setAttribute('aria-labelledby', 'consultasDropdown');
 
-  let aConsulta = document.createElement('a');
-  aConsulta.className = 'dropdown-item';
-  //aConsulta.href = 'consulta/'+id;
-  aConsulta.addEventListener("click", function () {
-    //alert(id)
-    agendarComMedicoApi(idInstituicao, id, nome, "consulta")
-    //alert(id)
-  })
+    let aConsulta = document.createElement('a');
+    aConsulta.className = 'dropdown-item';
+    //aConsulta.href = 'consulta/'+id;
+    aConsulta.addEventListener("click", function () {
+      //alert(id)
+      agendarComMedicoApi(idInstituicao, id, nome, "consulta")
+      //alert(id)
+    })
 
-  aConsulta.innerHTML = '<i class="fas fa-flask"></i> Consulta';
+    aConsulta.innerHTML = '<i class="fas fa-flask"></i> Consulta';
 
-  let aExame = document.createElement('a');
-  aExame.className = 'dropdown-item';
-  aExame.setAttribute("name", id);
-  aExame.addEventListener("click", function () {
-    agendarComMedicoApi(idInstituicao, id, nome, "exame")
-  })
+    let aExame = document.createElement('a');
+    aExame.className = 'dropdown-item';
+    aExame.setAttribute("name", id);
+    aExame.addEventListener("click", function () {
+      agendarComMedicoApi(idInstituicao, id, nome, "exame")
+    })
 
-  aExame.innerHTML = '<i class="fas fa-user-md"></i> Exame';
+    aExame.innerHTML = '<i class="fas fa-user-md"></i> Exame';
 
-  // Adicionar os elementos ao DOM
-  divDropdownMenu.appendChild(aConsulta);
-  divDropdownMenu.appendChild(aExame);
+    // Adicionar os elementos ao DOM
+    divDropdownMenu.appendChild(aConsulta);
+    divDropdownMenu.appendChild(aExame);
 
-  divDropdown.appendChild(aDropdown);
-  divDropdown.appendChild(divDropdownMenu);
+    divDropdown.appendChild(aDropdown);
+    divDropdown.appendChild(divDropdownMenu);
 
-  divCardBody.appendChild(h5);
-  divCardBody.appendChild(pEspecialidade);
-  divCardBody.appendChild(pContacto);
-  divCardBody.appendChild(divDropdown);
+    divCardBody.appendChild(h5);
+    divCardBody.appendChild(pEspecialidade);
+    divCardBody.appendChild(pContacto);
+    divCardBody.appendChild(divDropdown);
 
-  divCard.appendChild(img);
-  divCard.appendChild(divCardBody);
+    divCard.appendChild(img);
+    divCard.appendChild(divCardBody);
 
-  divCol.appendChild(divCard);
+    divCol.appendChild(divCard);
 
-  return divCol;
-}
+    return divCol;
+  }
 */
 function menu(span) {
   texto = span.textContent;
