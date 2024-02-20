@@ -16,15 +16,22 @@
     <link rel="stylesheet" href="perfil_hospital.css" />
     <link rel="stylesheet" href="modal.css" />
     <style>
-      /* Adicione estilos específicos do hospital aqui */
+        th,td{
+          width: 10rem;
+          text-align: center; 
+        }
+        table{
+          display: table-row;
+          text-align: center;
+        }
     </style>
   </head>
-  <body>
+  <body onload="minhaImagem()">
     <!-- BARRA LATERAL -->
     <section id="sidebar">
       <a href="utente.html" class="brand">
         <i class="bx bxs-hospital"></i>
-        <span class="text">Hospital</span>
+        <span class="text">Paciente</span>
       </a>
       <ul class="side-menu top">
         <li>
@@ -90,7 +97,7 @@
           </div>
         </form>
         <a href="#" class="profile">
-          <img src="img/people.png" alt="Perfil" />
+          <img id="minhaImagem" alt="Perfil" />
         </a>
       </nav>
       <!-- BARRA DE NAVEGAÇÃO -->
@@ -112,9 +119,9 @@
                             <th>Tipo de doença</th>
                             <th>Estado</th>
                             <th>Resultado</th>
-                            <th>ver receita</th>
                             <th>Hospital</th>
                             <th>Medico</th>
+                            <th>ver receita</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -147,6 +154,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+      <script src="../solicitacoes/requisicoes.js"></script>
+      <script>
+          pegarMeuHistorico();
+         
+      </script>
   </body>
 </html>

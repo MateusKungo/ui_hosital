@@ -4,6 +4,9 @@ var apiProvincia = null
 pessoalClinico = []
 
 
+function minhaImagem() {
+  document.getElementById("minhaImagem").src =url+"/api/imagem/"+ JSON.parse(localStorage.getItem("user")).user[0].imagem
+}
 function guardarUser(user) {
   userConvertido = JSON.stringify(user);
   localStorage.setItem("user", userConvertido);
@@ -570,57 +573,109 @@ function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
 }
 
-function criarTabelaHistorico(data,nomeDoeca,tipDoenca,estado,idDiagnostico,resultado,hospital,medico){
-    var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
-    var newRow = table.insertRow(table.rows.length);
-    var cell1 = newRow.insertCell(0);
-    var cell2 = newRow.insertCell(1);
-    var cell3 = newRow.insertCell(2);
-    var cell4 = newRow.insertCell(3);
-    var cell5 = newRow.insertCell(4);
-    var cell6 = newRow.insertCell(5);
-    var cell7 = newRow.insertCell(6);
-    var cell8 = newRow.insertCell(7);
+function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, id, resultado, hospital, medico) {
 
-    cell1.innerHTML = data;
-    cell2.innerHTML = nomeDoeca;
-    cell3.innerHTML = tipDoenca;
-    if(estado==0){
-      cell4.innerHTML = "Curado";
-    }else if(estado==1){
-        vcell4.innerHTML = "Doente";
-    }
-    cell5.innerHTML = resultado;
-    cell6.innerHTML = "<button type='button' onclick='verReceita(this)' class='btn btn-primary'>ver receita</button>";
-    cell7.innerHTML = hospital;
-    cell8.innerHTML = medico;
+  if (estado == 0) {
+    estado = "Curado";
+  } else if (estado == 1) {
+    estado = "Doente";
+  }
+  const tbody = document.querySelector("#myTable tbody");
+
+  // Cria uma nova linha
+  const novaLinha = document.createElement("tr");
+
+  // Cria as células da linha e define seus textos
+  const colDataHora = document.createElement("td");
+  colDataHora.textContent = data;
+  novaLinha.appendChild(colDataHora);
+
+  const colNomeDoenca = document.createElement("td");
+  colNomeDoenca.textContent = nomeDoeca;
+  novaLinha.appendChild(colNomeDoenca);
+
+  const colTipoDoenca = document.createElement("td");
+  colTipoDoenca.textContent = tipDoenca;
+  novaLinha.appendChild(colTipoDoenca);
+
+  const colEstado = document.createElement("td");
+  colEstado.textContent = estado;
+  novaLinha.appendChild(colEstado);
+
+  const colResultado = document.createElement("td");
+  colResultado.textContent = resultado;
+  novaLinha.appendChild(colResultado);
+
+  // Cria um botão para "Ver Receita"
+  const btnVerReceita = document.createElement("button");
+  btnVerReceita.textContent = "Ver Receita";
+  btnVerReceita.classList.add("btn", "btn-primary");
+
+  /*// Adiciona classes Bootstrap
+  btnVerReceita.setAttribute("data-bs-toggle", "modal"); // Define o atributo data-bs-toggle para abrir a modal
+  btnVerReceita.setAttribute("data-bs-target", "#receitaModal"); 
+  */
+  // Define o ID da modal alvo
+
+
+  const colHospital = document.createElement("td");
+  colHospital.textContent = hospital;
+  novaLinha.appendChild(colHospital);
+
+  const colMedico = document.createElement("td");
+  colMedico.textContent = medico;
+  novaLinha.appendChild(colMedico);
+
+  const colVerReceita = document.createElement("td");
+  colVerReceita.appendChild(btnVerReceita);
+  novaLinha.appendChild(colVerReceita);
+  tbody.appendChild(novaLinha);
+
 }
 
 
-function pegarMeuHistorico(){
-    user = JSON.parse(localStorage.getItem("user"));
-    fetch(url + "/api/user/pegarHistoricoUser/" +user.user[0].id, {
-      method: 'GET',
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
+function pegarMeuHistorico() {
+  user = JSON.parse(localStorage.getItem("user"));
+
+  fetch(url + "/api/user/pegarHistoricoUser/" + user.user[0].id, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.diagnosticos;
+      try {
+        if (retorno.length > 0) {
+          for (cont = 0; cont < retorno.length; cont++) {
+            criarTabelaHistorico(retorno[cont].data, retorno[cont].nome_doenca, retorno[cont].tipo_doenca, retorno[cont].estado, retorno[cont].receita.id, retorno[cont].receita.descricao, retorno[cont].pclinico.instituicao.nome, retorno[cont].pclinico.user.nome)
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
+      try {
+        retorno = data.marcacoes
+        console.log(retorno)
+        if (retorno.length > 0) {
+          for (coont = 0; cont < retorno.length; cont++) {
+            criarTabelaHistorico(retorno[cont].data_escolhida, retorno[cont].descricao, (retorno[cont].receita == null) ? "Aguarde" : retorno[cont].receita.descricao, "", (retorno[cont].receita != null) ? retorno[cont].receita.id : 0, (retorno[cont].receita != null) ? retorno[cont].receita.descricao : "Aguarde", retorno[cont].instituicao.nome, (retorno[cont].pclinico != null) ? retorno[cont].pclinico.user.nome : "Aguarde")
+          }
+        }
+      } catch (error) {
+        console.log(error)
       }
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Erro na resposta da API: status ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        retorno = data.rcu[0].diagnosticos;
-        for (cont = 0; cont < retorno.length; cont++) {
-            criarTabelaHistorico(retortno[cont].data,retortno[cont].tipo_doenca,retortno[cont].estado,)
-        }
-  
-      })
-      .catch(error => {
-        console.error('Erro na solicitação:', error.message);
-      });
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
 
 }
 
@@ -696,7 +751,7 @@ function cadastrarOuEditar(valor) {
     formData.append('imagem', imagemInput.files[0]);
   }
 
-  if(valor==1){
+  if (valor == 1) {
     fetch(url + "/api/user/register", {
       method: 'POST',
       headers: {
@@ -719,11 +774,11 @@ function cadastrarOuEditar(valor) {
         alert(error.message)
         console.error('Erro na solicitação:', error.message);
       });
-  }else{
-    user= JSON.parse(localStorage.getItem("user"))
-    idUser=user.user[0].id;
+  } else {
+    user = JSON.parse(localStorage.getItem("user"))
+    idUser = user.user[0].id;
     formData.append('user_id', idUser);
-    token=user.token
+    token = user.token
 
     fetch(url + "/api/user/update", {
       method: 'POST',
@@ -741,17 +796,17 @@ function cadastrarOuEditar(valor) {
         return response.json();
       })
       .then(data => {
-        data.user.token =JSON.parse(localStorage.getItem("user")).token
+        data.user.token = JSON.parse(localStorage.getItem("user")).token
         guardarUser(data.user)
       })
       .catch(error => {
-  
+
         console.error('Erro na solicitação:', error.message);
       });
   }
   //console.log(formData)
 
-  
+
 }
 
 function cadastrarInstituicao() {
@@ -1216,20 +1271,20 @@ function getMyRCU() {
     });
 }
 
-function tragaOsMeusDados(){
+function tragaOsMeusDados() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
-  document.getElementById("imagemExibida").src=url+"/api/imagem/"+user.user[0].imagem
-  document.getElementById("nome").value =user.user[0].nome
-  document.getElementById("email").value=user.user[0].email
-  document.getElementById("password").value=user.user[0].password
-  document.getElementById("bi").value=user.user[0].bi
-  document.getElementById("passaporte").value=user.user[0].passaporte
-  document.getElementById("data_nascimento").value=user.user[0].data_nascimento
-  document.getElementById("genero").value=user.user[0].genero
-  document.getElementById("telefone_principal").value=user.user[0].contacto.telefone_principal
-  document.getElementById("telefone_alternativo").value=user.user[0].contacto.telefone_alternativo 
-  document.getElementById("codigo_postal").value=user.user[0].contacto.codigo_postal
+  document.getElementById("imagemExibida").src = url + "/api/imagem/" + user.user[0].imagem
+  document.getElementById("nome").value = user.user[0].nome
+  document.getElementById("email").value = user.user[0].email
+  document.getElementById("password").value = user.user[0].password
+  document.getElementById("bi").value = user.user[0].bi
+  document.getElementById("passaporte").value = user.user[0].passaporte
+  document.getElementById("data_nascimento").value = user.user[0].data_nascimento
+  document.getElementById("genero").value = user.user[0].genero
+  document.getElementById("telefone_principal").value = user.user[0].contacto.telefone_principal
+  document.getElementById("telefone_alternativo").value = user.user[0].contacto.telefone_alternativo
+  document.getElementById("codigo_postal").value = user.user[0].contacto.codigo_postal
   //document.getElementById("especialidade").value=user.user[0].*/
 
 
@@ -1252,27 +1307,27 @@ function getMyAgendamento() {
       return response.json();
     })
     .then(data => {
-        retorno = data.marcacoes;
-        
-        for(let a=0;a<retorno.length;a++){
-            try {
-              document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico,retorno[a].pclinico.especialidade.nome,retorno[a].data,retorno[a].hora,retorno[a].pclinico.user.nome,retorno[a].instituicao.nome,retorno[a].estado,(retorno[a].data_escolhida==null)?"Aguarde":retorno[a].data_escolhida,(retorno[a].hora_escolhida==null)?"Aguarde":retorno[a].hora_escolhidaa))
-            } catch (error) {
-               document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico,"Aguarde",retorno[a].data,retorno[a].hora,"Aguarde",retorno[a].instituicao.nome,retorno[a].estado,(retorno[a].data_escolhida==null)?"Aguarde":retorno[a].data_escolhida,(retorno[a].hora_escolhida==null)?"Aguarde":retorno[a].hora_escolhida))
-            }
-            
+      retorno = data.marcacoes;
+
+      for (let a = 0; a < retorno.length; a++) {
+        try {
+          document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico, retorno[a].pclinico.especialidade.nome, retorno[a].data, retorno[a].hora, retorno[a].pclinico.user.nome, retorno[a].instituicao.nome, retorno[a].estado, (retorno[a].data_escolhida == null) ? "Aguarde" : retorno[a].data_escolhida, (retorno[a].hora_escolhida == null) ? "Aguarde" : retorno[a].hora_escolhidaa))
+        } catch (error) {
+          document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico, "Aguarde", retorno[a].data, retorno[a].hora, "Aguarde", retorno[a].instituicao.nome, retorno[a].estado, (retorno[a].data_escolhida == null) ? "Aguarde" : retorno[a].data_escolhida, (retorno[a].hora_escolhida == null) ? "Aguarde" : retorno[a].hora_escolhida))
         }
-     
+
+      }
+
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
     });
 }
 
-function ListarMinhaAgenda(servico,especialidade,data,hora,clinico,hospital,estado,data1,hora1) {
+function ListarMinhaAgenda(servico, especialidade, data, hora, clinico, hospital, estado, data1, hora1) {
   // Crie um elemento tr (linha da tabela)
   var tr = document.createElement("tr");
-  tr.style.display= "table-row"
+  tr.style.display = "table-row"
   // Crie um elemento td para o tipo de serviço (Exame)
   var tdTipoServico = document.createElement("td");
   var pTipoServico = document.createElement("p");
@@ -1286,14 +1341,14 @@ function ListarMinhaAgenda(servico,especialidade,data,hora,clinico,hospital,esta
 
   // Crie um elemento td para a data e hora
   var tdDataHora = document.createElement("td");
-  tdDataHora.textContent = data+" "+hora;
+  tdDataHora.textContent = data + " " + hora;
   var tdDataHora1 = document.createElement("td");
-  if(data1=="Aguarde"){
+  if (data1 == "Aguarde") {
     tdDataHora1.textContent = data1
-  } else{
-    tdDataHora1.textContent = data1+" "+hora1;
+  } else {
+    tdDataHora1.textContent = data1 + " " + hora1;
   }
-  
+
   // Crie elementos td para os nomes dos médicos
   var tdMedico1 = document.createElement("td");
   tdMedico1.textContent = clinico;
@@ -1303,12 +1358,12 @@ function ListarMinhaAgenda(servico,especialidade,data,hora,clinico,hospital,esta
   var tdStatus = document.createElement("td");
   var spanStatus = document.createElement("span");
 
-  if(estado==0){
+  if (estado == 0) {
     spanStatus.textContent = "marcado";
-  }else if(estado==1){
-    spanStatus.textContent = "confirmado pela instituição"; 
-  }else{
-    spanStatus.textContent = "atendido"; 
+  } else if (estado == 1) {
+    spanStatus.textContent = "confirmado pela instituição";
+  } else {
+    spanStatus.textContent = "atendido";
   }
 
   spanStatus.className = "status completed"; // Adicione a classe "status" e "completed"
