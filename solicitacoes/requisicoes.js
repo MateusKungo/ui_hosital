@@ -5,7 +5,7 @@ pessoalClinico = []
 
 
 function minhaImagem() {
-  document.getElementById("minhaImagem").src =url+"/api/imagem/"+ JSON.parse(localStorage.getItem("user")).user[0].imagem
+  document.getElementById("minhaImagem").src = url + "/api/imagem/" + JSON.parse(localStorage.getItem("user")).user[0].imagem
 }
 function guardarUser(user) {
   userConvertido = JSON.stringify(user);
@@ -573,7 +573,7 @@ function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
 }
 
-function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, id, resultado, hospital, medico) {
+function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, receita, resultado, hospital, medico) {
 
   if (estado == 0) {
     estado = "Curado";
@@ -610,11 +610,14 @@ function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, id, resultado,
   const btnVerReceita = document.createElement("button");
   btnVerReceita.textContent = "Ver Receita";
   btnVerReceita.classList.add("btn", "btn-primary");
+  btnVerReceita.addEventListener("click", function () {
+    listarReceita(receita);
+  })
 
-  /*// Adiciona classes Bootstrap
+  // Adiciona classes Bootstrap
   btnVerReceita.setAttribute("data-bs-toggle", "modal"); // Define o atributo data-bs-toggle para abrir a modal
-  btnVerReceita.setAttribute("data-bs-target", "#receitaModal"); 
-  */
+  btnVerReceita.setAttribute("data-bs-target", "#receitaModal");
+
   // Define o ID da modal alvo
 
 
@@ -633,6 +636,35 @@ function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, id, resultado,
 
 }
 
+function listarReceita(receita) {
+  // Seleciona o elemento tbody onde as linhas serão adicionadas
+  for(cont=0;cont<receita.medicamentos.length;cont++){
+     listarMedicosDaReceita(receita.medicamentos[cont].nome,receita.medicamentos[cont].quantidade,receita.medicamentos[cont].numero_vezes_dia,receita.medicamentos[cont].horas)
+  }
+  $("#receitaModal").modal("show")
+}
+
+
+function listarMedicosDaReceita(nome,quantidade,numeroVezes,horas){
+  var tbody = document.getElementById("receitaContent");
+  // Cria uma nova linha na tabela
+  var row = document.createElement("tr");
+  // Adiciona células à linha
+  var cell1 = document.createElement("td");
+  cell1.textContent = nome;
+  row.appendChild(cell1);
+  var cell2 = document.createElement("td");
+  cell2.textContent = quantidade;
+  row.appendChild(cell2);
+  var cell3 = document.createElement("td");
+  cell3.textContent = numeroVezes;
+  row.appendChild(cell3);
+  var cell4 = document.createElement("td");
+  cell4.textContent = horas;
+  row.appendChild(cell4);
+  // Adiciona a linha ao tbody
+  tbody.appendChild(row);
+}
 
 function pegarMeuHistorico() {
   user = JSON.parse(localStorage.getItem("user"));
@@ -654,7 +686,7 @@ function pegarMeuHistorico() {
       try {
         if (retorno.length > 0) {
           for (cont = 0; cont < retorno.length; cont++) {
-            criarTabelaHistorico(retorno[cont].data, retorno[cont].nome_doenca, retorno[cont].tipo_doenca, retorno[cont].estado, retorno[cont].receita.id, retorno[cont].receita.descricao, retorno[cont].pclinico.instituicao.nome, retorno[cont].pclinico.user.nome)
+            criarTabelaHistorico(retorno[cont].data, retorno[cont].nome_doenca, retorno[cont].tipo_doenca, retorno[cont].estado, retorno[cont].receita, retorno[cont].receita.descricao, retorno[cont].pclinico.instituicao.nome, retorno[cont].pclinico.user.nome)
           }
         }
       } catch (error) {
@@ -666,7 +698,7 @@ function pegarMeuHistorico() {
         console.log(retorno)
         if (retorno.length > 0) {
           for (coont = 0; cont < retorno.length; cont++) {
-            criarTabelaHistorico(retorno[cont].data_escolhida, retorno[cont].descricao, (retorno[cont].receita == null) ? "Aguarde" : retorno[cont].receita.descricao, "", (retorno[cont].receita != null) ? retorno[cont].receita.id : 0, (retorno[cont].receita != null) ? retorno[cont].receita.descricao : "Aguarde", retorno[cont].instituicao.nome, (retorno[cont].pclinico != null) ? retorno[cont].pclinico.user.nome : "Aguarde")
+            criarTabelaHistorico(retorno[cont].data_escolhida, retorno[cont].descricao, (retorno[cont].receita == null) ? "Aguarde" : retorno[cont].receita.descricao, "", (retorno[cont].receita != null) ? retorno[cont].receita : 0, (retorno[cont].receita != null) ? retorno[cont].receita.descricao : "Aguarde", retorno[cont].instituicao.nome, (retorno[cont].pclinico != null) ? retorno[cont].pclinico.user.nome : "Aguarde")
           }
         }
       } catch (error) {
@@ -713,7 +745,7 @@ function fazerLogin() {
       guardarUser(user)
       $('#loadingModal').modal('hide');
       if (user.user[0].categoria == "Utente") {
-        document.location.href = "admin/utente.html"
+        document.location.href = "admin/instituicao.html"
       }
       //document.location.href = "../pages/dist/index.html"
     })
