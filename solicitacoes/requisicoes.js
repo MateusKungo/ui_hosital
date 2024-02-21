@@ -1,4 +1,4 @@
-var url = "https://8ba0-102-218-85-8.ngrok-free.app";
+var url = "https://02c3-102-214-36-105.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -7,6 +7,8 @@ pessoalClinico = []
 function minhaImagem() {
   document.getElementById("minhaImagem").src = url + "/api/imagem/" + JSON.parse(localStorage.getItem("user")).user[0].imagem
 }
+
+//usei
 function guardarUser(user) {
   userConvertido = JSON.stringify(user);
   localStorage.setItem("user", userConvertido);
@@ -83,7 +85,9 @@ function getAllConsulta() {
       //$("#paiConsulta").empty();
       for (cont = 0; cont < retorno.length; cont++) {
         tr = document.createElement('tr');
+        
         tdNome = document.createElement('td');
+        tdNome.style.textAlign="center"
         tdId = document.createElement('td');
         tdPreco = document.createElement('td');
         tdTipo = document.createElement('td');
@@ -146,7 +150,7 @@ function getAllEspecialidade() {
 }
 
 
-
+//usei
 function criarMeusMedicos(imagem,nome,email,especialidade,contacto) {
   var row = document.createElement("tr");
   var cellNome = document.createElement("td");
@@ -176,6 +180,8 @@ function criarMeusMedicos(imagem,nome,email,especialidade,contacto) {
   document.getElementById("tableMedico").appendChild(row)
 }
 
+
+//usei
 function getMyMedico() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
@@ -209,6 +215,7 @@ function getMyMedico() {
     });
 }
 
+//usei
 function addExame() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   // $('#loadingModal').modal('show');
@@ -753,7 +760,7 @@ function cadastrarOuEditar(valor) {
   formData.append('password_confirmation', document.getElementById("password_confirmation").value);
   formData.append('telefone_alternativo', document.getElementById("telefone_alternativo").value);
   formData.append('codigo_postal', document.getElementById("codigo_postal").value);
-  if (document.getElementById("categoria").value != "Utente") {
+  if (document.getElementById("categoria").value != "utente") {
     formData.append('especialidade_id', document.getElementById("especialidade").value);
     user = JSON.parse(localStorage.getItem("user"))
     formData.append('instituicao_id', user.user[0].admin.instituicao_id);

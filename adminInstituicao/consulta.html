@@ -23,6 +23,13 @@
       width: 100%;
       gap: 20px;
     }
+    table{
+      width: 100%;
+      text-align: center;
+    }
+    th{
+       padding-left: 5rem; 
+    }
 
 
     /* Adicione estilos específicos do hospital aqui */
@@ -115,7 +122,7 @@
       <button class="btn" onclick="openPopup('Tipo de Consulta','')">Cadastrar consulta</button>
 
       <div class="table-data">
-        <div class="order">
+        <div class="order">Tipo
           <div class="head">
             <h3>Médicos</h3>
             <i class='bx bx-search'></i>
@@ -124,6 +131,7 @@
           <table>
             <thead>
               <tr>
+                <th>Id</th>
                 <th>Nome</th>
                 <th>Preco</th>
                 <th>Tipo</th>
