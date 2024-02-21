@@ -37,7 +37,7 @@ function getAllExames() {
     .then(data => {
       //$('#loadingSpinnerContainer').hide();
       retorno = data.exames;
-     // $("#paiExames").empty();
+      // $("#paiExames").empty();
       for (cont = 0; cont < retorno.length; cont++) {
         tr = document.createElement('tr');
         tdNome = document.createElement('td');
@@ -64,7 +64,7 @@ function getAllExames() {
 
 //usei
 function getAllConsulta() {
- // $('#loadingSpinnerContainer').show();
+  // $('#loadingSpinnerContainer').show();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
 
@@ -85,9 +85,9 @@ function getAllConsulta() {
       //$("#paiConsulta").empty();
       for (cont = 0; cont < retorno.length; cont++) {
         tr = document.createElement('tr');
-        
+
         tdNome = document.createElement('td');
-        tdNome.style.textAlign="center"
+        tdNome.style.textAlign = "center"
         tdId = document.createElement('td');
         tdPreco = document.createElement('td');
         tdTipo = document.createElement('td');
@@ -151,11 +151,11 @@ function getAllEspecialidade() {
 
 
 //usei
-function criarMeusMedicos(imagem,nome,email,especialidade,contacto) {
+function criarMeusMedicos(imagem, nome, email, especialidade, contacto) {
   var row = document.createElement("tr");
   var cellNome = document.createElement("td");
   var img = document.createElement("img");
-  img.src =  url + "/api/imagem/" +imagem
+  img.src = url + "/api/imagem/" + imagem
   img.alt = "Paciente";
   var paragraph = document.createElement("p");
   paragraph.textContent = nome;
@@ -203,7 +203,7 @@ function getMyMedico() {
       console.log(retorno)
       if (retorno) {
         for (cont = 0; cont < retorno.length; cont++) {
-            criarMeusMedicos(retorno[cont].imagem,retorno[cont].nome,retorno[cont].email,retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal)
+          criarMeusMedicos(retorno[cont].imagem, retorno[cont].nome, retorno[cont].email, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal)
         }
       } else {
         console.log("vazio")
@@ -295,7 +295,6 @@ function addConsulta() {
 function getMyMedicoForEscala() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
-  $('#loadingSpinnerContainer').show();
   fetch(url + "/api/user/pegarPessoalClinicosPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
@@ -309,16 +308,20 @@ function getMyMedicoForEscala() {
       return response.json();
     })
     .then(data => {
-      $('#loadingSpinnerContainer').hide();
       retorno = data.users;
-      if (retorno) {
-        for (cont = 0; cont < retorno.length; cont++) {
-          adicionarLinhaMedico(retorno[cont].pclinico.id, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal, retorno[cont].imagem)
-          adicionarLinhaTabela(retorno[cont].imagem, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].pclinico.id)
+      try {
+        if (retorno) {
+          for (cont = 0; cont < retorno.length; cont++) {
+            adicionarLinhaMedico(retorno[cont].pclinico.id, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal, retorno[cont].imagem)
+            adicionarLinhaTabela(retorno[cont].imagem, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].pclinico.id)
+          }
+        } else {
+          console.log("vazio")
         }
-      } else {
-        console.log("vazio")
+      } catch (error) {
+        console.log(error)
       }
+
 
     })
     .catch(error => {
@@ -326,8 +329,10 @@ function getMyMedicoForEscala() {
     });
 }
 
+
+//usei
 function adicionarLinhaTabela(imagem, nome, especialidade, id) {
-  $("#TabelasMedicosEscala").empty();
+  //$("#TabelasMedicosEscala").empty();
   var tabelaBody = document.getElementById("TabelasMedicosEscala");
 
   var novaLinha = document.createElement("tr");
@@ -350,6 +355,7 @@ function adicionarLinhaTabela(imagem, nome, especialidade, id) {
 
   var cellEscala = document.createElement("td");
   var selectEscala = document.createElement("select");
+  selectEscala.style.width="18rem"
   selectEscala.className = "form-control";
 
   fetch(url + "/api/escala/pegarEscalaPorPessoalClinico/" + id, {
@@ -453,7 +459,7 @@ function pegarTodasEspecialidade() {
       return response.json();
     })
     .then(data => {
-      
+
       retorno = data.especialidades;
       for (cont = 0; cont < retorno.length; cont++) {
         option = document.createElement("option");
@@ -730,7 +736,7 @@ function fazerLogin() {
       $('#loadingModal').modal('hide');
       if (user.user[0].categoria == "Utente") {
         document.location.href = "admin/instituicao.html"
-      }else{
+      } else {
         document.location.href = "adminInstituicao/agendamento.html"
       }
       //document.location.href = "../pages/dist/index.html"
@@ -1816,22 +1822,23 @@ function adicionarMedico(imagem, nome, especialidade) {
 
 }
 
+//usei
 function adicionarLinhaMedico(id, nome, especialidade, contacto, imagemSrc) {
-  var tabela = document.getElementById("tabelaMedicos").getElementsByTagName('tbody')[0];
+  var tabela = document.getElementById("tabelaMedicosEscalar");
   var novaLinha = tabela.insertRow(tabela.rows.length);
   var colunaImagem = novaLinha.insertCell(0);
   var colunaNome = novaLinha.insertCell(1);
   var colunaEspecialidade = novaLinha.insertCell(2);
   var colunaContacto = novaLinha.insertCell(3);
   var colunaBotao = novaLinha.insertCell(4);
-
   colunaImagem.innerHTML = '<img src="' + url + '/api/imagem/' + imagemSrc + '" alt="Imagem do Médico" class="img-thumbnail img-round">';
   colunaNome.innerHTML = nome;
   colunaEspecialidade.innerHTML = especialidade;
   colunaContacto.innerHTML = contacto;
-  colunaBotao.innerHTML = `<input type="checkbox" class="custom-checkbox" onclick="escalar(this, ${id})">`;
+  colunaBotao.innerHTML = `<input type="checkbox" class="custom-checkbox" id="checkbox1" onclick="escalar(this, ${id})">`;
 }
 
+//usei
 function escalar(input, id) {
   if (input == null && id == 0) {
     addEscala(pessoalClinico);
@@ -1846,14 +1853,13 @@ function escalar(input, id) {
     }
   }
 }
-
+//usei
 function addEscala(pessoalClinicos) {
-  dataInicio = document.getElementById("dataInicio").value;
-  dataFim = document.getElementById("dataFim").value;
-  horaInicio = document.getElementById("horaInicio").value;
-  horafim = document.getElementById("horaFim").value;
+  dataInicio = document.getElementById("dataInicio").value.split("T")[0];
+  dataFim = document.getElementById("dataFim").value.split("T")[0];;
+  horaInicio = document.getElementById("dataInicio").value.split("T")[1];
+  horafim = document.getElementById("dataFim").value.split("T")[1];
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-  //$('#loadingModal').modal('show');
   data = new Date();
   user = JSON.parse(localStorage.getItem("user"))
   idInstituicao = user.user[0].admin.instituicao_id
