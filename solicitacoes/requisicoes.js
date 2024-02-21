@@ -13,8 +13,10 @@ function guardarUser(user) {
   localStorage.setItem("token", user.token);
 }
 
+
+//usei
 function getAllExames() {
-  $('#loadingSpinnerContainer').show();
+  //$('#loadingSpinnerContainer').show();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
 
@@ -31,9 +33,9 @@ function getAllExames() {
       return response.json();
     })
     .then(data => {
-      $('#loadingSpinnerContainer').hide();
+      //$('#loadingSpinnerContainer').hide();
       retorno = data.exames;
-      $("#paiExames").empty();
+     // $("#paiExames").empty();
       for (cont = 0; cont < retorno.length; cont++) {
         tr = document.createElement('tr');
         tdNome = document.createElement('td');
@@ -58,8 +60,9 @@ function getAllExames() {
     });
 }
 
+//usei
 function getAllConsulta() {
-  $('#loadingSpinnerContainer').show();
+ // $('#loadingSpinnerContainer').show();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
 
@@ -76,9 +79,8 @@ function getAllConsulta() {
       return response.json();
     })
     .then(data => {
-      $('#loadingSpinnerContainer').hide();
       retorno = data.consultas;
-      $("#paiExames").empty();
+      //$("#paiConsulta").empty();
       for (cont = 0; cont < retorno.length; cont++) {
         tr = document.createElement('tr');
         tdNome = document.createElement('td');
@@ -100,7 +102,6 @@ function getAllConsulta() {
         tr.appendChild(tdTipo);
         document.getElementById('paiConsulta').appendChild(tr);
       }
-
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
@@ -122,7 +123,6 @@ function getAllEspecialidade() {
       return response.json();
     })
     .then(data => {
-      $('#loadingSpinnerContainer').hide();
       retorno = data.especialidades;
       $("#paiEspecialidade").empty();
       for (cont = 0; cont < retorno.length; cont++) {
@@ -145,8 +145,38 @@ function getAllEspecialidade() {
     });
 }
 
+
+
+function criarMeusMedicos(imagem,nome,email,especialidade,contacto) {
+  var row = document.createElement("tr");
+  var cellNome = document.createElement("td");
+  var img = document.createElement("img");
+  img.src =  url + "/api/imagem/" +imagem
+  img.alt = "Paciente";
+  var paragraph = document.createElement("p");
+  paragraph.textContent = nome;
+  cellNome.appendChild(img);
+  cellNome.appendChild(paragraph);
+  row.appendChild(cellNome);
+
+  var cellEmail = document.createElement("td");
+  cellEmail.textContent = email;
+  row.appendChild(cellEmail);
+
+  var cellEspecialidade = document.createElement("td");
+  cellEspecialidade.textContent = especialidade;
+  row.appendChild(cellEspecialidade);
+
+  var cellTelefone = document.createElement("td");
+  var span = document.createElement("span");
+  span.className = "status completed";
+  span.textContent = contacto;
+  cellTelefone.appendChild(span);
+  row.appendChild(cellTelefone);
+  document.getElementById("tableMedico").appendChild(row)
+}
+
 function getMyMedico() {
-  $('#loadingSpinnerContainer').show();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
 
@@ -164,68 +194,10 @@ function getMyMedico() {
     })
     .then(data => {
       retorno = data.users;
-      $('#loadingSpinnerContainer').hide();
+      console.log(retorno)
       if (retorno) {
-        $("#paiTbody").empty();
         for (cont = 0; cont < retorno.length; cont++) {
-
-          let tr = document.createElement('tr');
-          let tdImagem = document.createElement('td');
-          let imagem = document.createElement('img');
-          let tdNome = document.createElement('td');
-          let tdEspecialidade = document.createElement('td');
-          let tdNumero = document.createElement('td');
-          let tdOpcoes = document.createElement('td');
-          let dropdownDiv = document.createElement('div');
-          let dropdownToggle = document.createElement('a');
-          let dropdownMenu = document.createElement('div');
-          let visualizarLink = document.createElement('a');
-          let editarLink = document.createElement('a');
-          let desabilitarLink = document.createElement('a');
-
-          // Configurar atributos e conteúdo dos elementos
-          imagem.src = url + "/api/imagem/" + retorno[cont].imagem;
-          imagem.alt = 'imagem';
-          imagem.width = 50;
-          tdNome.textContent = retorno[cont].nome;
-          tdEspecialidade.textContent = retorno[cont].pclinico.especialidade.nome;
-          tdNumero.textContent = retorno[cont].contacto.telefone_principal;
-
-          dropdownToggle.className = 'dropdown-toggle';
-          dropdownToggle.setAttribute('id', 'consultasDropdown');
-          dropdownToggle.setAttribute('role', 'button');
-          dropdownToggle.setAttribute('data-bs-toggle', 'dropdown');
-          dropdownToggle.setAttribute('aria-haspopup', 'true');
-          dropdownToggle.setAttribute('aria-expanded', 'false');
-          dropdownToggle.innerHTML = '<i></i><span>Opções</span>';
-          dropdownMenu.className = 'dropdown-menu';
-          dropdownMenu.setAttribute('aria-labelledby', 'consultasDropdown');
-          visualizarLink.className = 'dropdown-item';
-          visualizarLink.href = '#';
-          visualizarLink.innerHTML = '<i></i> Visualizar';
-          editarLink.className = 'dropdown-item';
-          editarLink.href = '#';
-          editarLink.innerHTML = '<i></i> Editar';
-          desabilitarLink.className = 'dropdown-item';
-          desabilitarLink.href = '#';
-          desabilitarLink.innerHTML = '<i></i> Desabilitar';
-
-          // Adicionar elementos à árvore DOM
-          dropdownMenu.appendChild(visualizarLink);
-          dropdownMenu.appendChild(editarLink);
-          dropdownMenu.appendChild(desabilitarLink);
-          dropdownDiv.appendChild(dropdownToggle);
-          dropdownDiv.appendChild(dropdownMenu);
-          tdOpcoes.appendChild(dropdownDiv);
-
-          tr.appendChild(tdImagem);
-          tr.appendChild(tdNome);
-          tr.appendChild(tdEspecialidade);
-          tr.appendChild(tdNumero);
-          tr.appendChild(tdOpcoes);
-          document.getElementById('paiTbody').appendChild(tr);
-
-          //document.getElementById("paiMeusMedicos").appendChild(criarCardMedico(retorno[cont].id,retorno[cont].nome,retorno[cont].pclinico.especialidade.nome,retorno[cont].contacto.telefone_principal,retorno[cont].imagem))
+            criarMeusMedicos(retorno[cont].imagem,retorno[cont].nome,retorno[cont].email,retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal)
         }
       } else {
         console.log("vazio")
@@ -273,6 +245,7 @@ function addExame() {
 
 }
 
+//usei
 function addConsulta() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   // $('#loadingModal').modal('show');
@@ -309,6 +282,8 @@ function addConsulta() {
     });
 
 }
+
+
 
 function getMyMedicoForEscala() {
   user = JSON.parse(localStorage.getItem("user"))
@@ -400,6 +375,7 @@ function adicionarLinhaTabela(imagem, nome, especialidade, id) {
     });
 }
 
+//usei
 function getAllProvincia() {
   fetch(url + "/api/provincias", {
     method: 'GET',
@@ -452,8 +428,9 @@ function getAllProvincia() {
     });
 }
 
+//usei
 function pegarTodasEspecialidade() {
-  $('#loadingSpinnerContainer').show();
+  //$('#loadingSpinnerContainer').show();
   select = document.getElementById("especialidade");
 
   fetch(url + "/api/especialidade/getAll", {
@@ -469,7 +446,7 @@ function pegarTodasEspecialidade() {
       return response.json();
     })
     .then(data => {
-      $('#loadingSpinnerContainer').hide();
+      
       retorno = data.especialidades;
       for (cont = 0; cont < retorno.length; cont++) {
         option = document.createElement("option");
@@ -638,14 +615,14 @@ function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, receita, resul
 
 function listarReceita(receita) {
   // Seleciona o elemento tbody onde as linhas serão adicionadas
-  for(cont=0;cont<receita.medicamentos.length;cont++){
-     listarMedicosDaReceita(receita.medicamentos[cont].nome,receita.medicamentos[cont].quantidade,receita.medicamentos[cont].numero_vezes_dia,receita.medicamentos[cont].horas)
+  for (cont = 0; cont < receita.medicamentos.length; cont++) {
+    listarMedicosDaReceita(receita.medicamentos[cont].nome, receita.medicamentos[cont].quantidade, receita.medicamentos[cont].numero_vezes_dia, receita.medicamentos[cont].horas)
   }
   $("#receitaModal").modal("show")
 }
 
 
-function listarMedicosDaReceita(nome,quantidade,numeroVezes,horas){
+function listarMedicosDaReceita(nome, quantidade, numeroVezes, horas) {
   var tbody = document.getElementById("receitaContent");
   // Cria uma nova linha na tabela
   var row = document.createElement("tr");
@@ -746,6 +723,8 @@ function fazerLogin() {
       $('#loadingModal').modal('hide');
       if (user.user[0].categoria == "Utente") {
         document.location.href = "admin/instituicao.html"
+      }else{
+        document.location.href = "adminInstituicao/agendamento.html"
       }
       //document.location.href = "../pages/dist/index.html"
     })
@@ -756,6 +735,7 @@ function fazerLogin() {
     });
 }
 
+//usei
 function cadastrarOuEditar(valor) {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();

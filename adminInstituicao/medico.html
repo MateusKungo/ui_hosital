@@ -1,177 +1,218 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administração Hospitalar</title>
-    <!-- Boxicons -->
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="constumer.css">
-    <!-- Meu CSS -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="modal.css">
-    <link rel="stylesheet" href="crud.css">
-    <link rel="stylesheet" href="agenda.css">
-    <style>
+  <meta charset="UTF-8">
 
-      .add_cancelar{
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        gap: 20px;
-      }
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração Hospitalar</title>
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="constumer.css">
+  <!-- Meu CSS -->
 
-      
-        /* Adicione estilos específicos do hospital aqui */
-    </style>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="modal.css">
+  <link rel="stylesheet" href="crud.css">
+  <link rel="stylesheet" href="agenda.css">
+
+  <style>
+    .add_cancelar {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      gap: 20px;
+    }
+
+    .popup {
+      max-height: 43rem;
+      /* Defina a altura máxima para a barra de rolagem aparecer */
+      overflow: auto;
+      /* Adiciona uma barra de rolagem se o conteúdo exceder a altura máxima */
+      padding: 20px;
+      /* Adiciona um espaçamento interno para evitar que o conteúdo encoste nas bordas da div */
+    }
+
+
+    /* Adicione estilos específicos do hospital aqui */
+  </style>
 </head>
+
 <body>
-    <!-- BARRA LATERAL -->
-    <section id="sidebar">
-        <a href="instituicao.html" class="brand">
-            <i class="bx bxs-hospital"></i>
-            <span class="text">Hospital</span>
-          </a>
-          <ul class="side-menu top">
-            <li>
-                <a href="agendamento.html">
-                    <i class='bx bxs-calendar'></i>
-                    <span class="text">Marcaçoes</span>
-                </a>
-            </li>
-                <li>
-                <a href="escala.html">
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">Escala</span>
-                </a>
-            </li>
-            <li class="active">
-                <a href="medico.html">
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">Médicos</span>
-                </a>
-            </li>
-            <li>
-                <a href="exame.html">
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">Exame</span>
-                </a>
-            </li>
-            <li>
-                <a href="consulta.html">
-                    <i class='bx bxs-user'></i>
-                    <span class="text">Consulta</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="side-menu">
-            <li>
-                <a href="meuPerfil.html">
-                  <i class="bx bxs-cog"></i>
-                  <span class="text">Meu Perfil</span>
-                </a>
-              </li>
-            <li>
-              <a href="#">
-                <i class="bx bxs-cog"></i>
-                <span class="text">Configurações</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="logout">
-                <i class="bx bxs-log-out-circle"></i>
-                <span class="text">Sair</span>
-              </a>
-            </li>
-          </ul>
-    </section>
-    <!-- BARRA LATERAL -->
+  <!-- BARRA LATERAL -->
+  <section id="sidebar">
+    <a href="instituicao.html" class="brand">
+      <i class="bx bxs-hospital"></i>
+      <span class="text">Hospital</span>
+    </a>
+    <ul class="side-menu top">
+      <li>
+        <a href="agendamento.html">
+          <i class='bx bxs-calendar'></i>
+          <span class="text">Marcaçoes</span>
+        </a>
+      </li>
+      <li>
+        <a href="escala.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Escala</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="medico.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Médicos</span>
+        </a>
+      </li>
+      <li>
+        <a href="exame.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Exame</span>
+        </a>
+      </li>
+      <li>
+        <a href="consulta.html">
+          <i class='bx bxs-user'></i>
+          <span class="text">Consulta</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="side-menu">
+      <li>
+        <a href="meuPerfil.html">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Meu Perfil</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Configurações</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="logout">
+          <i class="bx bxs-log-out-circle"></i>
+          <span class="text">Sair</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <!-- BARRA LATERAL -->
 
-    <!-- CONTEÚDO -->
-    <section id="content">
-        <!-- BARRA DE NAVEGAÇÃO -->
-        <nav>
-            <i class="bx bx-menu"></i>
-            <a href="#" class="nav-link">Instituições</a>
-            <form action="#">
-              <div class="form-input">
-                <input type="search" placeholder="Pesquisar..." />
-                <button type="submit" class="search-btn">
-                  <i class="bx bx-search"></i>
-                </button>
-              </div>
-            </form>
-            <a href="#" class="profile">
-              <img src="img/people.png" alt="Perfil" />
-            </a>
-          </nav>
-        <!-- BARRA DE NAVEGAÇÃO -->
-
-        <!-- PRINCIPAL -->
-        <main class="agendaBody">
-          <button class="btn" onclick="openPopup('Cadastro de Médico','')">Add Médico</button>
-         
-          <div class="table-data">
-            <div class="order">
-                <div class="head">
-                    <h3>Médicos</h3>
-                    <i class='bx bx-search'></i>
-                    <i class='bx bx-filter'></i>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Médicos</th>
-                            <th>Eamil</th>
-                            <th>Especilidade</th>
-                           
-                            <th>Telefone</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="img/people.png" alt="Paciente">
-                                <p>João Silva</p>
-                            </td>
-                            <td>Mateuskungo@m«gmail.com</td>
-                            <td>Neurologia</td>
-                            <td><span class="status completed">+244 999 999 999</span></td>
-                        </tr>
-                        <!-- Outras linhas de agendamento aqui -->
-                    </tbody>
-                </table>
-            </div>
+  <!-- CONTEÚDO -->
+  <section id="content">
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav>
+      <i class="bx bx-menu"></i>
+      <a href="#" class="nav-link">Instituições</a>
+      <form action="#">
+        <div class="form-input">
+          <input type="search" placeholder="Pesquisar..." />
+          <button type="submit" class="search-btn">
+            <i class="bx bx-search"></i>
+          </button>
         </div>
-                
-        </main>
-        <!-- PRINCIPAL -->
-        
-    </section>
-    <!-- CONTEÚDO -->
-    <div class="popup" id="popup">
-      <img src="img/logo.webp" alt="" />
-      <div class="crud">
-          <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
-          <label for="">Nome Completo</label>
-          <input type="text" placeholder="Nome Completo*">
-          <label for="">Especilidade</label>
-          <select name="" id="" class="comosente">
-            <option value="">Estomatologia...</option>
-          </select>
-          <label for="">Eamil</label>
-          <input type="email" placeholder="email*">
-          <label for="">Telefone</label>
-          <input type="tel" placeholder="telefon*">
-          <h2 id="valorConsulta"><span></span></h2>
-         <div class="add_cancelar">
-          <button onclick="closePopup()" style="background-color: red;">Cancelar</button>
-          <button onclick="closePopup()">Salvar</button>
-         </div>
+      </form>
+      <a href="#" class="profile">
+        <img src="img/people.png" alt="Perfil" />
+      </a>
+    </nav>
+    <!-- BARRA DE NAVEGAÇÃO -->
 
+    <!-- PRINCIPAL -->
+    <main class="agendaBody">
+      <button class="btn" onclick="openPopup('Cadastro de Médico','')">Add Médico</button>
+
+      <div class="table-data">
+        <div class="order">
+          <div class="head">
+            <h3>Médicos</h3>
+            <i class='bx bx-search'></i>
+            <i class='bx bx-filter'></i>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Médicos</th>
+                <th>Email</th>
+                <th>Especialidade</th>
+                <th>Telefone</th>
+              </tr>
+            </thead>
+            <tbody id="tableMedico">
+              <!-- Outras linhas de agendamento aqui -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+    </main>
+    <!-- PRINCIPAL -->
+
+  </section>
+  <!-- CONTEÚDO -->
+  <div class="popup" id="popup">
+    <img src="img/logo.webp" alt="" />
+    <div class="crud">
+      <label for="">Nome Completo</label>
+      <input type="text" id="nome" placeholder="Nome Completo*">
+      <label for="">Especilidade</label>
+      <select id="especialidade" class="comosente">
+          <option value="" selected desabled>Selecione</option>
+      </select>
+      <label for="">Genero</label>
+      <select id="genero" class="comosente">
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+      </select>
+      <label for="">Categoria</label>
+      <select  id="categoria" class="comosente">
+        <option value="pessoalclinico">Pessaol Clinico</option>
+      </select>
+      <label for="">Data de nascimento</label>
+      <input type="date" id="data_nascimento" placeholder="Data de nascimento*">
+      <label for="">Bilhete de identidade</label>
+      <input type="text" id="bi" placeholder="Bilhete de identidade">
+      <label for="">Passaporte</label>
+      <input type="text" id="passaporte" placeholder="Passaporte">
+      <label for="">Email</label>
+      <input type="email" id="email" placeholder="email*">
+      <label for="">Telefone principal</label>
+      <input type="tel" id="telefone_principal" placeholder="telefonone principal*">
+      <label for="">Telefone Secundario</label>
+      <input type="tel" id="telefone_alternativo" placeholder="telefone Secundario*">
+      <label for="">Codigo Postal</label>
+      <input type="tel"  id="codigo_postal" placeholder="codigo postal*">
+      <label for="">Imagem</label>
+      <input type="file" id="inputFile" placeholder="emagem*">
+
+      <label for="">senha</label>
+      <input type="password" id="password" placeholder="senha*">
+      <label for="">Confirme a senha</label>
+      <input type="password" id="password_confirmation" placeholder="Senha*">
+      
+     
+
+      <div class="add_cancelar">
+        <button onclick="closePopup()" style="background-color: red;">Cancelar</button>
+        <button onclick="cadastrarOuEditar('1')">Salvar</button>
       </div>
     </div>
-    <script src="script.js"></script>
-    <script src="modal.js"></script>
+  </div>
+  
+  <script src="script.js"></script>
+  <script src="modal.js"></script>
+  <script src="../solicitacoes/requisicoes.js"></script>
+
+  <script>
+    pegarTodasEspecialidade()
+    getMyMedico();
+    
+  </script>
 </body>
+
 </html>
