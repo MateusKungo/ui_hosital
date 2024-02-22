@@ -112,8 +112,8 @@ function getAllConsulta() {
     });
 }
 
+//usei
 function getAllEspecialidade() {
-  $('#loadingSpinnerContainer').show();
   fetch(url + "/api/especialidade/getAll", {
     method: 'GET',
     headers: {
@@ -128,10 +128,10 @@ function getAllEspecialidade() {
     })
     .then(data => {
       retorno = data.especialidades;
-      $("#paiEspecialidade").empty();
       for (cont = 0; cont < retorno.length; cont++) {
         tr = document.createElement('tr');
         tdNome = document.createElement('td');
+
         tdId = document.createElement('td');
         tdId.textContent = retorno[cont].id;
         tdNome.textContent = retorno[cont].nome;
@@ -148,6 +148,9 @@ function getAllEspecialidade() {
       console.error('Erro na solicitação:', error.message);
     });
 }
+
+
+
 
 
 //usei
@@ -251,6 +254,38 @@ function addExame() {
     });
 
 }
+
+function addEspecialidade() {
+  const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
+
+  const formData = new FormData();
+  formData.append('nome', document.getElementById("nome").value);
+
+  fetch(url + "/api/especialidade/create", {
+    method: 'POST',
+    headers: {
+      "ngrok-skip-browser-warning": "69420",
+      'X-CSRF-TOKEN': tokenCSRF
+    },
+    body: formData,
+  })
+    .then(response => {
+      //$('#loadingModal').modal('hide');
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data)
+    })
+    .catch(error => {
+      //$('#loadingModal').modal('hide');
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
 
 //usei
 function addConsulta() {
@@ -626,6 +661,7 @@ function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, receita, resul
 
 }
 
+//usei
 function listarReceita(receita) {
   // Seleciona o elemento tbody onde as linhas serão adicionadas
   for (cont = 0; cont < receita.medicamentos.length; cont++) {
@@ -635,6 +671,7 @@ function listarReceita(receita) {
 }
 
 
+//usei
 function listarMedicosDaReceita(nome, quantidade, numeroVezes, horas) {
   var tbody = document.getElementById("receitaContent");
   // Cria uma nova linha na tabela
@@ -656,6 +693,8 @@ function listarMedicosDaReceita(nome, quantidade, numeroVezes, horas) {
   tbody.appendChild(row);
 }
 
+
+//usei
 function pegarMeuHistorico() {
   user = JSON.parse(localStorage.getItem("user"));
 
@@ -701,6 +740,8 @@ function pegarMeuHistorico() {
 
 }
 
+
+//usei
 function fazerLogin() {
   const senha = document.getElementById("senha").value;
   const nAcesso = document.getElementById("nAcesso").value;
@@ -836,7 +877,6 @@ function cadastrarOuEditar(valor) {
 
 function cadastrarInstituicao() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-  //$('#loadingModal').modal('show');
   const formData = new FormData();
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
@@ -955,6 +995,8 @@ function createAdivInstituicao(nome, descricao, id, provincia, municipio, destri
 
 }
 
+
+//usei
 function pegarTodasInstituicoes() {
   fetch(url + "/api/instituicao/pegarTodos", {
     method: 'GET',
@@ -1002,14 +1044,10 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao);
   let popup = document.getElementById('popup')
   popup.classList.add('open-popup')
-  //$('#efectuarServico').modal('show');
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
     idUser = user.user[0].id;
-    $('#loadingModal').modal('show');
-
     const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-    //$('#loadingModal').modal('show');
     data = new Date();
     if (idMedico == 0) {
       var jsonData = {
@@ -1071,7 +1109,7 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("titulo").innerHTML = "Selecione o Tipo de Exame:"
   document.getElementById("idPreco").innerHTML = "Valor do exame:"
   pegarTodosExameSeclectDeumaInstituicao(idInstituicao);
-  //$('#efectuarServico').modal('show');
+ 
   let popup = document.getElementById('popup')
   popup.classList.add('open-popup')
 
@@ -1081,7 +1119,6 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
     $('#loadingModal').modal('show');
 
     const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-    //$('#loadingModal').modal('show');
     data = new Date();
     if (idMedico == 0) {
 
@@ -1109,9 +1146,6 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
       };
 
     }
-
-
-
     fetch(url + "/api/marcacao_user/create", {
       method: 'POST',
       headers: {
@@ -1241,6 +1275,7 @@ function criarMedicos(id, nome, especialidade, contacto, imagem) {
 
 
 
+//usei
 function criarTabelaRcu(nome, status) {
   var tr = document.createElement("tr");
 
@@ -1264,6 +1299,7 @@ function criarTabelaRcu(nome, status) {
 }
 
 
+//usei
 function getMyRCU() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
@@ -1296,6 +1332,8 @@ function getMyRCU() {
     });
 }
 
+
+//usei
 function tragaOsMeusDados() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
@@ -1310,11 +1348,10 @@ function tragaOsMeusDados() {
   document.getElementById("telefone_principal").value = user.user[0].contacto.telefone_principal
   document.getElementById("telefone_alternativo").value = user.user[0].contacto.telefone_alternativo
   document.getElementById("codigo_postal").value = user.user[0].contacto.codigo_postal
-  //document.getElementById("especialidade").value=user.user[0].*/
-
-
+  //document.getElementById("especialidade").value=user.user[0].*;
 }
 
+//usei
 function getMyAgendamento() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
@@ -1349,6 +1386,7 @@ function getMyAgendamento() {
     });
 }
 
+//usei
 function ListarMinhaAgenda(servico, especialidade, data, hora, clinico, hospital, estado, data1, hora1) {
   // Crie um elemento tr (linha da tabela)
   var tr = document.createElement("tr");
@@ -1496,88 +1534,8 @@ function ListarMinhaAgenda(servico, especialidade, data, hora, clinico, hospital
     return divCol;
   }
 */
-function menu(span) {
-  texto = span.textContent;
-  if (texto == "Instituições") {
-    pegarTodasInstituicoes();
-    document.getElementById("marcacao").style.display = "none";
-    document.getElementById("ids").style.display = "block";
-    document.getElementById("perfilInstituicao").style.display = "none";
-    document.getElementById("medicos").style.display = "none";
-    document.getElementById("especialidades").style.display = "none";
-    document.getElementById("paiMarcacoes").style.display = "none";
-    document.getElementById("escalasMedicas").style.display = "none";
-    document.getElementById("examessHospitall").style.display = "none";
-    document.getElementById("consultaInstituicao").style.display = "none";
-  } else if (texto == "Especialidades") {
-    getAllEspecialidade();
-    document.getElementById("marcacao").style.display = "none";
-    document.getElementById("ids").style.display = "none";
-    document.getElementById("perfilInstituicao").style.display = "none";
-    document.getElementById("medicos").style.display = "none";
-    document.getElementById("especialidades").style.display = "block";
-    document.getElementById("paiMarcacoes").style.display = "none";
-    document.getElementById("escalasMedicas").style.display = "none";
-    document.getElementById("examessHospitall").style.display = "none";
-    document.getElementById("consultaInstituicao").style.display = "none";
-  } else if (texto == "Médicos") {
-    pegarTodasEspecialidade();
-    getMyMedico();
-    document.getElementById("marcacao").style.display = "none";
-    document.getElementById("ids").style.display = "none";
-    document.getElementById("perfilInstituicao").style.display = "none";
-    document.getElementById("medicos").style.display = "block";
-    document.getElementById("especialidades").style.display = "none";
-    document.getElementById("paiMarcacoes").style.display = "none";
-    document.getElementById("escalasMedicas").style.display = "none";
-    document.getElementById("examessHospitall").style.display = "none";
-    document.getElementById("consultaInstituicao").style.display = "none";
-  } else if (texto == "Marcações") {
-    criarMarcacoes();
-    document.getElementById("marcacao").style.display = "none";
-    document.getElementById("ids").style.display = "none";
-    document.getElementById("perfilInstituicao").style.display = "none";
-    document.getElementById("medicos").style.display = "none";
-    document.getElementById("especialidades").style.display = "none";
-    document.getElementById("paiMarcacoes").style.display = "block";
-    document.getElementById("escalasMedicas").style.display = "none";
-    document.getElementById("examessHospitall").style.display = "none";
-    document.getElementById("consultaInstituicao").style.display = "none";
-  } else if (texto == "Escala") {
-    getMyMedicoForEscala();
-    document.getElementById("marcacao").style.display = "none";
-    document.getElementById("ids").style.display = "none";
-    document.getElementById("perfilInstituicao").style.display = "none";
-    document.getElementById("medicos").style.display = "none";
-    document.getElementById("especialidades").style.display = "none";
-    document.getElementById("paiMarcacoes").style.display = "none";
-    document.getElementById("escalasMedicas").style.display = "block";
-    document.getElementById("examessHospitall").style.display = "none";
-    document.getElementById("consultaInstituicao").style.display = "none";
-  } else if (texto == "Exame") {
-    getAllExames();
-    document.getElementById("marcacao").style.display = "none";
-    document.getElementById("ids").style.display = "none";
-    document.getElementById("perfilInstituicao").style.display = "none";
-    document.getElementById("medicos").style.display = "none";
-    document.getElementById("especialidades").style.display = "none";
-    document.getElementById("paiMarcacoes").style.display = "none";
-    document.getElementById("escalasMedicas").style.display = "none";
-    document.getElementById("examessHospitall").style.display = "block";
-    document.getElementById("consultaInstituicao").style.display = "none";
-  } else if (texto == "Consulta") {
-    getAllConsulta();
-    document.getElementById("marcacao").style.display = "none";
-    document.getElementById("ids").style.display = "none";
-    document.getElementById("perfilInstituicao").style.display = "none";
-    document.getElementById("medicos").style.display = "none";
-    document.getElementById("especialidades").style.display = "none";
-    document.getElementById("paiMarcacoes").style.display = "none";
-    document.getElementById("escalasMedicas").style.display = "none";
-    document.getElementById("examessHospitall").style.display = "none";
-    document.getElementById("consultaInstituicao").style.display = "block";
-  }
-}
+
+
 
 function criarElemento(tag, classe, conteudo) {
   const elemento = document.createElement(tag);
@@ -1774,6 +1732,9 @@ function criarCarocelMarcacao(pclinico, descricao, cont, nome, tipo, data, estad
   document.getElementById("marcacoes").appendChild(carouselItem);
 
 }
+
+
+
 
 function verPerfilUser(id) {
   fetch(url + "/api/user/show/" + id, {
