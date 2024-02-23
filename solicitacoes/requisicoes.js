@@ -1,7 +1,8 @@
-var url = "https://02c3-102-214-36-105.ngrok-free.app";
+var url = "https://daec-102-214-36-58.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
+idMedico = null
 
 
 function minhaImagem() {
@@ -61,6 +62,49 @@ function getAllExames() {
       console.error('Erro na solicitação:', error.message);
     });
 }
+
+
+//usei
+function getAllMedicamentos() {
+
+  fetch(url + "/api/medicamento/pegarTodosMedicamentos", {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      //$('#loadingSpinnerContainer').hide();
+      retorno = data.medicamentos;
+      // $("#paiExames").empty();
+      for (cont = 0; cont < retorno.length; cont++) {
+        tr = document.createElement('tr');
+        tdNome = document.createElement('td');
+        tdId = document.createElement('td');
+        tdPreco = document.createElement('td');
+        tdId.textContent = retorno[cont].id;
+        tdPreco.textAlign = "center";
+        tdNome.textContent = retorno[cont].nome;
+        tdNome.style.textAlign = "center";
+        tdNome.classList.add('text-truncate');
+        tdId.classList.add('text-truncate');
+        tr.appendChild(tdId);
+        tr.appendChild(tdNome);
+        document.getElementById('paiMedicamentos').appendChild(tr);
+      }
+
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+}
+
 
 //usei
 function getAllConsulta() {
@@ -326,6 +370,35 @@ function addConsulta() {
 }
 
 
+//usei
+function addMedicamento() {
+  const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
+  const formData = new FormData();
+  formData.append('nome', document.getElementById("nome").value);
+
+  fetch(url + "/api/medicamento/criar", {
+    method: 'POST',
+    headers: {
+      "ngrok-skip-browser-warning": "69420",
+      'X-CSRF-TOKEN': tokenCSRF
+    },
+    body: formData,
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data)
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
 
 function getMyMedicoForEscala() {
   user = JSON.parse(localStorage.getItem("user"))
@@ -390,10 +463,10 @@ function adicionarLinhaTabela(imagem, nome, especialidade, id) {
 
   var cellEscala = document.createElement("td");
   var selectEscala = document.createElement("select");
-  selectEscala.style.width="18rem"
+  selectEscala.style.width = "18rem"
   selectEscala.className = "form-control";
 
-  fetch(url + "/api/escala/pegarEscalaPorPessoalClinico/" + id, {
+  fetch(url + "/api/escala/pegarEscalaPorPessoalClinicoParaInstituicao/" + id, {
     method: 'GET',
     headers: {
       "ngrok-skip-browser-warning": "69420"
@@ -407,6 +480,7 @@ function adicionarLinhaTabela(imagem, nome, especialidade, id) {
     })
     .then(data => {
       retorno = data.escalas;
+      console.log(retorno)
       for (var i = 0; i < retorno.length; i++) {
         var opcao = document.createElement("option");
         opcao.textContent = retorno[i].data_inicio + "-" + retorno[i].data_fim + " " + retorno[i].hora_inicio + "-" + retorno[i].hora_fim;
@@ -1109,7 +1183,7 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("titulo").innerHTML = "Selecione o Tipo de Exame:"
   document.getElementById("idPreco").innerHTML = "Valor do exame:"
   pegarTodosExameSeclectDeumaInstituicao(idInstituicao);
- 
+
   let popup = document.getElementById('popup')
   popup.classList.add('open-popup')
 
@@ -1608,9 +1682,9 @@ function criarMarcacoes() {
       retorno = data.marcacoes;
       for (cont = 0; cont < retorno.length; cont++) {
         if (retorno[cont].tipo_servico == "consulta") {
-          criarCarocelMarcacao(retorno[cont].pclinico, retorno[cont].descricao, cont, retorno[cont].consulta.nome, retorno[cont].consulta.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
+          listarMarcacoes(data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].consulta.nome, retorno[cont].consulta.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
         } else {
-          criarCarocelMarcacao(retorno[cont].pclinico, retorno[cont].descricao, cont, retorno[cont].exame.nome, retorno[cont].exame.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
+          listarMarcacoes(data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].exame.nome, retorno[cont].exame.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
         }
 
       }
@@ -1622,118 +1696,99 @@ function criarMarcacoes() {
 
 }
 
-function criarCarocelMarcacao(pclinico, descricao, cont, nome, tipo, data, estado, preco, servico, hora, userName, id) {
-  // Criando o elemento div principal
-  /* var marcacoesCarousel = document.createElement("div");
-   marcacoesCarousel.id = "marcacoesCarousel";
-   marcacoesCarousel.classList.add("carousel", "slide");
-   marcacoesCarousel.setAttribute("data-ride", "carousel");
-   marcacoesCarousel.setAttribute("data-interval", "3600000");
- 
-   // Criando o elemento div com a classe "carousel-inner"
-   var carouselInner = document.createElement("div");
-   carouselInner.classList.add("carousel-inner");*/
+function listarMarcacoes(escalas, imagemUtente, pclinico, descricao, nome, tipo, data, estado, preco, servico, hora, userName, id) {
+  // Criação dos elementos
+  var tr = document.createElement("tr");
+  var td1 = document.createElement("td");
+  var img = document.createElement("img");
+  var p = document.createElement("p");
+  var td2 = document.createElement("td");
+  var tdNome = document.createElement("td");
+  var td3 = document.createElement("td");
+  var td4 = document.createElement("td");
+  var button = document.createElement("button");
 
-  // Criando o elemento div com a classe "carousel-item active"
-  let carouselItem = document.createElement("div");
-  if (cont == 0) {
-    carouselItem.classList.add("carousel-item", "active");
+  // Atributos e conteúdo dos elementos
+  img.src = url + "/api/imagem/" + imagemUtente;
+  img.alt = "Paciente";
+  p.textContent = userName;
+  td1.appendChild(img);
+  td1.appendChild(p);
+  tdNome.textContent = nome
+  td2.textContent = servico;
+  td3.textContent = preco;
+  button.textContent = "detalhes";
+  button.className = "btn btn-primary";
+
+  if (pclinico == null) {
+    for (cont == 0; cont < escalas.length; cont++) {
+      adicionarMedicoNaMarcacao(escalas[cont].pclinico.id, escalas[cont].pclinico.user.nome, escalas[cont].pclinico.especialidade.nome, "", escalas[cont].pclinico.user.imagem)
+    }
   } else {
-    carouselItem.classList.add("carousel-item");
+    document.getElementById("medicos").style.display = "none"
   }
 
 
-  // Criando o elemento div com a classe "card"
-  let card = document.createElement("div");
-  card.classList.add("card");
-
-  // Criando o elemento div com a classe "card-body"
-  let cardBody = document.createElement("div");
-  cardBody.classList.add("card-body");
-
-  // Criando o elemento h5 com a classe "card-title"
-  let cardTitle = document.createElement("h5");
-  cardTitle.classList.add("card-title");
-  cardTitle.textContent = (cont + 1) + "º Marcação";
-
-  // Informações da Marcação
-  let infoData = createInfoDiv("Data:", data);
-  let infoEstado = createInfoDiv("Estado:", estado);
-  let infoPreco = createInfoDiv("Preço:", preco);
-  let infoTipoServico = createInfoDiv("Tipo de Serviço:", servico);
-  let infoHora = createInfoDiv("Hora:", hora);
-  let infoDescricao = createInfoDiv("Descrição:", descricao);
-  if (pclinico != null) {
-    var medico = createInfoDiv("Pessoal clinico:", pclinico.user.nome);
-    var expecialidade = createInfoDiv("Especialidade:", pclinico.especialidade.nome);
-  }
-
-  // Informações do Usuário
-  let infoUsuario = document.createElement("div");
-  infoUsuario.classList.add("mb-3");
-  infoUsuario.innerHTML = "<strong>Usuário:</strong> <button type='button' class='btn btn-link' data-toggle='modal' data-target='#visualizarPerfilModal'>" + userName + "</button>";
-  infoUsuario.addEventListener("click", function () {
-    document.getElementById("loadingSpinner").style.display = "block";
-    document.getElementById("visualizarPerfilModalLabel").innerHTML = "";
-    document.getElementById("imagemMeuPerfil").src = ""
-    document.getElementById("MeuNome").innerHTML = "";
-    document.getElementById("MeuGenero").innerHTML = "";
-    document.getElementById("MeuBi").innerHTML = "";
-    document.getElementById("MeuEmail").innerHTML = "";
-    document.getElementById("MeuNascimento").innerHTML = ""
-    document.getElementById("MeuTelefone").innerHTML = "";
+  // Adiciona o evento de clique ao botão
+  button.addEventListener("click", function () {
+    limpatela();
     verPerfilUser(id)
-  })
+    document.getElementById("data").innerHTML = "Data: " + data;
+    document.getElementById("hora").innerHTML = "Hora: " + hora;
+    document.getElementById("Estado").innerHTML = "Estado: " + estado;
+    document.getElementById("descricao").innerHTML = "Descrição: " + descricao;
+    document.getElementById("servico").innerHTML = "Tipo: " + tipo;
+    if (pclinico != null) {
+      document.getElementById("medicoAtender").style.display = "block"
+      document.getElementById("nomeMedico").innerHTML = "Nome do Médico: " + pclinico.user.nome;
+      document.getElementById("especialidade").innerHTML = "Especialidade: " + pclinico.especialidade.nome;
+    } else {
+      document.getElementById("medicos").style.display = "block"
+      document.getElementById("medicoAtender").style.display = "none"
+    }
+    $("#myModal").modal("show");
+  });
 
-  // Informações da Consulta
-  let infoConsulta = createInfoDiv("Nome:", nome);
-  let infoTipo = createInfoDiv("Tipo:", tipo);
-
-  // Botões de Ação
-  let btnConfirmar = createActionButton("Confirmar", "btn-success", "me-2");
-  let btnCancel = createActionButton("Cancelar", "btn-danger", null, "modal", "#cancelarModal1");
-
-  // Adicionando elementos filho apropriados
-  cardBody.appendChild(cardTitle);
-  cardBody.appendChild(infoData);
-  cardBody.appendChild(infoEstado);
-  cardBody.appendChild(infoPreco);
-  cardBody.appendChild(infoTipoServico);
-  cardBody.appendChild(infoHora);
-  cardBody.appendChild(infoDescricao);
-  if (pclinico != null) {
-    cardBody.appendChild(medico);
-    cardBody.appendChild(expecialidade);
-  }
-
-  cardBody.appendChild(infoUsuario);
-  cardBody.appendChild(infoConsulta);
-  cardBody.appendChild(infoTipo);
-  cardBody.appendChild(btnConfirmar);
-  cardBody.appendChild(btnCancel);
-
-  card.appendChild(cardBody);
-  carouselItem.appendChild(card);
-
-  /*
-  carouselInner.appendChild(carouselItem);
-  marcacoesCarousel.appendChild(carouselInner);*/
-
-  // Botões de Navegação
-  /*
-  let prevButton = createNavigationButton("carousel-control-prev", "#marcacoesCarousel", "prev");
-  let nextButton = createNavigationButton("carousel-control-next", "#marcacoesCarousel", "next");
-
-  Adicionando os botões de navegação ao elemento principal
-  document.getElementById("paiMarcacoes").appendChild(prevButton);
-  document.getElementById("paiMarcacoes").appendChild(nextButton);
-*/
-  // Adicionando o elemento ao body ou a outro elemento pai desejado
-  document.getElementById("marcacoes").appendChild(carouselItem);
-
+  //document.getElementById("loadingSpinner").style.display = "block";
+  td4.appendChild(button);
+  tr.appendChild(td1);
+  tr.appendChild(td2);
+  tr.appendChild(tdNome);
+  tr.appendChild(td3);
+  tr.appendChild(td4);
+  document.getElementById("todasAsMarcacoes").appendChild(tr);
 }
 
 
+
+function adicionarMedicoNaMarcacao(id, nome, especialidade, contacto, imagemSrc) {
+  var tabela = document.getElementById("medicosMarcacao");
+  var novaLinha = tabela.insertRow(tabela.rows.length);
+  var colunaImagem = novaLinha.insertCell(0);
+  var colunaNome = novaLinha.insertCell(1);
+  var colunaEspecialidade = novaLinha.insertCell(2);
+  //var colunaContacto = novaLinha.insertCell(3);
+  var colunaBotao = novaLinha.insertCell(3);
+  colunaImagem.innerHTML = '<img src="' + url + '/api/imagem/' + imagemSrc + '" alt="Imagem do Médico" class="img-thumbnail img-round">';
+  colunaNome.innerHTML = nome;
+  colunaEspecialidade.innerHTML = especialidade;
+  //colunaContacto.innerHTML = contacto;
+  colunaBotao.innerHTML = `<input type="checkbox" class="custom-checkbox" id="checkbox1" onclick="guardarMedico(${id})">`;
+  return true;
+}
+
+
+function guardarMedico(id) {
+  idMedico = id
+}
+
+function limpatela() {
+  ps = document.querySelectorAll("#ps p")
+  for (let cont = 0; cont < ps.length; cont++) {
+    ps[cont].innerHTML = "";
+  }
+  return true
+}
 
 
 function verPerfilUser(id) {
@@ -1751,15 +1806,14 @@ function verPerfilUser(id) {
     })
     .then(data => {
       user = data.user;
-      document.getElementById("loadingSpinner").style.display = "none";
-      document.getElementById("visualizarPerfilModalLabel").innerHTML = "Perfil de " + user.nome;
+      // document.getElementById("loadingSpinner").style.display = "none";
       document.getElementById("imagemMeuPerfil").src = url + "/api/imagem/" + user.imagem
-      document.getElementById("MeuNome").innerHTML = "<strong>Nome: </strong>" + user.nome;
-      document.getElementById("MeuGenero").innerHTML = "<strong>Género: </strong>" + user.genero;
-      document.getElementById("MeuBi").innerHTML = "<strong>BI: </strong>" + user.bi;
-      document.getElementById("MeuEmail").innerHTML = "<strong>Email: </strong>" + user.email;
-      document.getElementById("MeuNascimento").innerHTML = "<strong>Data de Nascimento: </strong>" + user.data_nascimento;
-      document.getElementById("MeuTelefone").innerHTML = "<strong>Numero Telefonico: </strong>" + user.contacto.telefone_principal + "/" + user.telefone_alternativo;
+      document.getElementById("MeuNome").innerHTML = "Nome: " + user.nome;
+      document.getElementById("MeuGenero").innerHTML = "Gênero: " + user.genero;
+      document.getElementById("MeuBi").innerHTML = "BI: " + user.bi;
+      document.getElementById("MeuEmail").innerHTML = "Email: " + user.email;
+      document.getElementById("MeuNascimento").innerHTML = "Data de Nascimento: " + user.data_nascimento;
+      document.getElementById("MeuTelefone").innerHTML = "Contato: " + user.contacto.telefone_principal + "/" + user.telefone_alternativo;
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);

@@ -1,190 +1,196 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Administração Hospitalar</title>
-    <!-- Boxicons -->
-    <link
-      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="constumer.css" />
-    <!-- Meu CSS -->
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="perfil_hospital.css" />
-    <link rel="stylesheet" href="sugestoa.css">
-    <link rel="stylesheet" href="meuPerfil.css">
-    <link rel="stylesheet" href="modal.css" />
-    <link rel="stylesheet" href="modalSalvo.css">
-    <link rel="stylesheet" href="perfilMedico.css">
-    <style>
-      /* Adicione estilos específicos do hospital aqui */
-    </style>
-  </head>
-  <body style="position: relative;">
-    <!-- BARRA LATERAL -->
-    <section id="sidebar">
-      <a href="instituicao.html" class="brand">
-        <i class="bx bxs-hospital"></i>
-        <span class="text">Hospital</span>
-      </a>
-      <ul class="side-menu top">
-        <li>
-            <a href="agendamento.html">
-                <i class='bx bxs-calendar'></i>
-                <span class="text">Marcaçoes</span>
-            </a>
-        </li>
-            <li>
-            <a href="escala.html">
-                <i class='bx bxs-dollar-circle'></i>
-                <span class="text">Escala</span>
-            </a>
-        </li>
-        <li>
-            <a href="medico.html">
-                <i class='bx bxs-dollar-circle'></i>
-                <span class="text">Médicos</span>
-            </a>
-        </li>
-        <li>
-          <a href="expecialidade.html">
-            <i class='bx bxs-dollar-circle'></i>
-            <span class="text">Especialidade</span>
-          </a>
-        </li>
-        <li>
-            <a href="exame.html">
-                <i class='bx bxs-dollar-circle'></i>
-                <span class="text">Exame</span>
-            </a>
-        </li>
-        <li>
-            <a href="consulta.html">
-                <i class='bx bxs-user'></i>
-                <span class="text">Consulta</span>
-            </a>
-        </li>
-    </ul>
-      <ul class="side-menu">
-        <li  class="active">
-            <a href="meuPerfil.html">
-              <i class="bx bxs-cog"></i>
-              <span class="text">Meu Perfil</span>
-            </a>
-          </li>
-        <li>
-          <a href="#">
-            <i class="bx bxs-cog"></i>
-            <span class="text">Configurações</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="logout">
-            <i class="bx bxs-log-out-circle"></i>
-            <span class="text">Sair</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-    <!-- BARRA LATERAL -->
 
-    <!-- CONTEÚDO -->
-    <section id="content">
-      <!-- BARRA DE NAVEGAÇÃO -->
-      <nav>
-        <i class="bx bx-menu"></i>
-        <a href="#" class="nav-link">Instituições</a>
-        <form action="#">
-          <div class="form-input">
-            <input type="search" placeholder="Pesquisar..." />
-            <button type="submit" class="search-btn">
-              <i class="bx bx-search"></i>
-            </button>
-          </div>
-        </form>
-        <a href="#" class="profile">
-          <img src="img/people.png" alt="Perfil" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administração Hospitalar</title>
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="constumer.css" />
+  <!-- Meu CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="perfil_hospital.css" />
+  <link rel="stylesheet" href="sugestoa.css">
+  <link rel="stylesheet" href="meuPerfil.css">
+  <link rel="stylesheet" href="modal.css" />
+  <link rel="stylesheet" href="modalSalvo.css">
+  <link rel="stylesheet" href="perfilMedico.css">
+  <style>
+    /* Adicione estilos específicos do hospital aqui */
+  </style>
+</head>
+
+<body style="position: relative;">
+  <!-- BARRA LATERAL -->
+  <section id="sidebar">
+    <a href="instituicao.html" class="brand">
+      <i class="bx bxs-hospital"></i>
+      <span class="text">Hospital</span>
+    </a>
+    <ul class="side-menu top">
+      <li>
+        <a href="agendamento.html">
+          <i class='bx bxs-calendar'></i>
+          <span class="text">Marcaçoes</span>
         </a>
-      </nav>
-      <!-- BARRA DE NAVEGAÇÃO -->
+      </li>
+      <li>
+        <a href="escala.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Escala</span>
+        </a>
+      </li>
+      <li>
+        <a href="medico.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Médicos</span>
+        </a>
+      </li>
+      <li>
+        <a href="expecialidade.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Especialidade</span>
+        </a>
+      </li>
+      <li>
+        <a href="medicamentos.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Medicamentos</span>
+        </a>
+      </li>
+      <li>
+        <a href="exame.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Exame</span>
+        </a>
+      </li>
+      <li>
+        <a href="consulta.html">
+          <i class='bx bxs-user'></i>
+          <span class="text">Consulta</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="side-menu">
+      <li class="active">
+        <a href="meuPerfil.html">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Meu Perfil</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Configurações</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="logout">
+          <i class="bx bxs-log-out-circle"></i>
+          <span class="text">Sair</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <!-- BARRA LATERAL -->
 
-      <!-- PRINCIPAL -->
-      <main class="sugestaomin">
-        <div class="form">
-          <div class="header">
-              <h2>Editar Perfil</h2>
-          </div>
-          <div class="body">
-         
-  
-              <div class="steps">
-                <div class="step">
-                  <div class="carrgarImagem">
-                      <div class="image">
-                           <img src="../assets/images/departamento_1-removebg-preview.png" alt="" id="imagemExibida">
-                      </div>
-                      <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()" class="exibir">
-                       <label for="inputFile" class="lb_imagem btn">Buscar Imagem</label>
-                  </div>
-              
-               </div>
-                  <div class="step">
-                      <h2></h2>
-                      <div class="grid">
-                          <div class="col">
-                              <label for="nome">Nome da Instituição</label>
-                              <input type="text" id="nome" placeholder="Nome da Instituição*">
-                          </div>
-                          <div class="col">
-                              <label for="bi">Email</label>
-                              <input type="email" id="email" placeholder="Email*">
-                          </div>
-                          <div class="col">
-                            <label for="bi">Telefone</label>
-                            <input type="tel" id="Telefone" placeholder="Telefone*">
-                        </div>
-                          <div class="col">
-                              <label for="municipios">Especialidade</label>
-                              <select id="monicipio"   class="selectCategoria">
-                                  <option value="">Selecione...</option>
-                                </select>
-                          </div>
-                          <div class="col">
-                              <button class="btn">Editar</button>
-                          </div>
-                      </div>
-                  </div>
-                              
+  <!-- CONTEÚDO -->
+  <section id="content">
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav>
+      <i class="bx bx-menu"></i>
+      <a href="#" class="nav-link">Instituições</a>
+      <form action="#">
+        <div class="form-input">
+          <input type="search" placeholder="Pesquisar..." />
+          <button type="submit" class="search-btn">
+            <i class="bx bx-search"></i>
+          </button>
+        </div>
+      </form>
+      <a href="#" class="profile">
+        <img src="img/people.png" alt="Perfil" />
+      </a>
+    </nav>
+    <!-- BARRA DE NAVEGAÇÃO -->
+
+    <!-- PRINCIPAL -->
+    <main class="sugestaomin">
+      <div class="form">
+        <div class="header">
+          <h2>Editar Perfil</h2>
+        </div>
+        <div class="body">
+
+
+          <div class="steps">
+            <div class="step">
+              <div class="carrgarImagem">
+                <div class="image">
+                  <img src="../assets/images/departamento_1-removebg-preview.png" alt="" id="imagemExibida">
+                </div>
+                <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()" class="exibir">
+                <label for="inputFile" class="lb_imagem btn">Buscar Imagem</label>
               </div>
+
+            </div>
+            <div class="step">
+              <h2></h2>
+              <div class="grid">
+                <div class="col">
+                  <label for="nome">Nome da Instituição</label>
+                  <input type="text" id="nome" placeholder="Nome da Instituição*">
+                </div>
+                <div class="col">
+                  <label for="bi">Email</label>
+                  <input type="email" id="email" placeholder="Email*">
+                </div>
+                <div class="col">
+                  <label for="bi">Telefone</label>
+                  <input type="tel" id="Telefone" placeholder="Telefone*">
+                </div>
+                <div class="col">
+                  <label for="municipios">Especialidade</label>
+                  <select id="monicipio" class="selectCategoria">
+                    <option value="">Selecione...</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <button class="btn">Editar</button>
+                </div>
+              </div>
+            </div>
+
           </div>
-          
+        </div>
+
       </div>
 
-      </main>
-     
-     
+    </main>
+
+
     <!-- CONTEÚDO -->
 
 
     <div class="modal-container">
-        <div class="modal">
-          <h2>Info</h2>
-          <hr />
-          <span>
-            Lorem Ipsum is simply dummy
-          </span>
-          <hr />
-          <div class="btns">
-            <button class="btnOK" onclick="closeModalSalvo()">OK</button>
-          </div>
+      <div class="modal">
+        <h2>Info</h2>
+        <hr />
+        <span>
+          Lorem Ipsum is simply dummy
+        </span>
+        <hr />
+        <div class="btns">
+          <button class="btnOK" onclick="closeModalSalvo()">OK</button>
         </div>
       </div>
+    </div>
 
     <script src="script.js"></script>
     <script src="modal.js"></script>
     <script src="../assets/js/imgem.js"></script>
     <script src="modalSalvo.js"></script>
-  </body>
+</body>
+
 </html>
