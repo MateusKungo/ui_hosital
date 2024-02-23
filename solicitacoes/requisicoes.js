@@ -1500,7 +1500,8 @@ function ListarMinhaAgenda(servico, especialidade, data, hora, clinico, hospital
     spanStatus.textContent = "atendido";
   }
 
-  spanStatus.className = "status completed"; // Adicione a classe "status" e "completed"
+ 
+  //spanStatus.className = "status completed"; // Adicione a classe "status" e "completed"
   tdStatus.appendChild(spanStatus);
 
   // Adicione os elementos td à linha tr
@@ -1787,7 +1788,7 @@ function aprovarMarcacao(idMarcacao, idMedico) {
     idUser = user.user[0].id;
     token = user.token
 
-    fetch(url + " /api/marcacao_user/confirmarMarcacao/" + idMarcacao + "/" + idMedico, {
+    fetch(url + "/api/marcacao_user/confirmarMarcacao/" + idMarcacao + "/" + idMedico, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
