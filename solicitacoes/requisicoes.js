@@ -194,9 +194,6 @@ function getAllEspecialidade() {
 }
 
 
-
-
-
 //usei
 function criarMeusMedicos(imagem, nome, email, especialidade, contacto) {
   var row = document.createElement("tr");
@@ -1682,9 +1679,9 @@ function criarMarcacoes() {
       retorno = data.marcacoes;
       for (cont = 0; cont < retorno.length; cont++) {
         if (retorno[cont].tipo_servico == "consulta") {
-          listarMarcacoes(data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].consulta.nome, retorno[cont].consulta.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
+          listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].consulta.nome, retorno[cont].consulta.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
         } else {
-          listarMarcacoes(data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].exame.nome, retorno[cont].exame.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
+          listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].exame.nome, retorno[cont].exame.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
         }
 
       }
@@ -1696,7 +1693,7 @@ function criarMarcacoes() {
 
 }
 
-function listarMarcacoes(escalas, imagemUtente, pclinico, descricao, nome, tipo, data, estado, preco, servico, hora, userName, id) {
+function listarMarcacoes(id, escalas, imagemUtente, pclinico, descricao, nome, tipo, data, estado, preco, servico, hora, userName, id) {
   // Criação dos elementos
   var tr = document.createElement("tr");
   var td1 = document.createElement("td");
@@ -1739,6 +1736,7 @@ function listarMarcacoes(escalas, imagemUtente, pclinico, descricao, nome, tipo,
     document.getElementById("descricao").innerHTML = "Descrição: " + descricao;
     document.getElementById("servico").innerHTML = "Tipo: " + tipo;
     if (pclinico != null) {
+      idMedico = pclinico.id
       document.getElementById("medicoAtender").style.display = "block"
       document.getElementById("nomeMedico").innerHTML = "Nome do Médico: " + pclinico.user.nome;
       document.getElementById("especialidade").innerHTML = "Especialidade: " + pclinico.especialidade.nome;
@@ -1746,7 +1744,12 @@ function listarMarcacoes(escalas, imagemUtente, pclinico, descricao, nome, tipo,
       document.getElementById("medicos").style.display = "block"
       document.getElementById("medicoAtender").style.display = "none"
     }
+
     $("#myModal").modal("show");
+
+    document.getElementById("aprovar").addEventListener("click", function () {
+      aprovarMarcacao(id, idMedico)
+    })
   });
 
   //document.getElementById("loadingSpinner").style.display = "block";
@@ -1777,6 +1780,38 @@ function adicionarMedicoNaMarcacao(id, nome, especialidade, contacto, imagemSrc)
   return true;
 }
 
+
+function aprovarMarcacao(idMarcacao, idMedico) {
+  if (idMedico != null) {
+    user = JSON.parse(localStorage.getItem("user"))
+    idUser = user.user[0].id;
+    token = user.token
+
+    fetch(url + " /api/marcacao_user/confirmarMarcacao/" + idMarcacao + "/" + idMedico, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "69420"
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erro na resposta da API: status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data)
+      })
+      .catch(error => {
+
+        console.error('Erro na solicitação:', error.message);
+      });
+  }else{
+    alert("medico nao selecionado")
+  }
+
+}
 
 function guardarMedico(id) {
   idMedico = id
