@@ -997,7 +997,7 @@ function fazerLogin() {
       if (user.user[0].categoria == "Utente") {
         document.location.href = "admin/instituicao.html"
       } else if (user.user[0].categoria == "pessoalclinico") {
-        document.location.href = "pessoalClinico/agendamento.html"
+        document.location.href = "pessoalClinico/pessoalClinico.html"
       } else {
         document.location.href = "adminInstituicao/agendamento.html"
       }
