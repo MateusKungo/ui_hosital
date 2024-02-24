@@ -1,143 +1,152 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administração Hospitalar</title>
-    <!-- Boxicons -->
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="constumer.css">
-    <!-- Meu CSS -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="modal.css">
-    <link rel="stylesheet" href="agenda.css">
-    <style>
-        /* Adicione estilos específicos do hospital aqui */
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração Hospitalar</title>
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="constumer.css">
+  <!-- Meu CSS -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="modal.css">
+  <link rel="stylesheet" href="agenda.css">
+  <style>
+    /* Adicione estilos específicos do hospital aqui */
+  </style>
 </head>
+
 <body>
-    <!-- BARRA LATERAL -->
-    <section id="sidebar">
-        <a href="pessoalClinico.html" class="brand">
-            <i class="bx bxs-hospital"></i>
-            <span class="text">Hospital</span>
-          </a>
-          <ul class="side-menu top">
-            <li>
-                <a href="agendamento.html">
-                    <i class='bx bxs-calendar'></i>
-                    <span class="text">Minhas Marcaçoes</span>
-                </a>
-            </li>
+  <!-- BARRA LATERAL -->
+  <section id="sidebar">
+    <a href="pessoalClinico.html" class="brand">
+      <i class="bx bxs-hospital"></i>
+      <span class="text">Pessoal Clinico</span>
+    </a>
+    <ul class="side-menu top">
       <li>
-                <a href="rcu_page.html">
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">RCU</span>
-                </a>
-            </li>
-            <li class="active">
-                <a href="diagnostico.html">
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">Diagnostico</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="side-menu">
-            <li>
-                <a href="meuPerfil.html">
-                  <i class="bx bxs-cog"></i>
-                  <span class="text">Meu Perfil</span>
-                </a>
-              </li>
-            <li>
-              <a href="#">
-                <i class="bx bxs-cog"></i>
-                <span class="text">Configurações</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="logout">
-                <i class="bx bxs-log-out-circle"></i>
-                <span class="text">Sair</span>
-              </a>
-            </li>
-          </ul>
-    </section>
-    <!-- BARRA LATERAL -->
+        <a href="agendamento.html">
+          <i class='bx bxs-calendar'></i>
+          <span class="text">Marcaçoes de pacientes</span>
+        </a>
+      </li>
+      <li >
+        <a href="minhaEscala.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Minhas Escala</span>
+        </a>
+      </li>
+      <li>
+        <a href="rcu_page.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">RCU</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="diagnostico.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Diagnostico</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="side-menu">
+      <li>
+        <a href="meuPerfil.html">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Meu Perfil</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Configurações</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="logout">
+          <i class="bx bxs-log-out-circle"></i>
+          <span class="text">Sair</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <!-- BARRA LATERAL -->
 
-    <!-- CONTEÚDO -->
-    <section id="content">
-        <!-- BARRA DE NAVEGAÇÃO -->
-        <nav>
-            <i class="bx bx-menu"></i>
-            <a href="#" class="nav-link">Instituições</a>
-            <form action="#">
-              <div class="form-input">
-                <input type="search" placeholder="Pesquisar..." />
-                <button type="submit" class="search-btn">
-                  <i class="bx bx-search"></i>
-                </button>
-              </div>
-            </form>
-            <a href="#" class="profile">
-              <img src="img/people.png" alt="Perfil" />
-            </a>
-          </nav>
-        <!-- BARRA DE NAVEGAÇÃO -->
-
-        <!-- PRINCIPAL -->
-        <main class="agendaBody">
-         
-          <div class="table-data">
-            <div class="order">
-                <div class="head">
-                    <h3>Diagnostico</h3>
-                    <i class='bx bx-search'></i>
-                    <i class='bx bx-filter'></i>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Paciente</th>
-                            <th>Data & Hora</th>
-                            <th>Fazer</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="img/people.png" alt="Paciente">
-                                <p>João Silva</p>
-                            </td>
-                            <td>01-10-2021 09:00</td>
-                            <td><button class="btn" onclick="openPopup('Fazer Diagnostico','')">Diagnostico</button></td>
-                            <td><span class="status completed">Concluído</span></td>
-                        </tr>
-                        <!-- Outras linhas de agendamento aqui -->
-                    </tbody>
-                </table>
-            </div>
+  <!-- CONTEÚDO -->
+  <section id="content">
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav>
+      <i class="bx bx-menu"></i>
+      <a href="#" class="nav-link">Instituições</a>
+      <form action="#">
+        <div class="form-input">
+          <input type="search" placeholder="Pesquisar..." />
+          <button type="submit" class="search-btn">
+            <i class="bx bx-search"></i>
+          </button>
         </div>
-                
-        </main>
-        <!-- PRINCIPAL -->
-        
-    </section>
-    <!-- CONTEÚDO -->
-    <div class="popup" id="popup">
-      <img src="img/logo.webp" alt="" />
-      <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
-      <select name="" id="" class="comosente">
-        <option value="">Estomatologia...</option>
-      </select>
-      <h3>Como você está se sentindo?</h3>
-      <textarea name="" id="" cols="30" rows="10" class="descrever">
+      </form>
+      <a href="#" class="profile">
+        <img src="img/people.png" alt="Perfil" />
+      </a>
+    </nav>
+    <!-- BARRA DE NAVEGAÇÃO -->
+
+    <!-- PRINCIPAL -->
+    <main class="agendaBody">
+
+      <div class="table-data">
+        <div class="order">
+          <div class="head">
+            <h3>Diagnostico</h3>
+            <i class='bx bx-search'></i>
+            <i class='bx bx-filter'></i>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Data & Hora</th>
+                <th>Fazer</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <img src="img/people.png" alt="Paciente">
+                  <p>João Silva</p>
+                </td>
+                <td>01-10-2021 09:00</td>
+                <td><button class="btn" onclick="openPopup('Fazer Diagnostico','')">Diagnostico</button></td>
+                <td><span class="status completed">Concluído</span></td>
+              </tr>
+              <!-- Outras linhas de agendamento aqui -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+    <!-- PRINCIPAL -->
+
+  </section>
+  <!-- CONTEÚDO -->
+  <div class="popup" id="popup">
+    <img src="img/logo.webp" alt="" />
+    <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
+    <select name="" id="" class="comosente">
+      <option value="">Estomatologia...</option>
+    </select>
+    <h3>Como você está se sentindo?</h3>
+    <textarea name="" id="" cols="30" rows="10" class="descrever">
       </textarea>
-      <h2 id="valorConsulta"><span></span></h2>
-      <button onclick="closePopup()">ok</button>
-    </div>
-    <script src="script.js"></script>
-    <script src="modal.js"></script>
+    <h2 id="valorConsulta"><span></span></h2>
+    <button onclick="closePopup()">ok</button>
+  </div>
+  <script src="script.js"></script>
+  <script src="modal.js"></script>
 </body>
+
 </html>

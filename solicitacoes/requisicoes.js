@@ -811,6 +811,94 @@ function pegarMeuHistorico() {
 
 }
 
+function pegarMarcacoesParaUmMedico() {
+  user = JSON.parse(localStorage.getItem("user"));
+  id = user.user[0].pclinico.id
+  fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.marcacoes_users;
+      try {
+        if (retorno.length > 0) {
+          for (cont = 0; cont < retorno.length; cont++) {
+            if (retorno[cont].tipo_servico=="consulta") {
+              pegarMarcacoesMedicoElistar(retorno[cont].user.imagem, retorno[cont].user.nome,retorno[cont].consulta.nome+" "+retorno[cont].consulta.nome,retorno[cont].tipo_servico,retorno[cont].descricao,retorno[cont].data_escolhida+" "+retorno[cont].hora_escolhida)
+            } else {
+              pegarMarcacoesMedicoElistar(retorno[cont].user.imagem, retorno[cont].user.nome,retorno[cont].exame.nome,retorno[cont].tipo_servico,retorno[cont].descricao,retorno[cont].data_escolhida+" "+retorno[cont].hora_escolhida)
+            }
+
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
+function pegarMarcacoesMedicoElistar(imagem, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
+  // Criação do elemento <tr>
+  var tr = document.createElement("tr");
+
+  // Criação do elemento <td> para a imagem
+  var tdImg = document.createElement("td");
+
+  // Criação da imagem e atribuição dos atributos src e alt
+  var img = document.createElement("img");
+  img.src = url+"/api/imagem/"+imagem;
+  img.alt = "Paciente";
+
+  // Criação do parágrafo para o nome do paciente
+  var namePara = document.createElement("p");
+  namePara.textContent = nomePaciente;
+
+  // Adiciona a imagem e o parágrafo ao <td>
+  tdImg.appendChild(img);
+  tdImg.appendChild(namePara);
+
+  // Adiciona o <td> à <tr>
+  tr.appendChild(tdImg);
+
+  // Criação do segundo <td> para o tipo sanguíneo
+  var tdBloodType = document.createElement("td");
+  var bloodTypePara = document.createElement("p");
+  bloodTypePara.textContent = nomeServico;
+  tdBloodType.appendChild(bloodTypePara);
+  tr.appendChild(tdBloodType);
+
+  // Criação do terceiro <td> para o tipo de exame
+  var tdExam = document.createElement("td");
+  var examPara = document.createElement("p");
+  examPara.textContent = tipoServico;
+  tdExam.appendChild(examPara);
+  tr.appendChild(tdExam);
+
+
+  var descricaoTd = document.createElement("td");
+  descricaoTd.textContent = descricao;
+  tr.appendChild(descricaoTd);
+  // Criação do quarto <td> para a data e hora
+  var tdDateTime = document.createElement("td");
+  tdDateTime.textContent = dataHora;
+  tr.appendChild(tdDateTime);
+
+  // Adiciona a <tr> à tabela
+  document.querySelector("#paiMarcaoes").appendChild(tr);
+
+}
 
 //usei
 function fazerLogin() {
@@ -848,6 +936,8 @@ function fazerLogin() {
       $('#loadingModal').modal('hide');
       if (user.user[0].categoria == "Utente") {
         document.location.href = "admin/instituicao.html"
+      } else if (user.user[0].categoria == "pessoalclinico") {
+        document.location.href = "pessoalClinico/agendamento.html"
       } else {
         document.location.href = "adminInstituicao/agendamento.html"
       }
@@ -1500,7 +1590,7 @@ function ListarMinhaAgenda(servico, especialidade, data, hora, clinico, hospital
     spanStatus.textContent = "atendido";
   }
 
- 
+
   //spanStatus.className = "status completed"; // Adicione a classe "status" e "completed"
   tdStatus.appendChild(spanStatus);
 
@@ -1808,7 +1898,7 @@ function aprovarMarcacao(idMarcacao, idMedico) {
 
         console.error('Erro na solicitação:', error.message);
       });
-  }else{
+  } else {
     alert("medico nao selecionado")
   }
 
