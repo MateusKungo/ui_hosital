@@ -849,7 +849,99 @@ function pegarMarcacoesParaUmMedico() {
 
 }
 
-function listarMinhasAgenda(dataStart,dataFim,horaInicio,HoraFim) {
+function pegarMarcacoesParaUmMedicoDiagnosticar() {
+  user = JSON.parse(localStorage.getItem("user"));
+  id = user.user[0].pclinico.id
+  fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.marcacoes_users;
+      try {
+        if (retorno.length > 0) {
+          for (cont = 0; cont < retorno.length; cont++) {
+            if (retorno[cont].tipo_servico == "exame") {
+              pegarMarcacoesMedicoElistarParaDiagnosticar(retorno[cont].user.imagem, retorno[cont].user.nome, retorno[cont].exame.nome, retorno[cont].tipo_servico, retorno[cont].descricao, retorno[cont].data_escolhida + " " + retorno[cont].hora_escolhida)
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
+function pegarMarcacoesMedicoElistarParaDiagnosticar(imagem, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
+  // Criação do elemento <tr>
+  var tr = document.createElement("tr");
+
+  // Criação do elemento <td> para a imagem
+  var tdImg = document.createElement("td");
+
+  // Criação da imagem e atribuição dos atributos src e alt
+  var img = document.createElement("img");
+  img.src = url + "/api/imagem/" + imagem;
+  img.alt = "Paciente";
+
+  // Criação do parágrafo para o nome do paciente
+  var namePara = document.createElement("p");
+  namePara.textContent = nomePaciente;
+
+  // Adiciona a imagem e o parágrafo ao <td>
+  tdImg.appendChild(img);
+  tdImg.appendChild(namePara);
+
+  // Adiciona o <td> à <tr>
+  tr.appendChild(tdImg);
+
+  // Criação do segundo <td> para o tipo sanguíneo
+  var tdBloodType = document.createElement("td");
+  var bloodTypePara = document.createElement("p");
+  bloodTypePara.textContent = nomeServico;
+  tdBloodType.appendChild(bloodTypePara);
+  tr.appendChild(tdBloodType);
+
+  // Criação do terceiro <td> para o tipo de exame
+  var tdExam = document.createElement("td");
+  var examPara = document.createElement("p");
+  examPara.textContent = tipoServico;
+  tdExam.appendChild(examPara);
+  tr.appendChild(tdExam);
+
+
+  var descricaoTd = document.createElement("td");
+  descricaoTd.textContent = descricao;
+  tr.appendChild(descricaoTd);
+  // Criação do quarto <td> para a data e hora
+  var tdDateTime = document.createElement("td");
+  tdDateTime.textContent = dataHora;
+  tr.appendChild(tdDateTime);
+  var button = document.createElement("button");
+  button.textContent = "Diagnosticar";
+  button.className = "btn btn-primary";
+  tr.appendChild(button)
+
+  // Adiciona a <tr> à tabela
+  document.querySelector("#paiDiagnosticar").appendChild(tr);
+
+}
+
+
+
+function listarMinhasAgenda(dataStart, dataFim, horaInicio, HoraFim) {
   var novaLinha = document.createElement("tr");
 
   // Adicione as células à linha
@@ -893,7 +985,7 @@ function pegarMinhasAgendas() {
       try {
         if (retorno.length > 0) {
           for (cont = 0; cont < retorno.length; cont++) {
-              listarMinhasAgenda(retorno[cont].data_inicio,retorno[cont].data_fim,retorno[cont].hora_inicio,retorno[cont].hora_fim)
+            listarMinhasAgenda(retorno[cont].data_inicio, retorno[cont].data_fim, retorno[cont].hora_inicio, retorno[cont].hora_fim)
           }
         }
       } catch (error) {
@@ -959,6 +1051,65 @@ function pegarMarcacoesMedicoElistar(imagem, nomePaciente, nomeServico, tipoServ
 
 }
 
+
+function pegarHistoricosDosMeusPacientes() {
+  user = JSON.parse(localStorage.getItem("user"));
+  id = user.user[0].pclinico.id
+  fetch(url + "/api/rcu/pegarRcuUtentesAtendidosPeloMedico/" + id, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.rcus;
+      try {
+        if (retorno.length > 0) {
+          for (cont = 0; cont < retorno.length; cont++) {
+            historicosDePacienteAtendidos(retorno[cont].user.nome, retorno[cont].grupo_sanguineo, retorno[cont].user.contacto.telefone_principal)
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+}
+
+function historicosDePacienteAtendidos(nomePaciente, tipoSanguineo, telefone, nomeDoenca, tipoDoenca, resultado) {
+  var tabela = document.getElementById("tabela").getElementsByTagName('tbody')[0];
+  var novaLinha = tabela.insertRow(tabela.rows.length);
+  var celula1 = novaLinha.insertCell(0);
+  var celula2 = novaLinha.insertCell(2);
+  var celula3 = novaLinha.insertCell(1);
+  var celula4 = novaLinha.insertCell(3);
+  var celula5 = novaLinha.insertCell(4);
+  var celula6 = novaLinha.insertCell(5);
+  var celula7 = novaLinha.insertCell(6);
+
+  celula1.innerHTML = nomePaciente;
+  celula2.innerHTML = tipoSanguineo;
+  celula3.innerHTML = telefone;
+  celula4.innerHTML = nomeDoenca;
+  celula5.innerHTML = tipoDoenca;
+  celula6.innerHTML = resultado;
+
+  var botao = document.createElement("button");
+  botao.innerHTML = "Ver Receita";
+  botao.onclick = function () {
+    // Ação ao clicar no botão (por exemplo, abrir a receita)
+    console.log("Ver receita de " + nomePaciente);
+  };
+  celula7.appendChild(botao);
+}
 
 //usei
 function fazerLogin() {
@@ -1844,7 +1995,7 @@ function criarMarcacoes() {
 
 }
 
-function listarMarcacoes(id, escalas, imagemUtente, pclinico, descricao, nome, tipo, data, estado, preco, servico, hora, userName, id) {
+function listarMarcacoes(idMarcacao, escalas, imagemUtente, pclinico, descricao, nome, tipo, data, estado, preco, servico, hora, userName, id) {
   // Criação dos elementos
   var tr = document.createElement("tr");
   var td1 = document.createElement("td");
@@ -1865,6 +2016,7 @@ function listarMarcacoes(id, escalas, imagemUtente, pclinico, descricao, nome, t
   tdNome.textContent = nome
   td2.textContent = servico;
   td3.textContent = preco;
+
   button.textContent = "detalhes";
   button.className = "btn btn-primary";
 
@@ -1899,7 +2051,7 @@ function listarMarcacoes(id, escalas, imagemUtente, pclinico, descricao, nome, t
     $("#myModal").modal("show");
 
     document.getElementById("aprovar").addEventListener("click", function () {
-      aprovarMarcacao(id, idMedico)
+      aprovarMarcacao(idMarcacao, idMedico)
     })
   });
 
@@ -2166,4 +2318,38 @@ function agendarComMedico(idInstituicao, servico, nome, id, dataInicio, dataFim,
       ConsultaInstituicao(idInstituicao, id, dataInicio, horaInicio)
     }
   });
-} 
+}
+
+
+function pegarTodasAsDoencas() {
+  select = document.getElementById("doenca_id");
+  fetch(url + "/api/doenca/pegarTodas", {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.doencas;
+      option = document.createElement("option");
+      option.textContent = "Selecione";
+      select.appendChild(option);
+      for (cont = 0; cont < retorno.length; cont++) {
+        option = document.createElement("option");
+        option.setAttribute("value", retorno[cont].id);
+        option.textContent = retorno[cont].nome + "-" + retorno[cont].tipo;
+        select.appendChild(option);
+      }
+
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+}
+
