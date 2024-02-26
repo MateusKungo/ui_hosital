@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="perfil_hospital.css" />
   <link rel="stylesheet" href="modal.css" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
     /* Adicione estilos específicos do hospital aqui */
   </style>
@@ -25,7 +27,7 @@
       <span class="text">Pessoal Clinico</span>
     </a>
     <ul class="side-menu top">
-      <li >
+      <li>
         <a href="agendamento.html">
           <i class='bx bxs-calendar'></i>
           <span class="text">Marcaçoes de pacientes</span>
@@ -43,7 +45,7 @@
           <span class="text">Diagnostico</span>
         </a>
       </li>
-      <li class="active"> 
+      <li class="active">
         <a href="rcu_page.html">
           <i class='bx bxs-dollar-circle'></i>
           <span class="text">Serviços Atendido</span>
@@ -107,39 +109,102 @@
               <tr>
                 <th>Nome do Paciente</th>
                 <th>Telefone</th>
-                <th>Tipo Sanguino</th>
-                <th>Nome da Doença</th>
-                <th>Tipo Da Doença</th>
-                <th>Resultado</th>
-                <th>ver receita</th>
+                <th>Ver historico</th>
               </tr>
             </thead>
             <tbody>
-            
-              <!-- Outras linhas de agendamento aqui -->
+
+
             </tbody>
           </table>
         </div>
       </div>
     </main>
-    <!-- PRINCIPAL -->
-    <div class="popup" id="popup">
-      <img src="img/logo.webp" alt="" />
-      <h2 class="h2_title">Selecione o Tipo de Consulta:</h2>
-      <select name="" id="" class="comosente">
-        <option value="">Estomatologia...</option>
-      </select>
-      <h3>Como você está se sentindo?</h3>
-      <textarea name="" id="" cols="30" rows="10" class="descrever">
-        </textarea>
-      <h2 id="valorConsulta"><span></span></h2>
-      <button onclick="closePopup()">ok</button>
+
+
+
+    <div class="modal fade" id="receitaModal" tabindex="-1" aria-labelledby="receitaModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <!-- Adicionado modal-dialog-centered e modal-lg aqui -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="receitaModalLabel">Receitas</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Medicamento</th>
+                  <th>Quantidade</th>
+                  <th>Número de vezes ao dia</th>
+                  <th>Horas</th>
+                </tr>
+              </thead>
+              <tbody id="receitaContent">
+                <!-- Aqui serão adicionadas as linhas das receitas -->
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- CONTEÚDO -->
+
+    <div class="modal fade" id="modalMeHistorico" tabindex="-1" aria-labelledby="receitaModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <!-- Adicionado modal-dialog-centered e modal-lg aqui -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="receitaModalLabel">Receitas</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table id="myTable" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Data & Hora</th>
+                  <th>Nome da doença</th>
+                  <th>Tipo de doença</th>
+                  <th>Estado</th>
+                  <th>Resultado</th>
+                  <th>Hospital</th>
+                  <th>Medico</th>
+                  <th>Ver receita</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Seus dados da tabela aqui -->
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
     <script src="script.js"></script>
     <script src="modal.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../solicitacoes/requisicoes.js"></script>
+    <script>
+      pegarHistoricosDosMeusPacientes();
+    </script>
+
 </body>
 
 </html>

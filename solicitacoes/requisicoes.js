@@ -736,7 +736,7 @@ function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, receita, resul
 function listarReceita(receita) {
   // Seleciona o elemento tbody onde as linhas serão adicionadas
   for (cont = 0; cont < receita.medicamentos.length; cont++) {
-    listarMedicosDaReceita(receita.medicamentos[cont].nome, receita.medicamentos[cont].quantidade, receita.medicamentos[cont].numero_vezes_dia, receita.medicamentos[cont].horas)
+    listarMedicosDaReceita(receita.medicamentos[cont].nome, receita.medicamentos[cont].pivot.quantidade, receita.medicamentos[cont].pivot.numero_vezes_dia, receita.medicamentos[cont].pivot.horas)
   }
   $("#receitaModal").modal("show")
 }
@@ -766,10 +766,8 @@ function listarMedicosDaReceita(nome, quantidade, numeroVezes, horas) {
 
 
 //usei
-function pegarMeuHistorico() {
-  user = JSON.parse(localStorage.getItem("user"));
-
-  fetch(url + "/api/user/pegarHistoricoUser/" + user.user[0].id, {
+function pegarMeuHistorico(idUser) {
+  fetch(url + "/api/user/pegarHistoricoUser/" + idUser, {
     method: 'GET',
     headers: {
       "ngrok-skip-browser-warning": "69420"
@@ -1068,11 +1066,11 @@ function pegarHistoricosDosMeusPacientes() {
       return response.json();
     })
     .then(data => {
-      retorno = data.rcus;
+      retorno = data.users;
       try {
         if (retorno.length > 0) {
           for (cont = 0; cont < retorno.length; cont++) {
-            historicosDePacienteAtendidos(retorno[cont].user.nome, retorno[cont].grupo_sanguineo, retorno[cont].user.contacto.telefone_principal)
+            historicosDePacienteAtendidos(retorno[cont].id,retorno[cont].nome, retorno[cont].contacto.telefone_principal)
           }
         }
       } catch (error) {
@@ -1084,31 +1082,21 @@ function pegarHistoricosDosMeusPacientes() {
     });
 }
 
-function historicosDePacienteAtendidos(nomePaciente, tipoSanguineo, telefone, nomeDoenca, tipoDoenca, resultado) {
+function historicosDePacienteAtendidos(idUser,nomePaciente, telefone) {
   var tabela = document.getElementById("tabela").getElementsByTagName('tbody')[0];
   var novaLinha = tabela.insertRow(tabela.rows.length);
   var celula1 = novaLinha.insertCell(0);
-  var celula2 = novaLinha.insertCell(2);
-  var celula3 = novaLinha.insertCell(1);
-  var celula4 = novaLinha.insertCell(3);
-  var celula5 = novaLinha.insertCell(4);
-  var celula6 = novaLinha.insertCell(5);
-  var celula7 = novaLinha.insertCell(6);
-
-  celula1.innerHTML = nomePaciente;
-  celula2.innerHTML = tipoSanguineo;
-  celula3.innerHTML = telefone;
-  celula4.innerHTML = nomeDoenca;
-  celula5.innerHTML = tipoDoenca;
-  celula6.innerHTML = resultado;
-
+  var celula2 = novaLinha.insertCell(1);
+  var celula3 = novaLinha.insertCell(2);
   var botao = document.createElement("button");
   botao.innerHTML = "Ver Receita";
+  celula1.innerHTML = nomePaciente;
+  celula2.innerHTML = telefone;
+  celula3.appendChild(botao);
   botao.onclick = function () {
     // Ação ao clicar no botão (por exemplo, abrir a receita)
     console.log("Ver receita de " + nomePaciente);
   };
-  celula7.appendChild(botao);
 }
 
 //usei
@@ -2320,9 +2308,10 @@ function agendarComMedico(idInstituicao, servico, nome, id, dataInicio, dataFim,
   });
 }
 
-
+//usei
 function pegarTodasAsDoencas() {
   select = document.getElementById("doenca_id");
+
   fetch(url + "/api/doenca/pegarTodas", {
     method: 'GET',
     headers: {
@@ -2346,6 +2335,39 @@ function pegarTodasAsDoencas() {
         option.textContent = retorno[cont].nome + "-" + retorno[cont].tipo;
         select.appendChild(option);
       }
+      pegarMedicamentos(1);
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+}
+
+//usei
+function pegarMedicamentos(numero) {
+  select = document.getElementById("medicamentoId" + numero);
+  fetch(url + "/api/medicamento/pegarTodosMedicamentos", {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.medicamentos;
+      option = document.createElement("option");
+      option.textContent = "Selecione";
+      select.appendChild(option);
+      for (cont = 0; cont < retorno.length; cont++) {
+        option = document.createElement("option");
+        option.setAttribute("value", retorno[cont].id);
+        option.textContent = retorno[cont].nome
+        select.appendChild(option);
+      }
 
     })
     .catch(error => {
@@ -2353,3 +2375,118 @@ function pegarTodasAsDoencas() {
     });
 }
 
+async function meuRCU(idUser) {
+  try {
+    const response = await fetch(url + "/api/rcu/pegarPorID_USER/" + idUser, {
+      method: 'GET',
+      headers: {
+        "ngrok-skip-browser-warning": "69420"
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`Erro na resposta da API: status ${response.status}`);
+    }
+    const data = await response.json();
+    const retorno = data.rcu;
+    return retorno.id;
+  } catch (error) {
+    console.error('Erro na solicitação:', error.message);
+    return 0;
+  }
+}
+
+
+
+async function criarDiagnostico(idUser) {
+  try {
+    user = JSON.parse(localStorage.getItem("user"));
+    idPessoalClinico = user.user[0].pclinico.id
+    token = user.token
+    const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
+
+    const idRCU = await meuRCU(idUser);
+    const data = new Date();
+    
+    var jsonData = {
+      nota:document.getElementById("nota").value,
+      pclinico_id: idPessoalClinico,
+      doenca_id: document.getElementById("doenca_id").value,
+      data: `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`,
+      descricao:document.getElementById("descricao").value
+    };
+    
+    if (idRCU !== 0) {
+      jsonData.rcu_id = idRCU;
+    }else{
+      jsonData.grupo_sanguineo=document.getElementById("grupo_sanguineo").value
+      jsonData.user_id=idUser;
+    }
+
+    jsonData.medicamentos=pegandoOsMedicamentosDoInPut();
+
+    console.log(jsonData)
+
+    const response = await fetch(url+"/api/diagnostico/criar", {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "69420",
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': tokenCSRF
+      },
+      body: JSON.stringify(jsonData)
+    });
+    if (!response.ok) {
+      throw new Error(`Erro na resposta da API: status ${response.status}`);
+    }
+    const responseData = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error('Erro na solicitação:', error.message);
+  }
+}
+
+//usei
+function pegandoOsMedicamentosDoInPut(){
+  medicamentosVector=[];
+  const camposNumeroVezesDia = document.querySelectorAll('[name="numeroVezesDia[]"]');
+  const camposmedicamentoId = document.querySelectorAll('[name="medicamentoId[]"]');
+  const camposquantidade = document.querySelectorAll('[name="quantidade[]"]');
+  const camposhoras = document.querySelectorAll('[name="horas[]"]');
+  for(cont=0;cont<camposNumeroVezesDia.length;cont++){
+    medicamentos={
+      id:camposmedicamentoId[cont].value,
+      quantidade:camposquantidade[cont].value,
+      numero_vezes_dia:camposNumeroVezesDia[cont].value,
+      horas: formatarHoras(camposhoras[cont].value)
+    }
+    medicamentosVector.push(medicamentos)
+  }
+
+
+  return medicamentosVector
+
+}
+
+
+//usei
+function formatarHoras(horasString) {
+  // Dividir a string em um vetor usando a vírgula como separador
+  const horasArray = horasString.split(',');
+
+  // Array para armazenar as horas formatadas
+  const horasFormatadas = [];
+
+  // Iterar sobre cada hora
+  horasArray.forEach(hora => {
+      // Adicionar '00' ao final da hora e formatar como hh:mm
+      const horaFormatada = hora.padStart(2, '0') + ':00';
+      // Adicionar a hora formatada ao array
+      horasFormatadas.push(horaFormatada);
+  });
+
+  // Juntar todas as horas formatadas com ', ' entre elas
+  const horasConcatenadas = horasFormatadas.join(', ');
+
+  return horasFormatadas;
+}

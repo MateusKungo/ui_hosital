@@ -1,165 +1,165 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registro de Diagnóstico de Utente André</title>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
-<style>
-  .medicamento-container {
-    margin-bottom: 20px;
-  }
-  .medicamento-container.hidden {
-    display: none;
-  }
-</style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Diagnóstico de Utente André</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+    <style>
+        .medicamento-container {
+            margin-bottom: 20px;
+        }
+
+        .medicamento-container.hidden {
+            display: none;
+        }
+ 
+    </style>
 </head>
+
 <body>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registroModal">
-  Abrir modal de registro
-</button>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registroModal">
+        Abrir modal de registro
+    </button>
 
-<!-- Modal -->
-<div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="registroModalLabel">Registro de Diagnóstico de Utente André</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-4">
-            <!-- Informações do diagnóstico -->
-            <h4>Informações do Diagnóstico:</h4>
-            <div class="form-group">
-              <label for="nota">Nota do diagnóstico:</label>
-              <input type="text" id="nota" name="nota" class="form-control">
+    <!-- Modal -->
+    <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registroModalLabel">Registro de Diagnóstico de Utente André</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- Informações do diagnóstico -->
+                            <h4>Informações do Diagnóstico:</h4>
+                            <div class="form-group">
+                                <label for="nota">Nota do diagnóstico:</label>
+                                <input type="text" id="nota" name="nota" class="form-control">
+                            </div>
+
+                            <div class="form-group" >
+                                <label for="doenca_id">Doença:</label>
+                                <select class="form-control select2" id="doenca_id" name="doenca_id" style="width: 100%;">
+                                
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="descricao">Descrição da Receita:</label>
+                                <textarea id="descricao" name="descricao" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Formulário de cadastro de medicamento -->
+                            <h4>Cadastro de Medicamento:</h4>
+                            <div id="medicamentosContainer">
+                                <div class="medicamento-container" >
+                                    <label for="medicamentoId1">Medicamento:</label><br>
+                                    <select class="form-control select2" id="medicamentoId1" name="medicamentoId[]" style="width: 100%;">
+                                        
+                                        <!-- Adicione mais opções conforme necessário -->
+                                    </select><br><br>
+
+                                    <label for="quantidade1">Quantidade:</label><br>
+                                    <input type="number" id="quantidade1" name="quantidade[]" class="form-control"><br>
+
+                                    <label for="numeroVezesDia1">Número de vezes ao dia:</label><br>
+                                    <input type="number" id="numeroVezesDia1" name="numeroVezesDia[]"
+                                        class="form-control"><br>
+
+                                    <label for="horas1">Horas(separe a hoera por virgulas):</label><br>
+                                    <input type="text" id="horas1" name="horas[]" class="form-control"
+                                        placeholder="6,13,22">
+                                </div>
+                            </div>
+                            <button type="button" id="adicionarMedicamento" class="btn btn-primary">Adicionar
+                                Medicamento</button>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Informações do RCU -->
+                            <h4>Registro Clínico do Utente (RCU):</h4>
+                            <div class="form-group">
+                                <label for="rcu_id">Grupo Sanguineo</label>
+                                <input type="text" id="grupo_sanguineo" name="grupo_sanguineo" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+
+        var medicamentoCount = 1;
+
+        document.getElementById('adicionarMedicamento').addEventListener('click', function () {
+            medicamentoCount++;
             
-            <div class="form-group">
-              <label for="data">Data:</label>
-              <input type="date" id="data" name="data" value="2024-02-25" class="form-control">
-            </div>
-            
-            <div class="form-group">
-              <label for="doenca_id">Doença:</label>
-              <select class="form-control select2" id="doenca_id" name="doenca_id">
-                <option value="1">Doença A</option>
-                <option value="2">Doença B</option>
-                <option value="3">Doença C</option>
-                <!-- Adicione mais opções conforme necessário -->
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="descricao">Descrição da Receita:</label>
-              <textarea id="descricao" name="descricao" class="form-control"></textarea>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <!-- Formulário de cadastro de medicamento -->
-            <h4>Cadastro de Medicamento:</h4>
-            <div id="medicamentosContainer">
-              <div class="medicamento-container">
-                <label for="medicamentoId1">Medicamento:</label><br>
-                <select class="form-control select2" id="medicamentoId1" name="medicamentoId[]">
-                  <option value="1">Medicamento A</option>
-                  <option value="2">Medicamento B</option>
-                  <option value="3">Medicamento C</option>
-                  <!-- Adicione mais opções conforme necessário -->
+            const container = document.getElementById('medicamentosContainer');
+            const lastMedicamento = container.querySelector('.medicamento-container:not(.hidden)');
+
+            const div = document.createElement('div');
+            div.classList.add('medicamento-container');
+
+            div.innerHTML = `
+                <label for="medicamentoId${medicamentoCount}">Medicamento:</label><br>
+                <select class="form-control select2" id="medicamentoId${medicamentoCount}" name="medicamentoId[]">
+                
                 </select><br><br>
 
-                <label for="quantidade1">Quantidade:</label><br>
-                <input type="number" id="quantidade1" name="quantidade[]" class="form-control"><br>
+                <label for="quantidade${medicamentoCount}">Quantidade:</label><br>
+                <input type="number" id="quantidade${medicamentoCount}" name="quantidade[]" class="form-control"><br>
 
-                <label for="numeroVezesDia1">Número de vezes ao dia:</label><br>
-                <input type="number" id="numeroVezesDia1" name="numeroVezesDia[]" class="form-control"><br>
+                <label for="numeroVezesDia${medicamentoCount}">Número de vezes ao dia:</label><br>
+                <input type="number" id="numeroVezesDia${medicamentoCount}" name="numeroVezesDia[]" class="form-control"><br>
 
-                <label for="horas1">Horas(separe a hoera por virgulas):</label><br>
-                <input type="text" id="horas1" name="horas[]" class="form-control" placeholder="6,13,22">
-              </div>
-            </div>
-            <button type="button" id="adicionarMedicamento" class="btn btn-primary">Adicionar Medicamento</button>
-          </div>
-          <div class="col-md-4">
-            <!-- Informações do RCU -->
-            <h4>Registro Clínico do Utente (RCU):</h4>
-            <div class="form-group">
-              <label for="rcu_id">ID do RCU:</label>
-              <input type="number" id="rcu_id" name="rcu_id" class="form-control">
-            </div>
-            
-            <div class="form-group">
-              <label for="pclinico_id">ID do Pclinico:</label>
-              <input type="number" id="pclinico_id" name="pclinico_id" class="form-control">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-      </div>
-    </div>
-  </div>
-</div>
+                <label for="horas${medicamentoCount}">Horas:</label><br>
+                <input type="text" id="horas${medicamentoCount}" name="horas[]" class="form-control">
+                `;
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+            container.appendChild(div);
 
 
-<script>
-  $(document).ready(function() {
-    $('.select2').select2();
-  });
+            if (lastMedicamento) {
+                lastMedicamento.classList.add('hidden');
+            }
 
-  let medicamentoCount = 1;
+            $('.select2').select2();
+            pegarMedicamentos(medicamentoCount)
+        });
+        
+    </script>
 
-  document.getElementById('adicionarMedicamento').addEventListener('click', function() {
-    medicamentoCount++;
-
-    const container = document.getElementById('medicamentosContainer');
-    const lastMedicamento = container.querySelector('.medicamento-container:not(.hidden)');
-
-    const div = document.createElement('div');
-    div.classList.add('medicamento-container');
-
-    div.innerHTML = `
-      <label for="medicamentoId${medicamentoCount}">Medicamento:</label><br>
-      <select class="form-control select2" id="medicamentoId${medicamentoCount}" name="medicamentoId[]">
-        <option value="1">Medicamento A</option>
-        <option value="2">Medicamento B</option>
-        <option value="3">Medicamento C</option>
-        <!-- Adicione mais opções conforme necessário -->
-      </select><br><br>
-
-      <label for="quantidade${medicamentoCount}">Quantidade:</label><br>
-      <input type="number" id="quantidade${medicamentoCount}" name="quantidade[]" class="form-control"><br>
-
-      <label for="numeroVezesDia${medicamentoCount}">Número de vezes ao dia:</label><br>
-      <input type="number" id="numeroVezesDia${medicamentoCount}" name="numeroVezesDia[]" class="form-control"><br>
-
-      <label for="horas${medicamentoCount}">Horas:</label><br>
-      <input type="text" id="horas${medicamentoCount}" name="horas[]" class="form-control">
-    `;
-
-    container.appendChild(div);
-
-    if (lastMedicamento) {
-      lastMedicamento.classList.add('hidden');
-    }
-
-    $('.select2').select2();
-  });
-</script>
+    <script src="./solicitacoes/requisicoes.js"></script>
+    <script>
+        pegarTodasAsDoencas();
+    </script>
 
 </body>
+
 </html>

@@ -198,8 +198,8 @@
     
     <script src="../solicitacoes/requisicoes.js"></script>
     <script>
-      pegarMeuHistorico();
-    
+      user = JSON.parse(localStorage.getItem("user"));
+      pegarMeuHistorico(user.user[0].id);
     </script>
 </body>
 
