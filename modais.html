@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modal de Salvo com Sucesso</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    /* Estilos para centralizar o modal */
+    .modal {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    /* Estilo personalizado para o ícone de sucesso */
+    .modal-success .modal-header {
+        border-bottom: none;
+    }
+    .modal-success .modal-title {
+        font-weight: bold;
+        color: #28a745;
+    }
+    .modal-success .modal-body {
+        color: #333;
+    }
+</style>
+</head>
+<body>
+
+<!-- Botão que aciona o modal -->
+<button type="button" class="btn btn-success" data-toggle="modal" onclick="alert('ola como vai')" data-target="#modalSucesso">
+  <i class="fas fa-check-circle"></i> Salvar com Sucesso
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-success">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSucessoLabel"><i class="fas fa-check-circle"></i> Salvo com Sucesso</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Seu item foi salvo com sucesso!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery e JavaScript do Bootstrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
