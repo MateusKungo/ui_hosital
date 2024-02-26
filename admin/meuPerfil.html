@@ -1,231 +1,233 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Administração Hospitalar</title>
-    <!-- Boxicons -->
-    <link
-      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="constumer.css" />
-    <!-- Meu CSS -->
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="perfil_hospital.css" />
-    <link rel="stylesheet" href="sugestoa.css">
-    <link rel="stylesheet" href="meuPerfil.css">
-    <link rel="stylesheet" href="modal.css" />
-    <link rel="stylesheet" href="modalSalvo.css">
-    <style>
-      /* Adicione estilos específicos do hospital aqui */
-    </style>
-  </head>
-  <body style="position: relative;" onload="minhaImagem()"> 
-    <!-- BARRA LATERAL -->
-    <section id="sidebar">
-      <a href="utente.html" class="brand">
-        <i class='bx bxs-hospital'></i>
-        <span class="text">Hospital</span>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administração Hospitalar</title>
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="constumer.css" />
+  <!-- Meu CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="perfil_hospital.css" />
+  <link rel="stylesheet" href="sugestoa.css">
+  <link rel="stylesheet" href="meuPerfil.css">
+  <link rel="stylesheet" href="modal.css" />
+  <link rel="stylesheet" href="modalSalvo.css">
+  <style>
+    /* Adicione estilos específicos do hospital aqui */
+  </style>
+</head>
+
+<body style="position: relative;" onload="minhaImagem()">
+  <!-- BARRA LATERAL -->
+  <section id="sidebar">
+    <a href="utente.html" class="brand">
+      <i class='bx bxs-hospital'></i>
+      <span class="text">Hospital</span>
     </a>
-      <ul class="side-menu top">
-        <li>
-            <a href="instituicao.html">
-                <i class='bx bxs-dashboard'></i>
-                <span class="text">Instituições</span>
-            </a>
-        </li>
-        <li>
-            <a href="agendamento.html">
-                <i class='bx bxs-calendar'></i>
-                <span class="text">Minhas Marcaçoes</span>
-            </a>
-        </li>
-        <li>
-            <a href="rcu_page.html">
-                <i class='bx bxs-dollar-circle'></i>
-                <span class="text">RCU</span>
-            </a>
-        </li>
-        <li>
-            <a href="historico.html">
-                <i class='bx bxs-dollar-circle'></i>
-                <span class="text">Histórico</span>
-            </a>
-        </li>
-    </ul>
-      <ul class="side-menu">
-        <li  class="active">
-            <a href="meuPerfil.html">
-              <i class="bx bxs-cog"></i>
-              <span class="text">Meu Perfil</span>
-            </a>
-          </li>
-        <li>
-          <a href="#">
-            <i class="bx bxs-cog"></i>
-            <span class="text">Configurações</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="logout">
-            <i class="bx bxs-log-out-circle"></i>
-            <span class="text">Sair</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-    <!-- BARRA LATERAL -->
-
-    <!-- CONTEÚDO -->
-    <section id="content">
-      <!-- BARRA DE NAVEGAÇÃO -->
-      <nav>
-        <i class="bx bx-menu"></i>
-        <a href="#" class="nav-link">Instituições</a>
-        <form action="#">
-          <div class="form-input">
-            <input type="search" placeholder="Pesquisar..." />
-            <button type="submit" class="search-btn">
-              <i class="bx bx-search"></i>
-            </button>
-          </div>
-        </form>
-        <a href="#" class="profile">
-          <img id="minhaImagem" alt="Perfil" />
+    <ul class="side-menu top">
+      <li>
+        <a href="instituicao.html">
+          <i class='bx bxs-dashboard'></i>
+          <span class="text">Instituições</span>
         </a>
-      </nav>
-      <!-- BARRA DE NAVEGAÇÃO -->
+      </li>
+      <li>
+        <a href="agendamento.html">
+          <i class='bx bxs-calendar'></i>
+          <span class="text">Minhas Marcaçoes</span>
+        </a>
+      </li>
+      <li>
+        <a href="rcu_page.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">RCU</span>
+        </a>
+      </li>
+      <li>
+        <a href="historico.html">
+          <i class='bx bxs-dollar-circle'></i>
+          <span class="text">Histórico</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="side-menu">
+      <li class="active">
+        <a href="meuPerfil.html">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Meu Perfil</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bxs-cog"></i>
+          <span class="text">Configurações</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="logout">
+          <i class="bx bxs-log-out-circle"></i>
+          <span class="text">Sair</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <!-- BARRA LATERAL -->
 
-      <!-- PRINCIPAL -->
-      <main class="sugestaomin">
-        <div class="form">
-            <div class="header">
-                <h2>Editar Perfil</h2>
-            </div>
-            <div class="body">
-                <div class="step">
-                    <div class="carrgarImagem">
-                         <h2>Carregar Imagem</h2>
-                         <p>Actualize os Seus Dados.</p>
-                        <div class="image">
-                             <img src="" alt="" id="imagemExibida">
-                        </div>
-                        <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()" class="exibir">
-                         <label for="inputFile" class="lb_imagem btn">Buscar Imagem</label>
-                    </div>
-                
-                 </div>
-                <div class="steps">
-                    <div class="step">
-                        <h2>Detalhes de Contacto</h2>
-                        <p></p>
-                        <div class="grid">
-                            <div class="col">
-                                <label for="nome">Nome Completo</label>
-                                <input type="text" id="nome" placeholder="Seu Nome*">
-                            </div>
-                            <div class="col">
-                                <label for="bi">Número BI</label>
-                                <input type="tex" id="bi" placeholder="Número de Identidade*">
-                            </div>
-                            <div class="col">
-                                <label for="passport">Número de Passaporte</label>
-                                <input type="tel" id="passaporte" placeholder="Número de Passaporte*">
-                            </div>
-                            <div class="col">
-                                <label for="email">Seu Email</label>
-                                <input type="email" id="email" placeholder="Email*">
-                            </div>
-                            <div class="col">
-                              <label for="data_nascimento">Data Nascimento</label>
-                              <input type="date" id="data_nascimento">
-                          </div>
-                          <div class="col">
-                            <label for="nome">Genero</label>
-                            <select name="" id="genero" class="selectCategoria">
-                                <option value="" selected disabled>Escola uma opção</option>
-                                <option value="Masculino">Masculino</option>
-                                <option value="Femenino">Femenino</option>
-                            </select>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <h2>Detalhes de Contacto</h2>
-                        <p></p>
-                        <div class="grid">
-                            <div class="col">
-                                <label for="nome">Categória</label>
-                                <select name="" id="categoria" class="selectCategoria">
-                                    <option >Utente</option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="telfone">Telefone</label>
-                                <input type="tel" id="telefone_principal" placeholder="Número de Telefone*">
-                            </div>
-                            <div class="col">
-                                <label for="telfoneAlt">Telefone Altenativo</label>
-                                <input type="tel" id="telefone_alternativo" placeholder="Telefone Altenativo*">
-                            </div>
-                            <div class="col">
-                                <label for="codigopos">Código Postal</label>
-                                <input type="text" id="codigo_postal" placeholder="Código Postal*">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <h2>Credeciais de Segurança</h2>
-                        <p></p>
-                        <div class="grid">
-                            <div class="col">
-                                <label for="password">Palavra-Passe</label>
-                                <input type="password" id="password" placeholder="Palavra-Passe*">
-                            </div>
-                            <div class="col">
-                                <label for="password">Telefone Altenativo</label>
-                                <input type="password" id="password_confirmation" placeholder="Confirmar Palavra-Passe*">
-                            </div>
-
-                            <div class="col">
-                                <button class="btn" onclick="cadastrarOuEditar('2')">Editar</button>
-                            </div>
-
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
+  <!-- CONTEÚDO -->
+  <section id="content">
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav>
+      <i class="bx bx-menu"></i>
+      <a href="#" class="nav-link">Instituições</a>
+      <form action="#">
+        <div class="form-input">
+          <input type="search" placeholder="Pesquisar..." />
+          <button type="submit" class="search-btn">
+            <i class="bx bx-search"></i>
+          </button>
         </div>
-      </main>
-     
-     
+      </form>
+      <a href="#" class="profile">
+        <img id="minhaImagem" alt="Perfil" />
+      </a>
+    </nav>
+    <!-- BARRA DE NAVEGAÇÃO -->
+
+    <!-- PRINCIPAL -->
+    <main class="sugestaomin">
+      <div class="form">
+        <div class="header">
+          <h2>Editar Perfil</h2>
+        </div>
+        <div class="body">
+          <div class="step">
+            <div class="carrgarImagem">
+              <h2>Carregar Imagem</h2>
+              <p>Actualize os Seus Dados.</p>
+              <div class="image">
+                <img src="" alt="" id="imagemExibida">
+              </div>
+              <input type="file" id="inputFile" accept="image/*" onchange="exibirImagem()" class="exibir">
+              <label for="inputFile" class="lb_imagem btn">Buscar Imagem</label>
+            </div>
+
+          </div>
+          <div class="steps">
+            <div class="step">
+              <h2>Detalhes de Contacto</h2>
+              <p></p>
+              <div class="grid">
+                <div class="col">
+                  <label for="nome">Nome Completo</label>
+                  <input type="text" id="nome" placeholder="Seu Nome*">
+                </div>
+                <div class="col">
+                  <label for="bi">Número BI</label>
+                  <input type="tex" id="bi" placeholder="Número de Identidade*">
+                </div>
+                <div class="col">
+                  <label for="passport">Número de Passaporte</label>
+                  <input type="tel" id="passaporte" placeholder="Número de Passaporte*">
+                </div>
+                <div class="col">
+                  <label for="email">Seu Email</label>
+                  <input type="email" id="email" placeholder="Email*">
+                </div>
+                <div class="col">
+                  <label for="data_nascimento">Data Nascimento</label>
+                  <input type="date" id="data_nascimento">
+                </div>
+                <div class="col">
+                  <label for="nome">Genero</label>
+                  <select name="" id="genero" class="selectCategoria">
+                    <option value="" selected disabled>Escola uma opção</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <h2>Detalhes de Contacto</h2>
+              <p></p>
+              <div class="grid">
+                <div class="col">
+                  <label for="nome">Categória</label>
+                  <select name="" id="categoria" class="selectCategoria">
+                    <option>Utente</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <label for="telfone">Telefone</label>
+                  <input type="tel" id="telefone_principal" placeholder="Número de Telefone*">
+                </div>
+                <div class="col">
+                  <label for="telfoneAlt">Telefone Altenativo</label>
+                  <input type="tel" id="telefone_alternativo" placeholder="Telefone Altenativo*">
+                </div>
+                <div class="col">
+                  <label for="codigopos">Código Postal</label>
+                  <input type="text" id="codigo_postal" placeholder="Código Postal*">
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <h2>Credeciais de Segurança</h2>
+              <p></p>
+              <div class="grid">
+                <div class="col">
+                  <label for="password">Palavra-Passe</label>
+                  <input type="password" id="password" placeholder="Palavra-Passe*">
+                </div>
+                <div class="col">
+                  <label for="password">Telefone Altenativo</label>
+                  <input type="password" id="password_confirmation" placeholder="Confirmar Palavra-Passe*">
+                </div>
+
+                <div class="col">
+                  <button class="btn" onclick="cadastrarOuEditar('2')">Editar</button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+
     <!-- CONTEÚDO -->
 
 
     <div class="modal-container">
-        <div class="modal">
-          <h2>Dados</h2>
-          <hr />
-          <span>
-            Dados Salvo com sucesso
-          </span>
-          <hr />
-          <div class="btns">
-            <button class="btnOK" onclick="closeModalSalvo()">OK</button>
-          </div>
+      <div class="modal">
+        <h2>Dados</h2>
+        <hr />
+        <span>
+          Dados Salvo com sucesso
+        </span>
+        <hr />
+        <div class="btns">
+          <button class="btnOK" onclick="closeModalSalvo()">OK</button>
         </div>
       </div>
+    </div>
 
+    
+    <script src="modalSalvo.js"></script>
     <script src="script.js"></script>
     <script src="modal.js"></script>
     <script src="../assets/js/imgem.js"></script>
     <script src="../solicitacoes/requisicoes.js"></script>
-    <script src="modalSalvo.js"></script>
-    <script >
+
+    <script>
       tragaOsMeusDados()
     </script>
-  </body>
+</body>
+
 </html>
