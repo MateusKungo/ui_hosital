@@ -11,12 +11,24 @@ function validarEmail(email){
     return emailRegex.test(email);
 }
 
-function validarNomeCompelto(nome){
+function validarNomeCompleto(nome){
     if(nomeCompletoRegex.test(nome)){
         document.getElementById("erro").innerHTML = "";
     }else{
         document.getElementById("erro").innerHTML = "Nome inválido, precisamos de um nome completo";
     }
     return nomeCompletoRegex.test(nome)
+}
+
+function validarProvincia(){
+    valor = document.getElementById("").value
+}
+
+function validarMonicipio(){
+    valor = document.getElementById("").value
+}
+
+function validarDistrito(){
+    valor = document.getElementById("").value
 }
 

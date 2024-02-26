@@ -1070,7 +1070,7 @@ function pegarHistoricosDosMeusPacientes() {
       try {
         if (retorno.length > 0) {
           for (cont = 0; cont < retorno.length; cont++) {
-            historicosDePacienteAtendidos(retorno[cont].id,retorno[cont].nome, retorno[cont].contacto.telefone_principal)
+            historicosDePacienteAtendidos(retorno[cont].id,retorno[cont].imagem,retorno[cont].nome, retorno[cont].contacto.telefone_principal)
           }
         }
       } catch (error) {
@@ -1082,20 +1082,26 @@ function pegarHistoricosDosMeusPacientes() {
     });
 }
 
-function historicosDePacienteAtendidos(idUser,nomePaciente, telefone) {
+function historicosDePacienteAtendidos(idUser,imagem,nomePaciente, telefone) {
   var tabela = document.getElementById("tabela").getElementsByTagName('tbody')[0];
   var novaLinha = tabela.insertRow(tabela.rows.length);
-  var celula1 = novaLinha.insertCell(0);
-  var celula2 = novaLinha.insertCell(1);
-  var celula3 = novaLinha.insertCell(2);
+  var celula0 = novaLinha.insertCell(0);
+  var celula1 = novaLinha.insertCell(1);
+  var celula2 = novaLinha.insertCell(2);
+  var celula3 = novaLinha.insertCell(3);
   var botao = document.createElement("button");
+  botao.classList.add('btn', 'btn-primary');
   botao.innerHTML = "Ver Receita";
+  img = document.createElement("img")
+  img.classList.add('rounded-circle', 'img-thumbnail');
+  img.src=url+"/api/imagem/"+imagem;
   celula1.innerHTML = nomePaciente;
   celula2.innerHTML = telefone;
   celula3.appendChild(botao);
+  celula0.appendChild(img)
   botao.onclick = function () {
-    // Ação ao clicar no botão (por exemplo, abrir a receita)
-    console.log("Ver receita de " + nomePaciente);
+      pegarMeuHistorico(idUser)
+      $("#modalMeHistorico").modal("show");
   };
 }
 
