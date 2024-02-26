@@ -1,4 +1,4 @@
-var url = "https://daec-102-214-36-58.ngrok-free.app";
+var url = "https://78b5-102-218-85-21.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -849,7 +849,7 @@ function pegarMarcacoesParaUmMedico() {
 
 }
 
-function listarMinhasAgenda(dataStart,dataFim,horaInicio,HoraFim) {
+function listarMinhasAgenda(dataStart, dataFim, horaInicio, HoraFim) {
   var novaLinha = document.createElement("tr");
 
   // Adicione as células à linha
@@ -893,7 +893,7 @@ function pegarMinhasAgendas() {
       try {
         if (retorno.length > 0) {
           for (cont = 0; cont < retorno.length; cont++) {
-              listarMinhasAgenda(retorno[cont].data_inicio,retorno[cont].data_fim,retorno[cont].hora_inicio,retorno[cont].hora_fim)
+            listarMinhasAgenda(retorno[cont].data_inicio, retorno[cont].data_fim, retorno[cont].hora_inicio, retorno[cont].hora_fim)
           }
         }
       } catch (error) {
@@ -1029,9 +1029,17 @@ function cadastrarOuEditar(valor) {
   formData.append('telefone_alternativo', document.getElementById("telefone_alternativo").value);
   formData.append('codigo_postal', document.getElementById("codigo_postal").value);
   if (document.getElementById("categoria").value != "utente") {
-    formData.append('especialidade_id', document.getElementById("especialidade").value);
-    user = JSON.parse(localStorage.getItem("user"))
-    formData.append('instituicao_id', user.user[0].admin.instituicao_id);
+    try {
+      formData.append('especialidade_id', document.getElementById("especialidade").value);
+      user = JSON.parse(localStorage.getItem("user"))
+      formData.append('instituicao_id', user.user[0].admin.instituicao_id);
+    } catch (error) {
+      user = JSON.parse(localStorage.getItem("user"))
+      idEspecialidade = user.user[0].pclinico.especialidade_id
+      idInstituicao = user.user[0].pclinico.instituicao_id
+      formData.append('especialidade_id', idEspecialidade);
+      formData.append('instituicao_id', idInstituicao);
+    }
   }
   const imagemInput = document.getElementById('inputFile');
   if (imagemInput.files.length > 0) {
