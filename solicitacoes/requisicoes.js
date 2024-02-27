@@ -1256,7 +1256,6 @@ function fazerLogin() {
   })
     .then(response => {
       if (!response.ok) {
-        $('#modalErro').modal('show');
         $('#loadingModal').modal('hide');
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
@@ -1286,7 +1285,7 @@ function fazerLogin() {
 function cadastrarOuEditar(valor) {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
-
+  $('#loadingModal').modal('show');
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
   formData.append('password', document.getElementById("password").value);
@@ -1330,15 +1329,18 @@ function cadastrarOuEditar(valor) {
       .then(response => {
         if (!response.ok) {
           alert(response.status)
+          $('#loadingModal').modal('hide');
           throw new Error(`Erro na resposta da API: status ${response.status}`);
         }
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        $('#loadingModal').modal('hide');
+        $("#modalSucesso").modal("show")
       })
       .catch(error => {
         alert(error.message)
+        $('#loadingModal').modal('hide');
         console.error('Erro na solicitação:', error.message);
       });
   } else {
@@ -1381,6 +1383,7 @@ function cadastrarOuEditar(valor) {
 function cadastrarInstituicao() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
+  $('#loadingModal').modal('show');
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
   formData.append('password', document.getElementById("password").value);
@@ -1411,6 +1414,7 @@ function cadastrarInstituicao() {
       return response.json();
     })
     .then(data => {
+      $("#modalSucesso").modal("show")
       console.log(data);
     })
     .catch(error => {

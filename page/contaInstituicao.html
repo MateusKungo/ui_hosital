@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="../assets/css/formStep.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +59,8 @@
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Nome da Instituição</label>
-                                <input type="text" id="nome" onkeyup="validarNomeCompleto(this.value)" placeholder="Nome da Instituição*">
+                                <input type="text" id="nome" onkeyup="validarNomeCompleto(this.value)"
+                                    placeholder="Nome da Instituição*">
                             </div>
                             <div class="col">
                                 <label for="bi">Email</label>
@@ -79,7 +86,7 @@
                                 </select>
                             </div>
                         </div>
-                       
+
                     </div>
                     <div class="step">
                         <h2>Credeciais de Segurança</h2>
@@ -161,6 +168,45 @@
             getAllProvincia();
         </script>
     </section>
+    <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSucessoLabel">Sucesso!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="fazerLogin()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success mt-3" role="alert">
+                        Cadastro realizado com sucesso verifique o seu email enviamos pra sim o seu login!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p class="mt-2">Carregando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //$("#modalSucesso").modal("show")
+        function fazerLogin() {
+            document.location.href = "../login.html"
+        }
+    </script>
 </body>
 
 </html>
