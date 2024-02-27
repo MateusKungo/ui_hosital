@@ -245,3 +245,7 @@ form input[type="button"] {
 form input[type="submit"]:hover {
     background: var(--black);
 }
+
+small{
+    font-weight: bold;
+}

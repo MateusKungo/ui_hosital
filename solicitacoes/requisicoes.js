@@ -19,7 +19,7 @@ function guardarUser(user) {
 
 //usei
 function getAllExames() {
-  //$('#loadingSpinnerContainer').show();
+  $('#loadingModal').modal("show");
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
 
@@ -56,6 +56,7 @@ function getAllExames() {
         tr.appendChild(tdPreco);
         document.getElementById('paiExames').appendChild(tr);
       }
+      $('#loadingModal').modal("hide");
 
     })
     .catch(error => {
@@ -66,7 +67,7 @@ function getAllExames() {
 
 //usei
 function getAllMedicamentos() {
-
+  $("#loadingModal").modal("show")
   fetch(url + "/api/medicamento/pegarTodosMedicamentos", {
     method: 'GET',
     headers: {
@@ -98,6 +99,7 @@ function getAllMedicamentos() {
         tr.appendChild(tdNome);
         document.getElementById('paiMedicamentos').appendChild(tr);
       }
+      $("#loadingModal").modal("hide")
 
     })
     .catch(error => {
@@ -108,7 +110,7 @@ function getAllMedicamentos() {
 
 //usei
 function getAllConsulta() {
-  // $('#loadingSpinnerContainer').show();
+   $("#loadingModal").modal("show")
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
 
@@ -150,6 +152,7 @@ function getAllConsulta() {
         tr.appendChild(tdTipo);
         document.getElementById('paiConsulta').appendChild(tr);
       }
+      $("#loadingModal").modal("hide")
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
@@ -158,6 +161,7 @@ function getAllConsulta() {
 
 //usei
 function getAllEspecialidade() {
+  $("#loadingModal").modal("show")
   fetch(url + "/api/especialidade/getAll", {
     method: 'GET',
     headers: {
@@ -175,7 +179,6 @@ function getAllEspecialidade() {
       for (cont = 0; cont < retorno.length; cont++) {
         tr = document.createElement('tr');
         tdNome = document.createElement('td');
-
         tdId = document.createElement('td');
         tdId.textContent = retorno[cont].id;
         tdNome.textContent = retorno[cont].nome;
@@ -186,7 +189,7 @@ function getAllEspecialidade() {
         tr.appendChild(tdNome);
         document.getElementById('paiEspecialidade').appendChild(tr);
       }
-
+      $("#loadingModal").modal("hide")
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
@@ -229,7 +232,7 @@ function criarMeusMedicos(imagem, nome, email, especialidade, contacto) {
 function getMyMedico() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
-
+  $("#loadingModal").modal("show")
   fetch(url + "/api/user/pegarPessoalClinicosPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
@@ -249,6 +252,7 @@ function getMyMedico() {
         for (cont = 0; cont < retorno.length; cont++) {
           criarMeusMedicos(retorno[cont].imagem, retorno[cont].nome, retorno[cont].email, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal)
         }
+        $("#loadingModal").modal("hide")
       } else {
         console.log("vazio")
       }
@@ -396,10 +400,11 @@ function addMedicamento() {
 
 }
 
-
+//usei
 function getMyMedicoForEscala() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
+  $("#loadingModal").modal()
   fetch(url + "/api/user/pegarPessoalClinicosPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
@@ -416,10 +421,13 @@ function getMyMedicoForEscala() {
       retorno = data.users;
       try {
         if (retorno) {
+         
           for (cont = 0; cont < retorno.length; cont++) {
             adicionarLinhaMedico(retorno[cont].pclinico.id, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal, retorno[cont].imagem)
             adicionarLinhaTabela(retorno[cont].imagem, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].pclinico.id)
           }
+          $("#loadingModal").hide()
+          $(".modal-backdrop").remove();
         } else {
           console.log("vazio")
         }
@@ -462,7 +470,6 @@ function adicionarLinhaTabela(imagem, nome, especialidade, id) {
   var selectEscala = document.createElement("select");
   selectEscala.style.width = "18rem"
   selectEscala.className = "form-control";
-
   fetch(url + "/api/escala/pegarEscalaPorPessoalClinicoParaInstituicao/" + id, {
     method: 'GET',
     headers: {
@@ -490,8 +497,10 @@ function adicionarLinhaTabela(imagem, nome, especialidade, id) {
       tabelaBody.appendChild(novaLinha);
     })
     .catch(error => {
+      
       console.error('Erro na solicitação:', error.message);
     });
+    $("#loadingModal").modal("hide")
 }
 
 //usei
@@ -1260,6 +1269,7 @@ function fazerLogin() {
     .then(response => {
       if (!response.ok) {
         $('#loadingModal').modal('hide');
+        document.getElementById("loginError").innerHTML="Palavra passe ou login incorreto"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -1268,7 +1278,7 @@ function fazerLogin() {
       user = data
       guardarUser(user)
       $('#loadingModal').modal('hide');
-      if (user.user[0].categoria == "Utente") {
+      if (user.user[0].categoria == "utente") {
         document.location.href = "admin/instituicao.html"
       } else if (user.user[0].categoria == "pessoalclinico") {
         document.location.href = "pessoalClinico/pessoalClinico.html"
@@ -1279,7 +1289,7 @@ function fazerLogin() {
     })
     .catch(error => {
       $('#loadingModal').modal('hide');
-      $('#modalErro').modal('show');
+      document.getElementById("loginError").innerHTML="Palavra passe ou login incorreto"
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -2110,7 +2120,7 @@ function createNavigationButton(className, href, dataSlide) {
 }
 
 function criarMarcacoes() {
-  $('#loadingSpinnerContainer').hide();
+  $('#loadingModal').modal("show");
   div = document.getElementById("marcacoes");
   user = JSON.parse(localStorage.getItem("user"))
   idInstituicao = user.user[0].admin.instituicao_id
@@ -2127,7 +2137,6 @@ function criarMarcacoes() {
       return response.json();
     })
     .then(data => {
-
       retorno = data.marcacoes;
       for (cont = 0; cont < retorno.length; cont++) {
         if (retorno[cont].tipo_servico == "consulta") {
@@ -2135,8 +2144,8 @@ function criarMarcacoes() {
         } else {
           listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].exame.nome, retorno[cont].exame.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
         }
-
       }
+      $('#loadingModal').modal("hide");
 
     })
     .catch(error => {
@@ -2144,7 +2153,7 @@ function criarMarcacoes() {
     });
 
 }
-
+//loadingModal
 function listarMarcacoes(idMarcacao, escalas, imagemUtente, pclinico, descricao, nome, tipo, data, estado, preco, servico, hora, userName, id) {
   // Criação dos elementos
   var tr = document.createElement("tr");
