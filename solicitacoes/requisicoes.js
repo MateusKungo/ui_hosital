@@ -1028,7 +1028,7 @@ function pegarMarcacoesMedicoElistarParaDiagnosticar(id, imagem, nomePaciente, n
   tr.appendChild(button)
   button.addEventListener("click", function () {
     $("#registroModal").modal("show")
-    document.getElementById("receitar").addEventListener("click", function () {
+    document.getElementById("diadnosticar").addEventListener("click", function () {
       criarDiagnostico(id)
     })
   });
@@ -1268,7 +1268,7 @@ function fazerLogin() {
       user = data
       guardarUser(user)
       $('#loadingModal').modal('hide');
-      if (user.user[0].categoria == "Utente") {
+      if (user.user[0].categoria == "utente") {
         document.location.href = "admin/instituicao.html"
       } else if (user.user[0].categoria == "pessoalclinico") {
         document.location.href = "pessoalClinico/pessoalClinico.html"
@@ -1288,7 +1288,7 @@ function fazerLogin() {
 function cadastrarOuEditar(valor) {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
-  $('#loadingModal').modal('show');
+ 
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
   formData.append('password', document.getElementById("password").value);
@@ -1321,6 +1321,7 @@ function cadastrarOuEditar(valor) {
   }
 
   if (valor == 1) {
+    $('#loadingModal').modal('show');
     fetch(url + "/api/user/register", {
       method: 'POST',
       headers: {
