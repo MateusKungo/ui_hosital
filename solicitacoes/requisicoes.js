@@ -1288,7 +1288,6 @@ function fazerLogin() {
 function cadastrarOuEditar(valor) {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
-  $('#loadingModal').modal('show');
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
   formData.append('password', document.getElementById("password").value);
@@ -1321,6 +1320,7 @@ function cadastrarOuEditar(valor) {
   }
 
   if (valor == 1) {
+    $('#loadingModal').modal('show');
     fetch(url + "/api/user/register", {
       method: 'POST',
       headers: {
@@ -1331,8 +1331,9 @@ function cadastrarOuEditar(valor) {
     })
       .then(response => {
         if (!response.ok) {
-          alert(response.status)
           $('#loadingModal').modal('hide');
+          $("#modalErro").modal("show")
+          document.getElementById("informacao").innerHTML = response.response;
           throw new Error(`Erro na resposta da API: status ${response.status}`);
         }
         return response.json();
@@ -1342,8 +1343,9 @@ function cadastrarOuEditar(valor) {
         $("#modalSucesso").modal("show")
       })
       .catch(error => {
-        alert(error.message)
         $('#loadingModal').modal('hide');
+        $("#modalErro").modal("show")
+        document.getElementById("informacao").innerHTML = error.message;
         console.error('Erro na solicitação:', error.message);
       });
   } else {
@@ -1363,6 +1365,8 @@ function cadastrarOuEditar(valor) {
     })
       .then(response => {
         if (!response.ok) {
+          $("#modalErro").modal("show")
+          document.getElementById("informacao").innerHTML = response.text;
           throw new Error(`Erro na resposta da API: status ${response.status}`);
         }
         return response.json();
@@ -1374,7 +1378,8 @@ function cadastrarOuEditar(valor) {
         guardarUser(user)
       })
       .catch(error => {
-
+        $("#modalErro").modal("show")
+        document.getElementById("informacao").innerHTML = error.message;
         console.error('Erro na solicitação:', error.message);
       });
   }
@@ -1411,6 +1416,8 @@ function cadastrarInstituicao() {
   })
     .then(response => {
       $('#loadingModal').modal('hide');
+      $("#modalErro").modal("show")
+      document.getElementById("informacao").innerHTML = response.status;
       if (!response.ok) {
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
@@ -1422,6 +1429,8 @@ function cadastrarInstituicao() {
     })
     .catch(error => {
       $('#loadingModal').modal('hide');
+      $("#modalErro").modal("show")
+      document.getElementById("informacao").innerHTML = error.message;
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -2644,8 +2653,8 @@ function formatarHoras(horasString) {
   return horasFormatadas;
 }
 
-function sair(){
+function sair() {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
-  document.location.href="../"
+  document.location.href = "../"
 }
