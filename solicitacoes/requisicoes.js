@@ -1,4 +1,4 @@
-var url = "https://78b5-102-218-85-21.ngrok-free.app";
+var url = "https://7c7b-102-218-85-98.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -2642,4 +2642,10 @@ function formatarHoras(horasString) {
   const horasConcatenadas = horasFormatadas.join(', ');
 
   return horasFormatadas;
+}
+
+function sair(){
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  document.location.href="../"
 }
