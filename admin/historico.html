@@ -14,7 +14,8 @@
   <link rel="stylesheet" href="perfil_hospital.css" />
   <link rel="stylesheet" href="modal.css" />
   <style>
-    .perfilHospital th,td {
+    .perfilHospital th,
+    td {
       width: 10rem;
       text-align: center;
     }
@@ -24,10 +25,13 @@
       text-align: center;
     }
 
-    #receitaModal{
+    #receitaModal {
       margin-left: 50px;
     }
-    table, th, th{
+
+    table,
+    th,
+    th {
       text-align: center;
     }
   </style>
@@ -119,6 +123,19 @@
             <i class='bx bx-filter'></i>
           </div>
           <table id="myTable">
+            <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <thead>
               <tr>
                 <th>Data & Hora</th>
@@ -153,7 +170,8 @@
     </div>
 
     <div class="modal fade" id="receitaModal" tabindex="-1" aria-labelledby="receitaModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Adicionado modal-dialog-centered e modal-lg aqui -->
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <!-- Adicionado modal-dialog-centered e modal-lg aqui -->
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="receitaModalLabel">Receitas</h5>
@@ -182,8 +200,8 @@
         </div>
       </div>
     </div>
-    
-    
+
+
 
 
     <!-- CONTEÚDO -->
@@ -194,8 +212,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    
+
+
     <script src="../solicitacoes/requisicoes.js"></script>
     <script>
       user = JSON.parse(localStorage.getItem("user"));

@@ -767,6 +767,7 @@ function listarMedicosDaReceita(nome, quantidade, numeroVezes, horas) {
 
 //usei
 function pegarMeuHistorico(idUser) {
+  $("#loadingModal").modal("show");
   fetch(url + "/api/user/pegarHistoricoUser/" + idUser, {
     method: 'GET',
     headers: {
@@ -787,6 +788,7 @@ function pegarMeuHistorico(idUser) {
             criarTabelaHistorico(retorno[cont].data, retorno[cont].nome_doenca, retorno[cont].tipo_doenca, retorno[cont].estado, retorno[cont].receita, retorno[cont].receita.descricao, retorno[cont].pclinico.instituicao.nome, retorno[cont].pclinico.user.nome)
           }
         }
+
       } catch (error) {
         console.log(error)
       }
@@ -799,6 +801,7 @@ function pegarMeuHistorico(idUser) {
             criarTabelaHistorico(retorno[cont].data_escolhida, retorno[cont].descricao, (retorno[cont].receita == null) ? "Aguarde" : retorno[cont].receita.descricao, "", (retorno[cont].receita != null) ? retorno[cont].receita : 0, (retorno[cont].receita != null) ? retorno[cont].receita.descricao : "Aguarde", retorno[cont].instituicao.nome, (retorno[cont].pclinico != null) ? retorno[cont].pclinico.user.nome : "Aguarde")
           }
         }
+        $("#loadingModal").modal("hide");
       } catch (error) {
         console.log(error)
       }
@@ -1811,6 +1814,8 @@ function getMyRCU() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
 
+  $("#loadingModal").modal("show")
+
   fetch(url + "/api/rcu/pegarPorID_USER/" + idUser, {
     method: 'GET',
     headers: {
@@ -1833,6 +1838,7 @@ function getMyRCU() {
         estado = "falecido"
       }
       document.getElementById("tableRCU").appendChild(criarTabelaRcu(retorno.grupo_sanguineo, estado))
+      $("#loadingModal").modal("hide")
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
@@ -1862,7 +1868,7 @@ function tragaOsMeusDados() {
 function getMyAgendamento() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
-
+  $("#loadingModal").modal("show")
   fetch(url + "/api/marcacao_user/pegarHistoricoMarcacoesUser/" + idUser, {
     method: 'GET',
     headers: {
@@ -1877,7 +1883,6 @@ function getMyAgendamento() {
     })
     .then(data => {
       retorno = data.marcacoes;
-
       for (let a = 0; a < retorno.length; a++) {
         try {
           document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico, retorno[a].pclinico.especialidade.nome, retorno[a].data, retorno[a].hora, retorno[a].pclinico.user.nome, retorno[a].instituicao.nome, retorno[a].estado, (retorno[a].data_escolhida == null) ? "Aguarde" : retorno[a].data_escolhida, (retorno[a].hora_escolhida == null) ? "Aguarde" : retorno[a].hora_escolhidaa))
@@ -1886,7 +1891,7 @@ function getMyAgendamento() {
         }
 
       }
-
+      $("#loadingModal").modal("hide")
     })
     .catch(error => {
       console.error('Erro na solicitação:', error.message);
