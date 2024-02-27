@@ -1508,6 +1508,7 @@ function createAdivInstituicao(nome, descricao, id, provincia, municipio, destri
 
 //usei
 function pegarTodasInstituicoes() {
+  $("#loadingModal").modal("show")
   fetch(url + "/api/instituicao/pegarTodos", {
     method: 'GET',
     headers: {
@@ -1528,7 +1529,7 @@ function pegarTodasInstituicoes() {
       for (let cont = 0; cont < dados.length; cont++) {
         document.getElementById("lista_instituicao").appendChild(createAdivInstituicao(dados[cont].nome, dados[cont].Descricao, dados[cont].id, dados[cont].distrito.municipio.provincia.nome, dados[cont].distrito.municipio.nome, dados[cont].distrito.nome, dados[cont].imagem))
       }
-
+      $("#loadingModal").modal("hide")
 
     })
     .catch(error => {
