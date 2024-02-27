@@ -1,4 +1,4 @@
-var url = "https://78b5-102-218-85-21.ngrok-free.app";
+var url = "https://7c7b-102-218-85-98.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
