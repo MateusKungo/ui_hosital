@@ -847,7 +847,97 @@ function pegarMarcacoesParaUmMedico() {
 
 }
 
-<<<<<<< HEAD
+
+function pegarMarcacoesParaUmMedicoParaReceitar() {
+  user = JSON.parse(localStorage.getItem("user"));
+  id = user.user[0].pclinico.id
+  fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
+    method: 'GET',
+    headers: {
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      retorno = data.marcacoes_users;
+      try {
+        if (retorno.length > 0) {
+          for (cont = 0; cont < retorno.length; cont++) {
+            if (retorno[cont].tipo_servico == "consulta") {
+              pegarMarcacoesMedicoElistarParaRceitar(retorno[cont].id, retorno[cont].user.nome, retorno[cont].consulta.nome + " " + retorno[cont].consulta.nome, retorno[cont].tipo_servico, retorno[cont].descricao, retorno[cont].data_escolhida + " " + retorno[cont].hora_escolhida)
+            } else {
+              pegarMarcacoesMedicoElistarParaRceitar(retorno[cont].id, retorno[cont].user.nome, retorno[cont].exame.nome, retorno[cont].tipo_servico, retorno[cont].descricao, retorno[cont].data_escolhida + " " + retorno[cont].hora_escolhida)
+            }
+
+          }
+        }
+        pegarMedicamentos(1);
+      } catch (error) {
+        console.log(error)
+      }
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
+function pegarMarcacoesMedicoElistarParaRceitar(id, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
+  // Criação do elemento <tr>
+  var tr = document.createElement("tr");
+
+
+  var tdName = document.createElement("td");
+  var namePara = document.createElement("p");
+  namePara.textContent = nomePaciente;
+  tdName.appendChild(namePara);
+  tr.appendChild(tdName);
+
+  // Criação do segundo <td> para o tipo sanguíneo
+  var tdBloodType = document.createElement("td");
+  var bloodTypePara = document.createElement("p");
+  bloodTypePara.textContent = nomeServico;
+  tdBloodType.appendChild(bloodTypePara);
+  tr.appendChild(tdBloodType);
+
+  // Criação do terceiro <td> para o tipo de exame
+  var tdExam = document.createElement("td");
+  var examPara = document.createElement("p");
+  examPara.textContent = tipoServico;
+  tdExam.appendChild(examPara);
+  tr.appendChild(tdExam);
+
+
+  var descricaoTd = document.createElement("td");
+  descricaoTd.textContent = descricao;
+  tr.appendChild(descricaoTd);
+  // Criação do quarto <td> para a data e hora
+  var tdDateTime = document.createElement("td");
+  tdDateTime.textContent = dataHora;
+  tr.appendChild(tdDateTime);
+
+  var button = document.createElement("button");
+  button.textContent = "Receitar";
+  button.className = "btn btn-primary";
+  tr.appendChild(button)
+  button.addEventListener("click", function () {
+    $("#registroModal").modal("show")
+    document.getElementById("receitar").addEventListener("click", function () {
+      criarReceita(id)
+    })
+  });
+
+  // Adiciona a <tr> à tabela
+  document.querySelector("#paiRceitar").appendChild(tr);
+
+}
+
+
 function pegarMarcacoesParaUmMedicoDiagnosticar() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
@@ -869,10 +959,11 @@ function pegarMarcacoesParaUmMedicoDiagnosticar() {
         if (retorno.length > 0) {
           for (cont = 0; cont < retorno.length; cont++) {
             if (retorno[cont].tipo_servico == "exame") {
-              pegarMarcacoesMedicoElistarParaDiagnosticar(retorno[cont].user.imagem, retorno[cont].user.nome, retorno[cont].exame.nome, retorno[cont].tipo_servico, retorno[cont].descricao, retorno[cont].data_escolhida + " " + retorno[cont].hora_escolhida)
+              pegarMarcacoesMedicoElistarParaDiagnosticar(retorno[cont].user.id, retorno[cont].user.imagem, retorno[cont].user.nome, retorno[cont].exame.nome, retorno[cont].tipo_servico, retorno[cont].descricao, retorno[cont].data_escolhida + " " + retorno[cont].hora_escolhida)
             }
           }
         }
+        pegarTodasAsDoencas();
       } catch (error) {
         console.log(error)
       }
@@ -883,7 +974,7 @@ function pegarMarcacoesParaUmMedicoDiagnosticar() {
 
 }
 
-function pegarMarcacoesMedicoElistarParaDiagnosticar(imagem, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
+function pegarMarcacoesMedicoElistarParaDiagnosticar(id, imagem, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
   // Criação do elemento <tr>
   var tr = document.createElement("tr");
 
@@ -932,16 +1023,49 @@ function pegarMarcacoesMedicoElistarParaDiagnosticar(imagem, nomePaciente, nomeS
   button.textContent = "Diagnosticar";
   button.className = "btn btn-primary";
   tr.appendChild(button)
-
+  button.addEventListener("click", function () {
+    $("#registroModal").modal("show")
+    document.getElementById("receitar").addEventListener("click", function () {
+      criarDiagnostico(id)
+    })
+  });
   // Adiciona a <tr> à tabela
   document.querySelector("#paiDiagnosticar").appendChild(tr);
+}
 
+async function criarReceita(id) {
+  try {
+    user = JSON.parse(localStorage.getItem("user"));
+    token = user.token
+    const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
+    var jsonData = {
+      medicamentos: pegandoOsMedicamentosDoInPut(),
+      descricao: document.getElementById("descricao").value,
+      marcacao_user_id: id
+    };
+
+    const response = await fetch(url + "/api/receita/criar", {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "69420",
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': tokenCSRF
+      },
+      body: JSON.stringify(jsonData)
+    });
+    if (!response.ok) {
+      throw new Error(`Erro na resposta da API: status ${response.status}`);
+    }
+    const responseData = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error('Erro na solicitação:', error.message);
+  }
 }
 
 
 
-=======
->>>>>>> 441a6700446a6f3f5f3baec76afb614d23d730c9
 function listarMinhasAgenda(dataStart, dataFim, horaInicio, HoraFim) {
   var novaLinha = document.createElement("tr");
 
@@ -1073,7 +1197,7 @@ function pegarHistoricosDosMeusPacientes() {
       try {
         if (retorno.length > 0) {
           for (cont = 0; cont < retorno.length; cont++) {
-            historicosDePacienteAtendidos(retorno[cont].id,retorno[cont].imagem,retorno[cont].nome, retorno[cont].contacto.telefone_principal)
+            historicosDePacienteAtendidos(retorno[cont].id, retorno[cont].imagem, retorno[cont].nome, retorno[cont].contacto.telefone_principal)
           }
         }
       } catch (error) {
@@ -1085,7 +1209,7 @@ function pegarHistoricosDosMeusPacientes() {
     });
 }
 
-function historicosDePacienteAtendidos(idUser,imagem,nomePaciente, telefone) {
+function historicosDePacienteAtendidos(idUser, imagem, nomePaciente, telefone) {
   var tabela = document.getElementById("tabela").getElementsByTagName('tbody')[0];
   var novaLinha = tabela.insertRow(tabela.rows.length);
   var celula0 = novaLinha.insertCell(0);
@@ -1097,14 +1221,14 @@ function historicosDePacienteAtendidos(idUser,imagem,nomePaciente, telefone) {
   botao.innerHTML = "Ver Receita";
   img = document.createElement("img")
   img.classList.add('rounded-circle', 'img-thumbnail');
-  img.src=url+"/api/imagem/"+imagem;
+  img.src = url + "/api/imagem/" + imagem;
   celula1.innerHTML = nomePaciente;
   celula2.innerHTML = telefone;
   celula3.appendChild(botao);
   celula0.appendChild(img)
   botao.onclick = function () {
-      pegarMeuHistorico(idUser)
-      $("#modalMeHistorico").modal("show");
+    pegarMeuHistorico(idUser)
+    $("#modalMeHistorico").modal("show");
   };
 }
 
@@ -1239,8 +1363,10 @@ function cadastrarOuEditar(valor) {
         return response.json();
       })
       .then(data => {
-        data.user.token = JSON.parse(localStorage.getItem("user")).token
-        guardarUser(data.user)
+
+        data.token = JSON.parse(localStorage.getItem("user")).token
+        user = data
+        guardarUser(user)
       })
       .catch(error => {
 
@@ -2423,27 +2549,27 @@ async function criarDiagnostico(idUser) {
 
     const idRCU = await meuRCU(idUser);
     const data = new Date();
-    
+
     var jsonData = {
-      nota:document.getElementById("nota").value,
+      nota: document.getElementById("nota").value,
       pclinico_id: idPessoalClinico,
       doenca_id: document.getElementById("doenca_id").value,
       data: `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`,
-      descricao:document.getElementById("descricao").value
+      descricao: document.getElementById("descricao").value
     };
-    
+
     if (idRCU !== 0) {
       jsonData.rcu_id = idRCU;
-    }else{
-      jsonData.grupo_sanguineo=document.getElementById("grupo_sanguineo").value
-      jsonData.user_id=idUser;
+    } else {
+      jsonData.grupo_sanguineo = document.getElementById("grupo_sanguineo").value
+      jsonData.user_id = idUser;
     }
 
-    jsonData.medicamentos=pegandoOsMedicamentosDoInPut();
+    jsonData.medicamentos = pegandoOsMedicamentosDoInPut();
 
     console.log(jsonData)
 
-    const response = await fetch(url+"/api/diagnostico/criar", {
+    const response = await fetch(url + "/api/diagnostico/criar", {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -2464,17 +2590,17 @@ async function criarDiagnostico(idUser) {
 }
 
 //usei
-function pegandoOsMedicamentosDoInPut(){
-  medicamentosVector=[];
+function pegandoOsMedicamentosDoInPut() {
+  medicamentosVector = [];
   const camposNumeroVezesDia = document.querySelectorAll('[name="numeroVezesDia[]"]');
   const camposmedicamentoId = document.querySelectorAll('[name="medicamentoId[]"]');
   const camposquantidade = document.querySelectorAll('[name="quantidade[]"]');
   const camposhoras = document.querySelectorAll('[name="horas[]"]');
-  for(cont=0;cont<camposNumeroVezesDia.length;cont++){
-    medicamentos={
-      id:camposmedicamentoId[cont].value,
-      quantidade:camposquantidade[cont].value,
-      numero_vezes_dia:camposNumeroVezesDia[cont].value,
+  for (cont = 0; cont < camposNumeroVezesDia.length; cont++) {
+    medicamentos = {
+      id: camposmedicamentoId[cont].value,
+      quantidade: camposquantidade[cont].value,
+      numero_vezes_dia: camposNumeroVezesDia[cont].value,
       horas: formatarHoras(camposhoras[cont].value)
     }
     medicamentosVector.push(medicamentos)
@@ -2496,10 +2622,10 @@ function formatarHoras(horasString) {
 
   // Iterar sobre cada hora
   horasArray.forEach(hora => {
-      // Adicionar '00' ao final da hora e formatar como hh:mm
-      const horaFormatada = hora.padStart(2, '0') + ':00';
-      // Adicionar a hora formatada ao array
-      horasFormatadas.push(horaFormatada);
+    // Adicionar '00' ao final da hora e formatar como hh:mm
+    const horaFormatada = hora.padStart(2, '0') + ':00';
+    // Adicionar a hora formatada ao array
+    horasFormatadas.push(horaFormatada);
   });
 
   // Juntar todas as horas formatadas com ', ' entre elas
