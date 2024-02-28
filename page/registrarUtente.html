@@ -16,7 +16,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Rubik:wght@400;500;700&display=swap"
         rel="stylesheet">
-
+    <style>
+        .erro-label {
+            color: red;
+            /* Define a cor vermelha para indicar um erro */
+            font-weight: bold;
+            /* Faz o texto em negrito para chamar mais atenção */
+            /* Adicione qualquer outro estilo que você achar apropriado para indicar um erro */
+        }
+    </style>
     <title>Criar conta</title>
 </head>
 
@@ -46,10 +54,12 @@
                     <div class="step">
                         <h2>Informações Pessoais</h2>
                         <p>Deixe conhecermos vocé.</p>
+                       
                         <div class="grid">
+
                             <div class="col">
                                 <label for="nome">Nome Completo</label>
-                                <input type="text" id="nome" placeholder="Seu Nome*">
+                                <input type="text" id="nome" placeholder="Seu Nome*" onkeyup="validarNomeCompleto()">
                             </div>
                             <div class="col">
                                 <label for="bi">Data de Nascimento</label>
@@ -58,24 +68,24 @@
                             <div class="col">
                                 <label for="nome">Genero</label>
                                 <select name="" id="genero" class="selectCategoria">
-                                    <option value="" selected disabled>Escola uma opção</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <label for="bi">Número BI</label>
-                                <input type="tex" id="bi" placeholder="Número de Identidade*">
+                                <input type="tex" id="bi" placeholder="Número de Identidade*" onkeyup="validarBI()">
                             </div>
                             <div class="col">
                                 <label for="email">Seu Passaporte</label>
-                                <input type="text" id="passaporte" placeholder="Passaporte">
+                                <input type="text" id="passaporte" placeholder="Passaporte" onkeyup="validarPassaporte()">
                             </div>
                         </div>
                     </div>
                     <div class="step">
                         <h2>Detalhes de Contacto</h2>
                         <p>Deixe conhecermos vocé.</p>
+                      
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Categória</label>
@@ -85,15 +95,15 @@
                             </div>
                             <div class="col">
                                 <label for="telfone">Telefone</label>
-                                <input type="tel" id="telefone_principal" placeholder="Número de Telefone*">
+                                <input type="tel" id="telefone_principal" placeholder="Número de Telefone*" onkeyup="validarNumeroTelefonicoP()">
                             </div>
                             <div class="col">
                                 <label for="telfoneAlt">Telefone Altenativo</label>
-                                <input type="tel" id="telefone_alternativo" placeholder="Telefone Altenativo*">
+                                <input type="tel" id="telefone_alternativo" placeholder="Telefone Altenativo" onkeyup="validarNumeroTelefonicoS()">
                             </div>
                             <div class="col">
                                 <label for="codigopos">Código Postal</label>
-                                <input type="genero" id="codigo_postal" placeholder="Código Postal*">
+                                <input type="genero" id="codigo_postal" placeholder="Código Postal" onkeyup="validarPostal()">
                             </div>
                         </div>
                     </div>
@@ -103,16 +113,16 @@
                         <div class="grid">
                             <div class="col">
                                 <label for="email">Seu Email</label>
-                                <input type="email" id="email" placeholder="Email*">
+                                <input type="email" id="email" placeholder="Email*" onkeyup="validarEmail()">
                             </div>
                             <div class="col">
                                 <label for="password">Palavra-Passe</label>
-                                <input type="password" id="password" placeholder="Palavra-Passe*">
+                                <input type="password" id="password" placeholder="Palavra-Passe*" onkeyup="validarSenha()">
                             </div>
                             <div class="col">
                                 <label for="password">Confirmar a Palavra-Passe</label>
                                 <input type="password" id="password_confirmation"
-                                    placeholder="Confirmar Palavra-Passe*">
+                                    placeholder="Confirmar Palavra-Passe*" onkeyup="validarConfirmacao()">
                             </div>
                         </div>
                     </div>
@@ -133,16 +143,17 @@
                         <div class="confirmation">
                             <h2>Informação de Confirmação</h2>
                             <p>Confirme os seus dados.</p>
-
-                            <button class="btn" onclick="cadastrarOuEditar('1')">Salvar os Dados</button>
+                            <button class="btn" onclick="cadastrar()">Salvar os Dados</button>
                         </div>
 
                     </div>
                 </div>
             </div>
+            <label for="" class="erro-label" id="erro"  style="margin-left: 15px;"></label>
             <div class="footer">
                 <button class="voltar" disabled>Voltar</button>
-                <button class="continuar">Continuar</button>
+        
+                <button class="continuar" id="continuar">Continuar</button>
             </div>
         </div>
 
@@ -151,7 +162,8 @@
         <script src="../assets/js/imgem.js"></script>
     </section>
 
-    <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -184,7 +196,8 @@
     </div>
 
 
-    <div class="modal fade" id="modalErro" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="modalErro" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -202,11 +215,19 @@
             </div>
         </div>
     </div>
-    
+
+    <script src="../validacoes/validar.js"></script>
+
     <script>
-      // $("#modalErro").modal("show")
+        // $("#modalErro").modal("show")
         function fazerLogin() {
             document.location.href = "../login.html"
+        }
+
+        function cadastrar(){
+            if(validarTudoUtente()){
+                cadastrarOuEditar('1')
+            }
         }
     </script>
 </body>
