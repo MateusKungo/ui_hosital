@@ -1,3 +1,8 @@
+<script>
+    if(JSON.parse(localStorage.getItem("user"))==null){
+      document.location.href="../index.html"
+    }
+  </script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,21 +60,20 @@
                         <h2>Informação da Instituição</h2>
                         <p>Informe-nos as suas informações.</p>
                         <br>
-                        <label for="" class="erro-label" id="erro"></label>
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Nome da Instituição</label>
-                                <input type="text" id="nome" onkeyup="validarNomeCompleto(this.value)"
+                                <input type="text" id="nome" onkeyup="validarNomeEmpresa()"
                                     placeholder="Nome da Instituição*">
                             </div>
                             <div class="col">
                                 <label for="bi">Email</label>
-                                <input type="email" id="email" onkeyup="validarEmail(this.value)" placeholder="Email*">
+                                <input type="email" id="email" onkeyup="validarEmail()" placeholder="Email*">
                             </div>
                             <div class="col">
                                 <label for="passport">Provincia</label>
                                 <select id="provincias" class="selectCategoria">
-                                    <option desabled selected>Selecione...</option>
+                                    <option desabled selected value="">Selecione...</option>
 
                                 </select>
                             </div>
@@ -94,24 +98,24 @@
                         <div class="grid">
                             <div class="col">
                                 <label for="nome">Telefone</label>
-                                <input type="tel" id="telefone_principal" placeholder="Número de Telefone*">
+                                <input type="tel" id="telefone_principal" onkeyup="validarNumeroTelefonicoP()" placeholder="Número de Telefone*">
                             </div>
                             <div class="col">
                                 <label for="telfone">Telefone Altenativo</label>
-                                <input type="tel" id="telefone_alternativo" placeholder="Telefone Altenativo*">
+                                <input type="tel" id="telefone_alternativo" onkeyup="validarNumeroTelefonicoS()" placeholder="Telefone Altenativo*">
                             </div>
                             <div class="col">
                                 <label for="codigopos">Código Postal</label>
-                                <input type="text" id="codigo_postal" placeholder="Código Postal*">
+                                <input type="text" id="codigo_postal"  onkeyup="validarPostal()" placeholder="Código Postal*">
                             </div>
                             <div class="col">
                                 <label for="password">Palavra-Passe</label>
-                                <input type="password" id="password" placeholder="Palavra-Passe*">
+                                <input type="password" id="password" onkeyup="validarSenha()"   placeholder="Palavra-Passe*">
                             </div>
                             <div class="col">
                                 <label for="password">Confirmar Palavra-Passe</label>
                                 <input type="password" id="password_confirmation"
-                                    placeholder="Confirmar Palavra-Passe*">
+                                    placeholder="Confirmar Palavra-Passe*" onkeyup="validarConfirmacao()">
                             </div>
                         </div>
                     </div>
@@ -147,12 +151,13 @@
                             <h2>Informação de Confirmação</h2>
                             <p>confirme os dados.</p>
 
-                            <button class="btn" onclick="cadastrarInstituicao()">Salvar os Dados</button>
+                            <button class="btn" onclick="cadastrar()">Salvar os Dados</button>
                         </div>
 
                     </div>
                 </div>
             </div>
+            <label for="" class="erro-label" id="erro"  style="margin-left: 15px;"></label>
             <div class="footer">
                 <button class="voltar" disabled>Voltar</button>
                 <button class="continuar" id="continuar">Continuar</button>
@@ -227,6 +232,11 @@
         //$("#modalSucesso").modal("show")
         function fazerLogin() {
             document.location.href = "../login.html"
+        }
+        function cadastrar(){
+            if(validarTudoHospital()){
+                cadastrarInstituicao()
+            }
         }
     </script>
 </body>

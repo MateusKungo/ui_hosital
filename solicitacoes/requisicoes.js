@@ -1332,12 +1332,14 @@ function fazerLogin() {
       user = data
       guardarUser(user)
       $('#loadingModal').modal('hide');
-      if (user.user[0].categoria == "Utente") {
+      if (user.user[0].categoria == "utente") {
         document.location.href = "admin/instituicao.html"
       } else if (user.user[0].categoria == "pessoalclinico") {
         document.location.href = "pessoalClinico/pessoalClinico.html"
-      } else {
+      } else if(user.user[0].categoria == "admin") {
         document.location.href = "adminInstituicao/agendamento.html"
+      }else if(user.user[0].categoria == "super_admin"){
+        document.location.href = "page/contaInstituicao.html"
       }
       //document.location.href = "../pages/dist/index.html"
     })
@@ -1456,6 +1458,7 @@ function cadastrarInstituicao() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
   $('#loadingModal').modal('show');
+  token = JSON.parse(localStorage.getItem("user")).token
   formData.append('nome', document.getElementById("nome").value);
   formData.append('email', document.getElementById("email").value);
   formData.append('password', document.getElementById("password").value);
@@ -1473,6 +1476,7 @@ function cadastrarInstituicao() {
   fetch(url + "/api/instituicao/create", {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
       'X-CSRF-TOKEN': tokenCSRF
     },

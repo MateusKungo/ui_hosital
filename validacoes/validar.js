@@ -6,21 +6,42 @@ const regexTelefonico = /^(91|92|93|94|95|99)\d{7}$/;
 const regexPassaporte = /^[A-Za-z]\d{7}$/;
 const regexPostal = /^[0-9]{5}$/;
 const regexsenha = /^(?=.*[a-zA-Z])(?=.*[@$!%?&])(?=.*\d).{8,}$/
+const regexNomeEmpresa = /^[a-zA-Z0-9\s]{1,100}$/;
 
-function validarTudoUtente(){
-    if(validarDataNascimento() && validarEmail() && validarNomeCompleto() && validarBI() && validarNumeroTelefonicoP() && validarNumeroTelefonicoS() && validarPassaporte() && validarPostal() && validarSenha() && validarConfirmacao() ){
+
+function validarTudoUtente() {
+    if (validarDataNascimento() && validarEmail() && validarNomeCompleto() && validarBI() && validarNumeroTelefonicoP() && validarNumeroTelefonicoS() && validarPassaporte() && validarPostal() && validarSenha() && validarConfirmacao()) {
         return true
-    }else{
+    } else {
+        return false;
+    }
+}
+
+function validarTudoHospital() {
+    if ( validarMonicipio && validarProvincia() && validarDistrito() && validarEmail() && validarNomeEmpresa() && validarNumeroTelefonicoP() && validarNumeroTelefonicoS() && validarPostal() && validarSenha() && validarConfirmacao()) {
+        return true
+       
+    } else {
         return false;
     }
 }
 
 
-function validarDataNascimento(){
-    valor =document.getElementById("data_nascimento").value
-    if(valor=='' || valor=="" || valor==null){
+function validarNomeEmpresa(){
+    nome = document.getElementById("nome").value;
+    if (regexNomeEmpresa.test(nome)) {
+        document.getElementById("erro").innerHTML = "";
+    } else {
+        document.getElementById("erro").innerHTML = "Precisamos de um nome válido";
+    }
+    return regexNomeEmpresa.test(nome)
+}
+
+function validarDataNascimento() {
+    valor = document.getElementById("data_nascimento").value
+    if (valor == '' || valor == "" || valor == null) {
         document.getElementById("erro").innerHTML = "Informe a sua data de nascimento";
-    }else{
+    } else {
         document.getElementById("erro").innerHTML = "";
         return true
     }
@@ -28,7 +49,7 @@ function validarDataNascimento(){
 }
 
 function validarEmail() {
-    email=document.getElementById("email").value;
+    email = document.getElementById("email").value;
     if (emailRegex.test(email)) {
         document.getElementById("erro").innerHTML = "";
     } else {
@@ -38,7 +59,7 @@ function validarEmail() {
 }
 
 function validarNomeCompleto() {
-    nome=document.getElementById("nome").value;
+    nome = document.getElementById("nome").value;
     if (nomeCompletoRegex.test(nome)) {
         document.getElementById("erro").innerHTML = "";
     } else {
@@ -48,19 +69,40 @@ function validarNomeCompleto() {
 }
 
 function validarProvincia() {
-    valor = document.getElementById("").value
+    valor = document.getElementById("provincias").value
+    if (valor == '' || valor == null || valor == "") {
+        document.getElementById("erro").innerHTML = "Selecione a provincia";
+        return false
+    } else {
+        document.getElementById("erro").innerHTML = "";
+        return true
+    }
 }
 
 function validarMonicipio() {
-    valor = document.getElementById("").value
+    valor = document.getElementById("monicipio").value
+    if (valor == '' || valor == null || valor == "") {
+        document.getElementById("erro").innerHTML = "Selecione o municipio";
+        return false
+    } else {
+        document.getElementById("erro").innerHTML = "";
+        return true
+    }
 }
 
 function validarDistrito() {
-    valor = document.getElementById("").value
+    valor = document.getElementById("distrito").value
+    if (valor == '' || valor == null || valor == "") {
+        document.getElementById("erro").innerHTML = "Selecione o municipio";
+        return false
+    } else {
+        document.getElementById("erro").innerHTML = "";
+        return true
+    }
 }
 
 function validarBI() {
-    valor=document.getElementById("bi").value
+    valor = document.getElementById("bi").value
     if (regexBI.test(valor)) {
         document.getElementById("erro").innerHTML = "";
     } else {
@@ -71,7 +113,7 @@ function validarBI() {
 
 
 function validarNumeroTelefonicoP() {
-    numero=document.getElementById("telefone_principal").value
+    numero = document.getElementById("telefone_principal").value
     if (regexTelefonico.test(numero)) {
         document.getElementById("erro").innerHTML = "";
     } else {
@@ -81,11 +123,11 @@ function validarNumeroTelefonicoP() {
 }
 
 function validarNumeroTelefonicoS() {
-    numero=document.getElementById("telefone_alternativo").value
-    if(numero=='' || numero==""  || numero ==null){
+    numero = document.getElementById("telefone_alternativo").value
+    if (numero == '' || numero == "" || numero == null) {
         document.getElementById("erro").innerHTML = "";
         return true
-    }else if (regexTelefonico.test(numero)) {
+    } else if (regexTelefonico.test(numero)) {
         document.getElementById("erro").innerHTML = "";
     } else {
         document.getElementById("erro").innerHTML = "Número Angola inválido";
@@ -95,7 +137,7 @@ function validarNumeroTelefonicoS() {
 
 
 function validarPassaporte() {
-    valor=document.getElementById("passaporte").value
+    valor = document.getElementById("passaporte").value
     if (valor == '' || valor == null || valor == "" || regexPassaporte.test(valor)) {
         document.getElementById("erro").innerHTML = "";
         return true
@@ -106,7 +148,7 @@ function validarPassaporte() {
     return regexPassaporte.test(valor)
 }
 function validarPostal() {
-    valor=document.getElementById("codigo_postal").value
+    valor = document.getElementById("codigo_postal").value
     if (valor == '' || valor == null || valor == "" || regexPostal.test(valor)) {
         document.getElementById("erro").innerHTML = "";
         return true
@@ -117,20 +159,20 @@ function validarPostal() {
 
 function validarSenha() {
     senha = document.getElementById("password").value;
-    if (regexsenha.test(senha)){
+    if (regexsenha.test(senha)) {
         document.getElementById("erro").innerHTML = "";
-    }else{
+    } else {
         document.getElementById("erro").innerHTML = "Deve conter no minino 8 digitos um numero um caracter expecial uma letra";
     }
     return regexsenha.test(senha);
 }
 
-function validarConfirmacao(){
-    valor=document.getElementById("password_confirmation").value
-    senha=document.getElementById("password").value
-    if(valor!=senha){
+function validarConfirmacao() {
+    valor = document.getElementById("password_confirmation").value
+    senha = document.getElementById("password").value
+    if (valor != senha) {
         document.getElementById("erro").innerHTML = "Senhas não conscidem";
-    }else{
+    } else {
         document.getElementById("erro").innerHTML = "";
         return true;
     }
