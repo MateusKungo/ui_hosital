@@ -10,7 +10,7 @@
   <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet" />
 
 
-  
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
   <link rel="stylesheet" href="constumer.css" />
@@ -202,6 +202,19 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div class="modal fade" id="loadingModalCadastro" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <main class="perfilHospital">
               <div class="table-data " style="display: flex; justify-content: center;">
                 <div class="col">
@@ -253,18 +266,40 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalSucessoLabel">Sucesso!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="actualizar()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success mt-3" role="alert">
+                Informações salvo com sucesso
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <script src="script.js"></script>
     <script src="modal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-   
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
+
     <script src="../solicitacoes/requisicoes.js"></script>
     <script>
       getMyMedicoForEscala()
+      function actualizar(){
+          location.reload()
+      }
     </script>
 </body>
 

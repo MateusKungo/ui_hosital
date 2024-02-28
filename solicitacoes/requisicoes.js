@@ -232,7 +232,7 @@ function criarMeusMedicos(imagem, nome, email, especialidade, contacto) {
 function getMyMedico() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
-  $("#loadingModal").modal("show")
+  $("#loadingModalCadastro").modal("show")
   fetch(url + "/api/user/pegarPessoalClinicosPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
@@ -252,7 +252,8 @@ function getMyMedico() {
         for (cont = 0; cont < retorno.length; cont++) {
           criarMeusMedicos(retorno[cont].imagem, retorno[cont].nome, retorno[cont].email, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal)
         }
-        $("#loadingModal").modal("hide")
+        $("#loadingModalCadastro").modal("hide")
+        
       } else {
         console.log("vazio")
       }
@@ -266,7 +267,7 @@ function getMyMedico() {
 //usei
 function addExame() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-  // $('#loadingModal').modal('show');
+   $('#loadingModal').modal('show');
   const formData = new FormData();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
@@ -286,14 +287,18 @@ function addExame() {
     .then(response => {
       //$('#loadingModal').modal('hide');
       if (!response.ok) {
+        $('#loadingModal').modal('hide');
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
+      $('#loadingModal').modal('hide');
+      $('#modalSucesso').modal('show');
       console.log(data)
     })
     .catch(error => {
+      $('#loadingModal').modal('hide');
       //$('#loadingModal').modal('hide');
       console.error('Erro na solicitação:', error.message);
     });
@@ -301,6 +306,7 @@ function addExame() {
 }
 
 function addEspecialidade() {
+  $("#loadingModal").modal("show")
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
 
   const formData = new FormData();
@@ -319,12 +325,17 @@ function addEspecialidade() {
       if (!response.ok) {
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
+      $("#loadingModal").modal("hide")
       return response.json();
     })
     .then(data => {
+      $("#loadingModal").modal("hide")
+      $("#modalSucesso").modal("show")
       console.log(data)
     })
     .catch(error => {
+      
+      $("#loadingModal").modal("hide")
       //$('#loadingModal').modal('hide');
       console.error('Erro na solicitação:', error.message);
     });
@@ -335,7 +346,7 @@ function addEspecialidade() {
 //usei
 function addConsulta() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-  // $('#loadingModal').modal('show');
+  $('#loadingModal').modal('show');
   const formData = new FormData();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
@@ -356,14 +367,18 @@ function addConsulta() {
     .then(response => {
       //$('#loadingModal').modal('hide');
       if (!response.ok) {
+        $('#loadingModal').modal('hide');
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
+      $('#loadingModal').modal('hide');
+      $('#modalSucesso').modal('show');
       console.log(data)
     })
     .catch(error => {
+      $('#loadingModal').modal('hide');
       //$('#loadingModal').modal('hide');
       console.error('Erro na solicitação:', error.message);
     });
@@ -373,6 +388,7 @@ function addConsulta() {
 
 //usei
 function addMedicamento() {
+  $("#loadingModal").modal("show")
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   const formData = new FormData();
   formData.append('nome', document.getElementById("nome").value);
@@ -387,14 +403,18 @@ function addMedicamento() {
   })
     .then(response => {
       if (!response.ok) {
+        $("#loadingModal").modal("hide")
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
+      $("#loadingModal").modal("hide")
+      $("#modalSucesso").modal("show")
       console.log(data)
     })
     .catch(error => {
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 
@@ -743,6 +763,7 @@ function criarTabelaHistorico(data, nomeDoeca, tipDoenca, estado, receita, resul
 
 //usei
 function listarReceita(receita) {
+  $("#receitaContent").empty()
   // Seleciona o elemento tbody onde as linhas serão adicionadas
   for (cont = 0; cont < receita.medicamentos.length; cont++) {
     listarMedicosDaReceita(receita.medicamentos[cont].nome, receita.medicamentos[cont].pivot.quantidade, receita.medicamentos[cont].pivot.numero_vezes_dia, receita.medicamentos[cont].pivot.horas)
@@ -824,9 +845,12 @@ function pegarMeuHistorico(idUser) {
 function pegarMarcacoesParaUmMedico() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
+  token= JSON.parse(localStorage.getItem("user")).token
+  $("#loadingModal").modal("show")
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -848,6 +872,7 @@ function pegarMarcacoesParaUmMedico() {
             }
 
           }
+          $("#loadingModal").modal("hide")
         }
       } catch (error) {
         console.log(error)
@@ -863,9 +888,12 @@ function pegarMarcacoesParaUmMedico() {
 function pegarMarcacoesParaUmMedicoParaReceitar() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
+  token =JSON.parse(localStorage.getItem("user")).token
+  $("#loadingModal").modal("show")
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -887,6 +915,7 @@ function pegarMarcacoesParaUmMedicoParaReceitar() {
             }
 
           }
+          $("#loadingModal").modal("hide")
         }
         pegarMedicamentos(1);
       } catch (error) {
@@ -953,14 +982,18 @@ function pegarMarcacoesMedicoElistarParaRceitar(id, nomePaciente, nomeServico, t
 function pegarMarcacoesParaUmMedicoDiagnosticar() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
+  token =JSON.parse(localStorage.getItem("user")).token
+  $("#loadingModal").modal("show");
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
     .then(response => {
       if (!response.ok) {
+        $("#loadingModal").modal("hide");
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -975,17 +1008,21 @@ function pegarMarcacoesParaUmMedicoDiagnosticar() {
             }
           }
         }
+        $("#loadingModal").modal("hide");
         pegarTodasAsDoencas();
       } catch (error) {
+        $("#loadingModal").modal("hide");
         console.log(error)
       }
     })
     .catch(error => {
+      $("#loadingModal").modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
 
 }
 
+//usei
 function pegarMarcacoesMedicoElistarParaDiagnosticar(id, imagem, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
   // Criação do elemento <tr>
   var tr = document.createElement("tr");
@@ -1037,7 +1074,7 @@ function pegarMarcacoesMedicoElistarParaDiagnosticar(id, imagem, nomePaciente, n
   tr.appendChild(button)
   button.addEventListener("click", function () {
     $("#registroModal").modal("show")
-    document.getElementById("receitar").addEventListener("click", function () {
+    document.getElementById("diadnosticar").addEventListener("click", function () {
       criarDiagnostico(id)
     })
   });
@@ -1046,6 +1083,7 @@ function pegarMarcacoesMedicoElistarParaDiagnosticar(id, imagem, nomePaciente, n
 }
 
 async function criarReceita(id) {
+  $("#loadingModalCadastro").modal("show")
   try {
     user = JSON.parse(localStorage.getItem("user"));
     token = user.token
@@ -1067,11 +1105,16 @@ async function criarReceita(id) {
       body: JSON.stringify(jsonData)
     });
     if (!response.ok) {
+      $("#loadingModalCadastro").modal("hide")
       throw new Error(`Erro na resposta da API: status ${response.status}`);
     }
+    $("#loadingModalCadastro").modal("hide")
+    $("#modalSucesso").modal("hide")
+    
     const responseData = await response.json();
     console.log(responseData);
   } catch (error) {
+    $("#loadingModalCadastro").modal("hide")
     console.error('Erro na solicitação:', error.message);
   }
 }
@@ -1105,9 +1148,12 @@ function listarMinhasAgenda(dataStart, dataFim, horaInicio, HoraFim) {
 function pegarMinhasAgendas() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
+  token =JSON.parse(localStorage.getItem("user")).token
+  $("#loadingModal").modal("show")
   fetch(url + "/api/escala/pegarEscalaPorPessoalClinico/" + id, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -1125,6 +1171,7 @@ function pegarMinhasAgendas() {
             listarMinhasAgenda(retorno[cont].data_inicio, retorno[cont].data_fim, retorno[cont].hora_inicio, retorno[cont].hora_fim)
           }
         }
+        $("#loadingModal").modal("hide")
       } catch (error) {
         console.log(error)
       }
@@ -1188,18 +1235,22 @@ function pegarMarcacoesMedicoElistar(imagem, nomePaciente, nomeServico, tipoServ
 
 }
 
-
+//usei
 function pegarHistoricosDosMeusPacientes() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
+  token =JSON.parse(localStorage.getItem("user")).token
+  $("#loadingModal").modal("show");
   fetch(url + "/api/rcu/pegarRcuUtentesAtendidosPeloMedico/" + id, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
     .then(response => {
       if (!response.ok) {
+        $("#loadingModal").modal("hide");
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -1212,11 +1263,14 @@ function pegarHistoricosDosMeusPacientes() {
             historicosDePacienteAtendidos(retorno[cont].id, retorno[cont].imagem, retorno[cont].nome, retorno[cont].contacto.telefone_principal)
           }
         }
+        $("#loadingModal").modal("hide");
       } catch (error) {
+        $("#loadingModal").modal("hide");
         console.log(error)
       }
     })
     .catch(error => {
+      $("#loadingModal").modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -1278,7 +1332,7 @@ function fazerLogin() {
       user = data
       guardarUser(user)
       $('#loadingModal').modal('hide');
-      if (user.user[0].categoria == "utente") {
+      if (user.user[0].categoria == "Utente") {
         document.location.href = "admin/instituicao.html"
       } else if (user.user[0].categoria == "pessoalclinico") {
         document.location.href = "pessoalClinico/pessoalClinico.html"
@@ -1575,6 +1629,7 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   let popup = document.getElementById('popup')
   popup.classList.add('open-popup')
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
+    $("#loadingModal").modal("show")
     user = JSON.parse(localStorage.getItem("user"));
     idUser = user.user[0].id;
     const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
@@ -1623,6 +1678,7 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
       })
       .then(data => {
         $('#loadingModal').modal('hide');
+        $('#modalSucesso').modal('show');
         console.log(data)
       })
       .catch(error => {
@@ -1693,6 +1749,7 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
         return response.json();
       })
       .then(data => {
+        $('#modalSucesso').modal('show');
         $('#loadingModal').modal('hide');
         console.log(data)
       })
@@ -2367,6 +2424,7 @@ function escalar(input, id) {
 }
 //usei
 function addEscala(pessoalClinicos) {
+  $("#loadingModalCadastro").modal("show");
   dataInicio = document.getElementById("dataInicio").value.split("T")[0];
   dataFim = document.getElementById("dataFim").value.split("T")[0];;
   horaInicio = document.getElementById("dataInicio").value.split("T")[1];
@@ -2375,7 +2433,6 @@ function addEscala(pessoalClinicos) {
   data = new Date();
   user = JSON.parse(localStorage.getItem("user"))
   idInstituicao = user.user[0].admin.instituicao_id
-
   const jsonData = {
     data_inicio: dataInicio,
     data_fim: dataFim,
@@ -2404,6 +2461,8 @@ function addEscala(pessoalClinicos) {
       return response.json();
     })
     .then(data => {
+      $("#loadingModalCadastro").modal("hide");
+      $("#modalSucesso").modal("show")
       console.log(data)
     })
     .catch(error => {
@@ -2416,9 +2475,11 @@ function addEscala(pessoalClinicos) {
 function agendarComMedicoApi(idInstituicao, id, nome, servico) {
   $("#agendandoComMedico").empty();
   $("#modalAgendar").modal('show');
+  token = JSON.parse(localStorage.getItem("user")).token
   fetch(url + "/api/escala/pegarEscalaPorPessoalClinico/" + id, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -2570,6 +2631,7 @@ async function meuRCU(idUser) {
 
 async function criarDiagnostico(idUser) {
   try {
+    $("#loadingModalCadastro").modal("show")
     user = JSON.parse(localStorage.getItem("user"));
     idPessoalClinico = user.user[0].pclinico.id
     token = user.token
@@ -2608,11 +2670,15 @@ async function criarDiagnostico(idUser) {
       body: JSON.stringify(jsonData)
     });
     if (!response.ok) {
+      $("#loadingModalCadastro").modal("hide")
+      $("#modalSucesso").modal("show")
       throw new Error(`Erro na resposta da API: status ${response.status}`);
     }
+    $("#loadingModalCadastro").modal("hide")
     const responseData = await response.json();
     console.log(responseData);
   } catch (error) {
+    $("#loadingModalCadastro").modal("hide")
     console.error('Erro na solicitação:', error.message);
   }
 }

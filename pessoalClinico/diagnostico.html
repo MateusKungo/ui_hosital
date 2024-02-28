@@ -82,12 +82,7 @@
           <span class="text">Meu Perfil</span>
         </a>
       </li>
-      <li>
-        <a href="#">
-          <i class="bx bxs-cog"></i>
-          <span class="text">Configurações</span>
-        </a>
-      </li>
+      
       <li>
         <a href="#" class="logout">
           <i class="bx bxs-log-out-circle"></i>
@@ -129,6 +124,19 @@
             <i class='bx bx-filter'></i>
           </div>
           <table>
+            <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <thead>
               <tr>
                 <th>Paciente</th>
@@ -160,6 +168,19 @@
           </button>
         </div>
         <div class="modal-body">
+          <div class="modal fade" id="loadingModalCadastro" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Carregando...</span>
+                  </div>
+                  <p class="mt-2">Carregando...</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-md-4">
               <!-- Informações do diagnóstico -->
@@ -223,6 +244,25 @@
     </div>
   </div>
 
+  <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalSucessoLabel">Sucesso!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="actualizar()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success mt-3" role="alert">
+            Informações salvas com sucesso
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -279,6 +319,9 @@
 
   <script>
     pegarMarcacoesParaUmMedicoDiagnosticar()
+    function actualizar() {
+      location.reload()
+    }
   </script>
 </body>
 

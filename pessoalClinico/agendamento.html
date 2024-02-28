@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="modal.css">
   <link rel="stylesheet" href="agenda.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
   <style>
     /* Adicione estilos específicos do hospital aqui */
   </style>
@@ -64,12 +66,6 @@
         </a>
       </li>
       <li>
-        <a href="#">
-          <i class="bx bxs-cog"></i>
-          <span class="text">Configurações</span>
-        </a>
-      </li>
-      <li>
         <a href="#" class="logout">
           <i class="bx bxs-log-out-circle"></i>
           <span class="text" onclick="sair()">Sair</span>
@@ -110,6 +106,19 @@
             <i class='bx bx-filter'></i>
           </div>
           <table>
+            <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <thead>
               <tr>
                 <th>Paciente</th>
@@ -132,7 +141,12 @@
   <script src="script.js"></script>
   <script src="modal.js"></script>
   <script src="../solicitacoes/requisicoes.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   <script>
+    
     pegarMarcacoesParaUmMedico()
   </script>
 </body>

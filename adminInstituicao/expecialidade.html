@@ -148,19 +148,7 @@
             <i class='bx bx-filter'></i>
           </div>
           <table>
-            <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-              aria-hidden="true" data-backdrop="static" data-keyboard="false">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-body text-center">
-                    <div class="spinner-border text-primary" role="status">
-                      <span class="sr-only">Carregando...</span>
-                    </div>
-                    <p class="mt-2">Carregando...</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <thead>
               <th style="text-align: center;">Id</th>
               <th style="text-align: center;">Nome</th>
@@ -173,6 +161,20 @@
       </div>
 
     </main>
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Carregando...</span>
+            </div>
+            <p class="mt-2">Carregando...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- PRINCIPAL -->
 
   </section>
@@ -189,6 +191,25 @@
 
     </div>
   </div>
+
+  <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalSucessoLabel">Sucesso!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="actualizar()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success mt-3" role="alert">
+            Informações salvas com sucesso
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="script.js"></script>
   <script src="modal.js"></script>
 
@@ -200,6 +221,10 @@
 
   <script>
     getAllEspecialidade();
+    function actualizar(){
+      location.reload()
+    }
+    
   </script>
 
 </body>
