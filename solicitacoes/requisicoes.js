@@ -878,8 +878,10 @@ function pegarMeuHistorico(idUser) {
   })
     .then(response => {
       if (!response.ok) {
+        $("#loadingModal").modal("hide");
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
+      $("#loadingModal").modal("hide");
       return response.json();
     })
     .then(data => {
@@ -892,6 +894,7 @@ function pegarMeuHistorico(idUser) {
         }
 
       } catch (error) {
+        $("#loadingModal").modal("hide");
         console.log(error)
       }
 
@@ -909,6 +912,7 @@ function pegarMeuHistorico(idUser) {
       }
     })
     .catch(error => {
+      $("#loadingModal").modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
 
@@ -1257,6 +1261,43 @@ function pegarMinhasAgendas() {
 }
 
 
+function myDashborderUser() {
+  user = JSON.parse(localStorage.getItem("user"));
+  id = user.user[0].id
+  token = JSON.parse(localStorage.getItem("user")).token
+  //$("#loadingModal").modal("show")
+  fetch(url + "/api/marcacao_user/pegarQuantidadeEUltimaMarcacoesUser/" + id, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      document.getElementById("quantidade").innerHTML=data.quantidade;
+      document.getElementById("hora").innerHTML=data.marcacao.data+" "+data.marcacao.hora
+      if(data.marcacao.estado==0){
+        document.getElementById("estado").innerHTML="marcado"
+      }else if(data.marcacao.estado==1){
+        document.getElementById("estado").innerHTML="confirmado"
+      }else{
+        document.getElementById("estado").innerHTML="atendido"
+      }
+      
+      console.log(data.quantidade)
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
 //usei
 function pegarMarcacoesMedicoElistar(imagem, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
   // Criação do elemento <tr>
@@ -1407,7 +1448,7 @@ function fazerLogin() {
       guardarUser(user)
       $('#loadingModal').modal('hide');
       if (user.user[0].categoria == "utente") {
-        document.location.href = "admin/instituicao.html"
+        document.location.href = "admin/utente.html"
       } else if (user.user[0].categoria == "pessoalclinico") {
         document.location.href = "pessoalClinico/pessoalClinico.html"
       } else if (user.user[0].categoria == "admin") {
@@ -2021,6 +2062,7 @@ function getMyRCU() {
       $("#loadingModal").modal("hide")
     })
     .catch(error => {
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 }
