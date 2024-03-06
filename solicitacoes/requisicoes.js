@@ -1,4 +1,4 @@
-var url = "https://7c7b-102-218-85-98.ngrok-free.app";
+var url = "https://37ff-102-218-85-56.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -23,9 +23,12 @@ function getAllExames() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
 
+  token = JSON.parse(localStorage.getItem("user")).token
+
   fetch(url + "/api/exame/pegarExamesPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -60,6 +63,7 @@ function getAllExames() {
 
     })
     .catch(error => {
+      $('#loadingModal').modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -68,9 +72,12 @@ function getAllExames() {
 //usei
 function getAllMedicamentos() {
   $("#loadingModal").modal("show")
+  token = JSON.parse(localStorage.getItem("user")).token
+
   fetch(url + "/api/medicamento/pegarTodosMedicamentos", {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -103,6 +110,7 @@ function getAllMedicamentos() {
 
     })
     .catch(error => {
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -110,13 +118,16 @@ function getAllMedicamentos() {
 
 //usei
 function getAllConsulta() {
-   $("#loadingModal").modal("show")
+  $("#loadingModal").modal("show")
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
+
+  token = JSON.parse(localStorage.getItem("user")).token
 
   fetch(url + "/api/consulta/pegarConsultasPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -155,16 +166,20 @@ function getAllConsulta() {
       $("#loadingModal").modal("hide")
     })
     .catch(error => {
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 }
 
 //usei
 function getAllEspecialidade() {
+  token = JSON.parse(localStorage.getItem("user")).token
+
   $("#loadingModal").modal("show")
   fetch(url + "/api/especialidade/getAll", {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -192,6 +207,7 @@ function getAllEspecialidade() {
       $("#loadingModal").modal("hide")
     })
     .catch(error => {
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -233,14 +249,19 @@ function getMyMedico() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
   $("#loadingModalCadastro").modal("show")
+
+  token =JSON.parse(localStorage.getItem("user")).token
+
   fetch(url + "/api/user/pegarPessoalClinicosPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
     .then(response => {
       if (!response.ok) {
+        $("#loadingModalCadastro").modal("hide")
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -253,13 +274,15 @@ function getMyMedico() {
           criarMeusMedicos(retorno[cont].imagem, retorno[cont].nome, retorno[cont].email, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal)
         }
         $("#loadingModalCadastro").modal("hide")
-        
+
       } else {
         console.log("vazio")
+        $("#loadingModalCadastro").modal("hide")
       }
 
     })
     .catch(error => {
+      $("#loadingModalCadastro").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -267,10 +290,14 @@ function getMyMedico() {
 //usei
 function addExame() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-   $('#loadingModal').modal('show');
+  $('#loadingModal').modal('show');
   const formData = new FormData();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
+
+
+  token =JSON.parse(localStorage.getItem("user")).token
+
 
   formData.append('nome', document.getElementById("nomeExame").value);
   formData.append('preco', document.getElementById("PrecoExame").value);
@@ -279,6 +306,7 @@ function addExame() {
   fetch(url + "/api/exame/create", {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
       'X-CSRF-TOKEN': tokenCSRF
     },
@@ -312,9 +340,13 @@ function addEspecialidade() {
   const formData = new FormData();
   formData.append('nome', document.getElementById("nome").value);
 
+  token = JSON.parse(localStorage.getItem("user")).token
+
+
   fetch(url + "/api/especialidade/create", {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
       'X-CSRF-TOKEN': tokenCSRF
     },
@@ -334,7 +366,7 @@ function addEspecialidade() {
       console.log(data)
     })
     .catch(error => {
-      
+
       $("#loadingModal").modal("hide")
       //$('#loadingModal').modal('hide');
       console.error('Erro na solicitação:', error.message);
@@ -356,9 +388,13 @@ function addConsulta() {
   formData.append('tipo', document.getElementById("tipoConsulta").value);
   formData.append('instituicao_id', iuser);
 
+  token =JSON.parse(localStorage.getItem("user")).token
+ 
+
   fetch(url + "/api/consulta/create", {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
       'X-CSRF-TOKEN': tokenCSRF
     },
@@ -393,9 +429,14 @@ function addMedicamento() {
   const formData = new FormData();
   formData.append('nome', document.getElementById("nome").value);
 
+
+  token = JSON.parse(localStorage.getItem("user")).token
+
+
   fetch(url + "/api/medicamento/criar", {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
       'X-CSRF-TOKEN': tokenCSRF
     },
@@ -425,14 +466,20 @@ function getMyMedicoForEscala() {
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
   $("#loadingModal").modal()
+
+  token =JSON.parse(localStorage.getItem("user")).token
+ 
   fetch(url + "/api/user/pegarPessoalClinicosPorInstituicao/" + iuser, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
     .then(response => {
       if (!response.ok) {
+        $("#loadingModal").hide()
+        $(".modal-backdrop").remove();
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -441,7 +488,7 @@ function getMyMedicoForEscala() {
       retorno = data.users;
       try {
         if (retorno) {
-         
+
           for (cont = 0; cont < retorno.length; cont++) {
             adicionarLinhaMedico(retorno[cont].pclinico.id, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal, retorno[cont].imagem)
             adicionarLinhaTabela(retorno[cont].imagem, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].pclinico.id)
@@ -449,15 +496,21 @@ function getMyMedicoForEscala() {
           $("#loadingModal").hide()
           $(".modal-backdrop").remove();
         } else {
+          $("#loadingModal").hide()
+          $(".modal-backdrop").remove();
           console.log("vazio")
         }
       } catch (error) {
+        $("#loadingModal").hide()
+        $(".modal-backdrop").remove();
         console.log(error)
       }
 
 
     })
     .catch(error => {
+      $("#loadingModal").hide()
+      $(".modal-backdrop").remove();
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -517,14 +570,15 @@ function adicionarLinhaTabela(imagem, nome, especialidade, id) {
       tabelaBody.appendChild(novaLinha);
     })
     .catch(error => {
-      
+
       console.error('Erro na solicitação:', error.message);
     });
-    $("#loadingModal").modal("hide")
+  $("#loadingModal").modal("hide")
 }
 
 //usei
 function getAllProvincia() {
+
   fetch(url + "/api/provincias", {
     method: 'GET',
     headers: {
@@ -581,9 +635,15 @@ function pegarTodasEspecialidade() {
   //$('#loadingSpinnerContainer').show();
   select = document.getElementById("especialidade");
 
+
+  token =JSON.parse(localStorage.getItem("user")).token
+  
+
+
   fetch(url + "/api/especialidade/getAll", {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -614,9 +674,14 @@ function pegarTodosExameSeclectDeumaInstituicao(idInstituicao) {
 
   select = document.getElementById("tipoServico");
 
+  token =JSON.parse(localStorage.getItem("user")).token
+
+
+
   fetch(url + "/api/exame/pegarExamesPorInstituicao/" + idInstituicao, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -655,12 +720,15 @@ function pegarTodosExameSeclectDeumaInstituicao(idInstituicao) {
 
 function pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao) {
 
+  token =JSON.parse(localStorage.getItem("user")).token
+ 
 
   select = document.getElementById("tipoServico");
 
   fetch(url + "/api/consulta/pegarConsultasPorInstituicao/" + idInstituicao, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -798,9 +866,13 @@ function listarMedicosDaReceita(nome, quantidade, numeroVezes, horas) {
 //usei
 function pegarMeuHistorico(idUser) {
   $("#loadingModal").modal("show");
+
+  token =JSON.parse(localStorage.getItem("user")).token
+ 
   fetch(url + "/api/user/pegarHistoricoUser/" + idUser, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -845,7 +917,7 @@ function pegarMeuHistorico(idUser) {
 function pegarMarcacoesParaUmMedico() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
-  token= JSON.parse(localStorage.getItem("user")).token
+  token = JSON.parse(localStorage.getItem("user")).token
   $("#loadingModal").modal("show")
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
     method: 'GET',
@@ -888,8 +960,10 @@ function pegarMarcacoesParaUmMedico() {
 function pegarMarcacoesParaUmMedicoParaReceitar() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
-  token =JSON.parse(localStorage.getItem("user")).token
+  token = JSON.parse(localStorage.getItem("user")).token
   $("#loadingModal").modal("show")
+
+
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
     method: 'GET',
     headers: {
@@ -982,7 +1056,7 @@ function pegarMarcacoesMedicoElistarParaRceitar(id, nomePaciente, nomeServico, t
 function pegarMarcacoesParaUmMedicoDiagnosticar() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
-  token =JSON.parse(localStorage.getItem("user")).token
+  token = JSON.parse(localStorage.getItem("user")).token
   $("#loadingModal").modal("show");
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
     method: 'GET',
@@ -1110,7 +1184,7 @@ async function criarReceita(id) {
     }
     $("#loadingModalCadastro").modal("hide")
     $("#modalSucesso").modal("hide")
-    
+
     const responseData = await response.json();
     console.log(responseData);
   } catch (error) {
@@ -1148,7 +1222,7 @@ function listarMinhasAgenda(dataStart, dataFim, horaInicio, HoraFim) {
 function pegarMinhasAgendas() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
-  token =JSON.parse(localStorage.getItem("user")).token
+  token = JSON.parse(localStorage.getItem("user")).token
   $("#loadingModal").modal("show")
   fetch(url + "/api/escala/pegarEscalaPorPessoalClinico/" + id, {
     method: 'GET',
@@ -1239,7 +1313,7 @@ function pegarMarcacoesMedicoElistar(imagem, nomePaciente, nomeServico, tipoServ
 function pegarHistoricosDosMeusPacientes() {
   user = JSON.parse(localStorage.getItem("user"));
   id = user.user[0].pclinico.id
-  token =JSON.parse(localStorage.getItem("user")).token
+  token = JSON.parse(localStorage.getItem("user")).token
   $("#loadingModal").modal("show");
   fetch(url + "/api/rcu/pegarRcuUtentesAtendidosPeloMedico/" + id, {
     method: 'GET',
@@ -1323,7 +1397,7 @@ function fazerLogin() {
     .then(response => {
       if (!response.ok) {
         $('#loadingModal').modal('hide');
-        document.getElementById("loginError").innerHTML="Palavra passe ou login incorreto"
+        document.getElementById("loginError").innerHTML = "Palavra passe ou login incorreto"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -1336,16 +1410,16 @@ function fazerLogin() {
         document.location.href = "admin/instituicao.html"
       } else if (user.user[0].categoria == "pessoalclinico") {
         document.location.href = "pessoalClinico/pessoalClinico.html"
-      } else if(user.user[0].categoria == "admin") {
+      } else if (user.user[0].categoria == "admin") {
         document.location.href = "adminInstituicao/agendamento.html"
-      }else if(user.user[0].categoria == "super_admin"){
+      } else if (user.user[0].categoria == "super_admin") {
         document.location.href = "page/contaInstituicao.html"
       }
       //document.location.href = "../pages/dist/index.html"
     })
     .catch(error => {
       $('#loadingModal').modal('hide');
-      document.getElementById("loginError").innerHTML="Palavra passe ou login incorreto"
+      document.getElementById("loginError").innerHTML = "Palavra passe ou login incorreto"
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -1484,8 +1558,8 @@ function cadastrarInstituicao() {
   })
     .then(response => {
       $('#loadingModal').modal('hide');
-      $("#modalErro").modal("show")
-      document.getElementById("informacao").innerHTML = response.status;
+      $("#modalSucesso").modal("show")
+      //document.getElementById("informacao").innerHTML = response.status;
       if (!response.ok) {
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
@@ -1515,9 +1589,13 @@ function TipoDeCategoria() {
 
 function pegarTodosUtentes() {
 
+
+  token =JSON.parse(localStorage.getItem("user")).token
+
   fetch(url + "/api/user/getAllUtentes", {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -1586,9 +1664,12 @@ function createAdivInstituicao(nome, descricao, id, provincia, municipio, destri
 //usei
 function pegarTodasInstituicoes() {
   $("#loadingModal").modal("show")
+  token =JSON.parse(localStorage.getItem("user")).token
+
   fetch(url + "/api/instituicao/pegarTodos", {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -1599,7 +1680,6 @@ function pegarTodasInstituicoes() {
       return response.json();
     })
     .then(data => {
-
       //$("#pai").empty();
       divPai = document.getElementById("pai");
       dados = data.instituicoes
@@ -1607,9 +1687,9 @@ function pegarTodasInstituicoes() {
         document.getElementById("lista_instituicao").appendChild(createAdivInstituicao(dados[cont].nome, dados[cont].Descricao, dados[cont].id, dados[cont].distrito.municipio.provincia.nome, dados[cont].distrito.municipio.nome, dados[cont].distrito.nome, dados[cont].imagem))
       }
       $("#loadingModal").modal("hide")
-
     })
     .catch(error => {
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -1630,8 +1710,10 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("titulo").innerHTML = " Selecione o Tipo de Consulta:"
   document.getElementById("idPreco").innerHTML = "Valor da consulta:"
   pegarTodosConsultaSeclectDeumaInstituicao(idInstituicao);
-  let popup = document.getElementById('popup')
-  popup.classList.add('open-popup')
+
+
+  $("#myModal").modal("show")
+
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     $("#loadingModal").modal("show")
     user = JSON.parse(localStorage.getItem("user"));
@@ -1663,10 +1745,14 @@ function ConsultaInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
       };
     }
 
+    token =JSON.parse(localStorage.getItem("user")).token
+  
+
 
     fetch(url + "/api/marcacao_user/create", {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${token}`,
         "ngrok-skip-browser-warning": "69420",
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': tokenCSRF
@@ -1700,8 +1786,8 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
   document.getElementById("idPreco").innerHTML = "Valor do exame:"
   pegarTodosExameSeclectDeumaInstituicao(idInstituicao);
 
-  let popup = document.getElementById('popup')
-  popup.classList.add('open-popup')
+
+  $("#myModal").modal("show")
 
   document.getElementById("efectuarServicoBTN").addEventListener("click", function () {
     user = JSON.parse(localStorage.getItem("user"));
@@ -1736,9 +1822,14 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
       };
 
     }
+
+    token =JSON.parse(localStorage.getItem("user")).token
+  
+
     fetch(url + "/api/marcacao_user/create", {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${token}`,
         "ngrok-skip-browser-warning": "69420",
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': tokenCSRF
@@ -1774,9 +1865,14 @@ function pegarUmaisntituicao() {
   queryString = window.location.search;
   searchParams = new URLSearchParams(queryString);
   getUrl = Object.fromEntries(searchParams.entries());
+
+  token =JSON.parse(localStorage.getItem("user")).token
+
+
   fetch(url + "/api/instituicao/pegarInstituicao/" + getUrl.idHospital, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -1897,9 +1993,12 @@ function getMyRCU() {
 
   $("#loadingModal").modal("show")
 
+  token =JSON.parse(localStorage.getItem("user")).token
+
   fetch(url + "/api/rcu/pegarPorID_USER/" + idUser, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -1950,9 +2049,12 @@ function getMyAgendamento() {
   user = JSON.parse(localStorage.getItem("user"));
   idUser = user.user[0].id;
   $("#loadingModal").modal("show")
+  token =JSON.parse(localStorage.getItem("user")).token
+ 
   fetch(url + "/api/marcacao_user/pegarHistoricoMarcacoesUser/" + idUser, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -2185,9 +2287,13 @@ function criarMarcacoes() {
   div = document.getElementById("marcacoes");
   user = JSON.parse(localStorage.getItem("user"))
   idInstituicao = user.user[0].admin.instituicao_id
+
+  token = JSON.parse(localStorage.getItem("user")).token
+
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorInstituicao/" + idInstituicao, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -2199,6 +2305,7 @@ function criarMarcacoes() {
     })
     .then(data => {
       retorno = data.marcacoes;
+      console.log(retorno)
       for (cont = 0; cont < retorno.length; cont++) {
         if (retorno[cont].tipo_servico == "consulta") {
           listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].consulta.nome, retorno[cont].consulta.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
@@ -2210,6 +2317,7 @@ function criarMarcacoes() {
 
     })
     .catch(error => {
+      $('#loadingModal').modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
 
@@ -2350,9 +2458,12 @@ function limpatela() {
 
 
 function verPerfilUser(id) {
+  token =JSON.parse(localStorage.getItem("user")).token
+ 
   fetch(url + "/api/user/show/" + id, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -2448,9 +2559,13 @@ function addEscala(pessoalClinicos) {
 
   console.log(jsonData);
 
+  token =JSON.parse(localStorage.getItem("user")).token
+
+
   fetch(url + "/api/escala/create", {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': tokenCSRF
@@ -2547,10 +2662,12 @@ function agendarComMedico(idInstituicao, servico, nome, id, dataInicio, dataFim,
 //usei
 function pegarTodasAsDoencas() {
   select = document.getElementById("doenca_id");
+  token =JSON.parse(localStorage.getItem("user")).token
 
   fetch(url + "/api/doenca/pegarTodas", {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -2581,9 +2698,13 @@ function pegarTodasAsDoencas() {
 //usei
 function pegarMedicamentos(numero) {
   select = document.getElementById("medicamentoId" + numero);
+
+  token =JSON.parse(localStorage.getItem("user")).token
+ 
   fetch(url + "/api/medicamento/pegarTodosMedicamentos", {
     method: 'GET',
     headers: {
+     'Authorization': `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420"
     }
   })
@@ -2612,10 +2733,14 @@ function pegarMedicamentos(numero) {
 }
 
 async function meuRCU(idUser) {
+
+   token =JSON.parse(localStorage.getItem("user")).token
+
   try {
     const response = await fetch(url + "/api/rcu/pegarPorID_USER/" + idUser, {
       method: 'GET',
       headers: {
+        'Authorization': `Bearer ${token}`,
         "ngrok-skip-browser-warning": "69420"
       }
     });

@@ -1,6 +1,6 @@
 <script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    document.location.href = "../index.html"
   }
 </script>
 <!DOCTYPE html>
@@ -66,7 +66,7 @@
           <span class="text">Meu Perfil</span>
         </a>
       </li>
-    
+
       <li>
         <a href="#" class="logout">
           <i class="bx bxs-log-out-circle"></i>
@@ -106,19 +106,18 @@
               <img alt="" id="imagemInstituicao" />
             </div>
             <div class="title">
-              <h2 id="nomeHospital"></h2>
-              <h3>Email: <span id="emailHospital"></span></h3>
-              <h3>Descrição</h3>
+              <h3 id="nomeHospital"></h3>
+              <span>Email: <span id="emailHospital"></span></span>
               <p id="descricaoHospital">
 
               </p>
               <div class="sugestao">
-                <h3>Contacto<span id="numeroHospital"></span></h3>
+                <span>Contacto: <span id="numeroHospital"></span></span>
                 <a class="btnConsulata btn sugestaoBtn" href="sugestao.html">
                   Sugestão
                 </a>
               </div>
-              <h4>Agendar:</h4>
+              <h5>Agendar:</h5>
               <div class="agendar">
                 <button class="btnConsulata btn" id="ConsultaIntituicao">
                   Consulta
@@ -156,19 +155,27 @@
       </div>
     </main>
     <!-- PRINCIPAL -->
-    <div class="popup" id="popup">
-      <img src="img/logo.webp" alt="" />
-      <h2 class="h2_title" id="titulo"></h2>
-      <select name="" id="tipoServico" class="comosente">
-      </select>
-      <h3>Como você está se sentindo?</h3>
-      <textarea name="" id="descricaoSentindo" cols="30" rows="10" class="descrever">
-            </textarea>
-      <h2 id="idPreco"></h2>
-      <span id="preco" style="font: 14pt arial;color:blue"></span>
-      <div class="opcbtnfooter">
-        <button class="btnCancelar" style="background-color: red;" onclick="closePopup()">Cancelar</button>
-        <button id="efectuarServicoBTN">Efectuar</button>
+    
+
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="titulo"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <select name="" id="tipoServico" class="form-select comosente"></select>
+            <h3>Como você está se sentindo?</h3>
+            <textarea name="" id="descricaoSentindo" cols="30" rows="10" class="form-control descrever"></textarea>
+            <h2 id="idPreco"></h2>
+            <span id="preco" style="font: 14pt arial;color:blue"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button id="efectuarServicoBTN" class="btn btn-primary">Efectuar</button>
+          </div>
+        </div>
       </div>
     </div>
 
