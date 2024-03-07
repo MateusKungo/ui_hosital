@@ -6,8 +6,14 @@ idMedico = null
 
 
 function minhaImagem() {
-  document.getElementById("minhaImagem").src = url + "/api/imagem/" + JSON.parse(localStorage.getItem("user")).user[0].imagem
-}
+  user = JSON.parse(localStorage.getItem("user"))
+  if(user.user[0].categoria=="admin"){
+    document.getElementById("minhaImagem").src = url + "/api/imagem/" + JSON.parse(localStorage.getItem("user")).user[0].admin.instituicao.imagem
+
+  }else{
+    document.getElementById("minhaImagem").src = url + "/api/imagem/" + JSON.parse(localStorage.getItem("user")).user[0].imagem
+  }
+ }
 
 //usei
 function guardarUser(user) {
