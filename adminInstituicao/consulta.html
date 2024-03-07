@@ -1,6 +1,6 @@
 <script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    document.location.href = "../index.html"
   }
 </script>
 <!DOCTYPE html>
@@ -140,7 +140,8 @@
 
     <!-- PRINCIPAL -->
     <main class="agendaBody">
-      <button class="btn btn-primary" onclick="openPopup('Tipo de Consulta','')">Cadastrar consulta</button>
+      <button class="btn btn-primary" class="btn btn-primary" data-toggle="modal" data-target="#modalConsulta">Cadastrar
+        consulta</button>
 
       <div class="table-data">
         <div class="order">Tipo
@@ -148,6 +149,9 @@
             <h3>Médicos</h3>
             <i class='bx bx-search'></i>
             <i class='bx bx-filter'></i>
+          </div>
+          <div class="alert alert-warning mt-3 mb-3" role="alert" style="display: none;" id="mensagem">
+            <p class="mb-0">Não há nenhum serviço de exame por favor registre.</p>
           </div>
           <table>
 
@@ -184,24 +188,52 @@
       </div>
     </div>
   </div>
-  <!-- CONTEÚDO -->
-  <div class="popup" id="popup">
-    <img src="img/logo.webp" alt="" />
-    <div class="crud">
-      <h2 class="h2_title">Nome consulta:</h2>
-      <input type="text" placeholder="Nome Consulta:*" id="nomeConsulta">
-      <h2 class="h2_title">Tipo de Consulta:</h2>
-      <input type="text" placeholder="Tipo de Consulta:*" id="tipoConsulta">
-      <h2 class="h2_title">Preco:</h2>
-      <input type="number" placeholder="Tipo de Consulta:*" id="PrecoConsulta">
 
-      <div class="add_cancelar">
-        <button onclick="closePopup()" style="background-color: red;">Cancelar</button>
-        <button onclick="addConsulta()">Salvar</button>
+  <div class="modal fade" id="modalConsulta" tabindex="-1" aria-labelledby="modalConsultaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalConsultaLabel">Nova Consulta</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal fade" id="loadingModals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true" data-backdrop="static" data-keyboard="false">
+          <div clasXs="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-body text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Carregando...</span>
+                </div>
+                <p class="mt-2">Carregando...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nomeConsulta" class="h2_title">Nome da Consulta:</label>
+            <input type="text" class="form-control" id="nomeConsulta" placeholder="Nome da Consulta:*" required>
+          </div>
+          <div class="form-group">
+            <label for="tipoConsulta" class="h2_title">Tipo de Consulta:</label>
+            <input type="text" class="form-control" id="tipoConsulta" placeholder="Tipo de Consulta:*" required>
+          </div>
+          <div class="form-group">
+            <label for="precoConsulta" class="h2_title">Preço:</label>
+            <input type="number" class="form-control" id="PrecoConsulta" placeholder="Preço:*" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary" onclick="addConsulta()">Salvar</button>
+        </div>
       </div>
-
     </div>
   </div>
+  <!-- CONTEÚDO -->
 
   <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
     aria-hidden="true" data-backdrop="static" data-keyboard="false">

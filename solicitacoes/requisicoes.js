@@ -34,35 +34,41 @@ function getAllExames() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display = "block";
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      //$('#loadingSpinnerContainer').hide();
-      retorno = data.exames;
-      // $("#paiExames").empty();
-      for (cont = 0; cont < retorno.length; cont++) {
-        tr = document.createElement('tr');
-        tdNome = document.createElement('td');
-        tdId = document.createElement('td');
-        tdPreco = document.createElement('td');
-        tdId.textContent = retorno[cont].id;
-        tdPreco.textAlign = "center";
-        tdPreco.textContent = retorno[cont].instituicaos[0].preco;
-        tdNome.textContent = retorno[cont].nome;
-        tdNome.style.textAlign = "center";
-        tdNome.classList.add('text-truncate');
-        tdId.classList.add('text-truncate');
-        tr.appendChild(tdId);
-        tr.appendChild(tdNome);
-        tr.appendChild(tdPreco);
-        document.getElementById('paiExames').appendChild(tr);
+      try {
+        retorno = data.exames;
+        for (cont = 0; cont < retorno.length; cont++) {
+          tr = document.createElement('tr');
+          tdNome = document.createElement('td');
+          tdId = document.createElement('td');
+          tdPreco = document.createElement('td');
+          tdId.textContent = retorno[cont].id;
+          tdPreco.textAlign = "center";
+          tdPreco.textContent = retorno[cont].instituicaos[0].preco;
+          tdNome.textContent = retorno[cont].nome;
+          tdNome.style.textAlign = "center";
+          tdNome.classList.add('text-truncate');
+          tdId.classList.add('text-truncate');
+          tr.appendChild(tdId);
+          tr.appendChild(tdNome);
+          tr.appendChild(tdPreco);
+          document.getElementById('paiExames').appendChild(tr);
+        }
+        $('#loadingModal').modal("hide");
+      } catch (error) {
+        $('#loadingModal').modal("hide");
+        document.getElementById("mensagem").style.display = "block";
       }
-      $('#loadingModal').modal("hide");
+
 
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display = "block";
       $('#loadingModal').modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
@@ -83,34 +89,40 @@ function getAllMedicamentos() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display = "block";
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      //$('#loadingSpinnerContainer').hide();
-      retorno = data.medicamentos;
-      // $("#paiExames").empty();
-      for (cont = 0; cont < retorno.length; cont++) {
-        tr = document.createElement('tr');
-        tdNome = document.createElement('td');
-        tdId = document.createElement('td');
-        tdPreco = document.createElement('td');
-        tdId.textContent = retorno[cont].id;
-        tdPreco.textAlign = "center";
-        tdNome.textContent = retorno[cont].nome;
-        tdNome.style.textAlign = "center";
-        tdNome.classList.add('text-truncate');
-        tdId.classList.add('text-truncate');
-        tr.appendChild(tdId);
-        tr.appendChild(tdNome);
-        document.getElementById('paiMedicamentos').appendChild(tr);
+
+      try {
+        retorno = data.medicamentos;
+        for (cont = 0; cont < retorno.length; cont++) {
+          tr = document.createElement('tr');
+          tdNome = document.createElement('td');
+          tdId = document.createElement('td');
+          tdPreco = document.createElement('td');
+          tdId.textContent = retorno[cont].id;
+          tdPreco.textAlign = "center";
+          tdNome.textContent = retorno[cont].nome;
+          tdNome.style.textAlign = "center";
+          tdNome.classList.add('text-truncate');
+          tdId.classList.add('text-truncate');
+          tr.appendChild(tdId);
+          tr.appendChild(tdNome);
+          document.getElementById('paiMedicamentos').appendChild(tr);
+        }
+      } catch (error) {
+        document.getElementById("mensagem").style.display = "block";
       }
+
       $("#loadingModal").modal("hide")
 
     })
     .catch(error => {
       $("#loadingModal").modal("hide")
+      document.getElementById("mensagem").style.display = "block";
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -133,39 +145,44 @@ function getAllConsulta() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display = "block"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      retorno = data.consultas;
-      //$("#paiConsulta").empty();
-      for (cont = 0; cont < retorno.length; cont++) {
-        tr = document.createElement('tr');
-
-        tdNome = document.createElement('td');
-        tdNome.style.textAlign = "center"
-        tdId = document.createElement('td');
-        tdPreco = document.createElement('td');
-        tdTipo = document.createElement('td');
-        tdId.textContent = retorno[cont].id;
-        tdPreco.textAlign = "center";
-        tdTipo.textAlign = "center";
-        tdPreco.textContent = retorno[cont].instituicaos[0].preco;
-        tdTipo.textContent = retorno[cont].tipo;
-        tdNome.textContent = retorno[cont].nome;
-        tdNome.style.textAlign = "center";
-        tdNome.classList.add('text-truncate');
-        tdId.classList.add('text-truncate');
-        tr.appendChild(tdId);
-        tr.appendChild(tdNome);
-        tr.appendChild(tdPreco);
-        tr.appendChild(tdTipo);
-        document.getElementById('paiConsulta').appendChild(tr);
+      try {
+        retorno = data.consultas;
+        for (cont = 0; cont < retorno.length; cont++) {
+          tr = document.createElement('tr');
+          tdNome = document.createElement('td');
+          tdNome.style.textAlign = "center"
+          tdId = document.createElement('td');
+          tdPreco = document.createElement('td');
+          tdTipo = document.createElement('td');
+          tdId.textContent = retorno[cont].id;
+          tdPreco.textAlign = "center";
+          tdTipo.textAlign = "center";
+          tdPreco.textContent = retorno[cont].instituicaos[0].preco;
+          tdTipo.textContent = retorno[cont].tipo;
+          tdNome.textContent = retorno[cont].nome;
+          tdNome.style.textAlign = "center";
+          tdNome.classList.add('text-truncate');
+          tdId.classList.add('text-truncate');
+          tr.appendChild(tdId);
+          tr.appendChild(tdNome);
+          tr.appendChild(tdPreco);
+          tr.appendChild(tdTipo);
+          document.getElementById('paiConsulta').appendChild(tr);
+        }
+        $("#loadingModal").modal("hide")
+      } catch (error) {
+        $("#loadingModal").modal("hide")
+        document.getElementById("mensagem").style.display = "block"
       }
-      $("#loadingModal").modal("hide")
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display = "block"
       $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
@@ -185,28 +202,35 @@ function getAllEspecialidade() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display = "block"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      retorno = data.especialidades;
-      for (cont = 0; cont < retorno.length; cont++) {
-        tr = document.createElement('tr');
-        tdNome = document.createElement('td');
-        tdId = document.createElement('td');
-        tdId.textContent = retorno[cont].id;
-        tdNome.textContent = retorno[cont].nome;
-        tdNome.style.textAlign = "center";
-        tdNome.classList.add('text-truncate');
-        tdId.classList.add('text-truncate');
-        tr.appendChild(tdId);
-        tr.appendChild(tdNome);
-        document.getElementById('paiEspecialidade').appendChild(tr);
+      try {
+        retorno = data.especialidades;
+        for (cont = 0; cont < retorno.length; cont++) {
+          tr = document.createElement('tr');
+          tdNome = document.createElement('td');
+          tdId = document.createElement('td');
+          tdId.textContent = retorno[cont].id;
+          tdNome.textContent = retorno[cont].nome;
+          tdNome.style.textAlign = "center";
+          tdNome.classList.add('text-truncate');
+          tdId.classList.add('text-truncate');
+          tr.appendChild(tdId);
+          tr.appendChild(tdNome);
+          document.getElementById('paiEspecialidade').appendChild(tr);
+        }
+        $("#loadingModal").modal("hide")
+      } catch (error) {
+        document.getElementById("mensagem").style.display = "block"
       }
-      $("#loadingModal").modal("hide")
+
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display = "block"
       $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
@@ -262,6 +286,7 @@ function getMyMedico() {
     .then(response => {
       if (!response.ok) {
         $("#loadingModalCadastro").modal("hide")
+        document.getElementById("mensagem").style.display = "block"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -282,6 +307,7 @@ function getMyMedico() {
 
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display = "block"
       $("#loadingModalCadastro").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
@@ -290,7 +316,7 @@ function getMyMedico() {
 //usei
 function addExame() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-  $('#loadingModal').modal('show');
+  $('#loadingModals').modal('show');
   const formData = new FormData();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
@@ -315,18 +341,18 @@ function addExame() {
     .then(response => {
       //$('#loadingModal').modal('hide');
       if (!response.ok) {
-        $('#loadingModal').modal('hide');
+        $('#loadingModals').modal('hide');
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      $('#loadingModal').modal('hide');
+      $('#loadingModals').modal('hide');
       $('#modalSucesso').modal('show');
       console.log(data)
     })
     .catch(error => {
-      $('#loadingModal').modal('hide');
+      $('#loadingModals').modal('hide');
       //$('#loadingModal').modal('hide');
       console.error('Erro na solicitação:', error.message);
     });
@@ -378,7 +404,7 @@ function addEspecialidade() {
 //usei
 function addConsulta() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
-  $('#loadingModal').modal('show');
+  $('#loadingModals').modal('show');
   const formData = new FormData();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
@@ -403,19 +429,19 @@ function addConsulta() {
     .then(response => {
       //$('#loadingModal').modal('hide');
       if (!response.ok) {
-        $('#loadingModal').modal('hide');
+        $('#loadingModals').modal('hide');
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      $('#loadingModal').modal('hide');
+      $('#loadingModals').modal('hide');
       $('#modalSucesso').modal('show');
       console.log(data)
     })
     .catch(error => {
-      $('#loadingModal').modal('hide');
-      //$('#loadingModal').modal('hide');
+      $('#loadingModals').modal('hide');
+      //$('#loadingModals').modal('hide');
       console.error('Erro na solicitação:', error.message);
     });
 
@@ -1504,7 +1530,7 @@ function cadastrarOuEditar(valor) {
         formData.append('especialidade_id', idEspecialidade);
         formData.append('instituicao_id', idInstituicao);
       } catch (error) {
-        formData.append("cargo",document.getElementById("cargo").value)
+        formData.append("cargo", document.getElementById("cargo").value)
       }
 
     }
@@ -2093,7 +2119,7 @@ function tragaOsMeusDados() {
   document.getElementById("telefone_principal").value = user.user[0].contacto.telefone_principal
   document.getElementById("telefone_alternativo").value = user.user[0].contacto.telefone_alternativo
   document.getElementById("codigo_postal").value = user.user[0].contacto.codigo_postal
-  if(user.user[0].categoria=="admin"){
+  if (user.user[0].categoria == "admin") {
     document.getElementById("cargo").value = user.user[0].admin.cargo
   }
   //document.getElementById("especialidade").value=user.user[0].*;
@@ -2478,6 +2504,7 @@ function aprovarMarcacao(idMarcacao, idMedico) {
     user = JSON.parse(localStorage.getItem("user"))
     idUser = user.user[0].id;
     token = user.token
+    $("#loadingModals").modal("show");
 
     fetch(url + "/api/marcacao_user/confirmarMarcacao/" + idMarcacao + "/" + idMedico, {
       method: 'PUT',
@@ -2488,18 +2515,22 @@ function aprovarMarcacao(idMarcacao, idMedico) {
     })
       .then(response => {
         if (!response.ok) {
+          $("#loadingModals").modal("hide");
           throw new Error(`Erro na resposta da API: status ${response.status}`);
         }
         return response.json();
       })
       .then(data => {
+        $("#loadingModals").modal("hide");
+        $("#modalSucesso").modal("show");
         console.log(data)
       })
       .catch(error => {
-
+        $("#loadingModals").modal("hide");
         console.error('Erro na solicitação:', error.message);
       });
   } else {
+    $("#loadingModals").modal("hide");
     alert("medico nao selecionado")
   }
 

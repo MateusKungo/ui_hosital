@@ -120,7 +120,7 @@
     <!-- BARRA DE NAVEGAÇÃO -->
     <nav>
       <i class="bx bx-menu"></i>
-      <a href="#" class="nav-link">Instituições</a>
+      <a href="#" class="nav-link">Medico</a>
       <form action="#">
         <div class="form-input">
           <input type="search" placeholder="Pesquisar..." />
@@ -225,6 +225,19 @@
               <p id="MeuTelefone"></p>
             </div>
           </div>
+          <div class="modal fade" id="loadingModals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Carregando...</span>
+                  </div>
+                  <p class="mt-2">Carregando...</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Tabela com Dados do Médico -->
           <div class="row mt-4" id="medicos" style="display: none; height: 300px; overflow: auto;">
             <div class="col-md-12">
@@ -264,6 +277,25 @@
   </div>
 
 
+  <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalSucessoLabel">Sucesso!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="actualizar()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success mt-3" role="alert">
+            Informações salvo com sucesso
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -272,6 +304,9 @@
   <script src="../solicitacoes/requisicoes.js"></script>
   <script>
     criarMarcacoes();
+    function actualizar(){
+      location.reload()
+    }
   </script>
 </body>
 
