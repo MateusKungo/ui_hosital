@@ -1,6 +1,6 @@
 <script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    document.location.href = "../index.html"
   }
 </script>
 <!DOCTYPE html>
@@ -215,7 +215,8 @@
             <!-- Parte Meio: Informações do Paciente -->
             <div class="col-md-6">
               <h5>Informações do Paciente</h5>
-              <img id="imagemMeuPerfil" alt="Imagem do Paciente" class="img-fluid" width="50px" height="50px">
+              <img id="imagemMeuPerfil" alt="Imagem do Paciente" class="img-fluid" width="50px" height="50px"
+                style="float: left;margin-right: 15px;">
               <p id="MeuNome"></p>
               <p id="MeuGenero"></p>
               <p id="MeuBi"></p>
@@ -238,7 +239,13 @@
                   </tr>
                 </thead>
                 <tbody id="medicosMarcacao">
-
+                  <tr style="display: none;" id="mensagem">
+                    <td colspan="4">
+                      <div class="alert alert-warning mt-3 mb-3" role="alert">
+                        <p class="mb-0">Nenhum medico escalado.</p>
+                      </div>
+                    </td>
+                  </tr>
                   <!-- Adicione mais linhas conforme necessário -->
                 </tbody>
               </table>
@@ -249,7 +256,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-primary" id="aprovar">Salvar</button>
+          <button type="button" class="btn btn-primary" id="aprovar">Aprovar</button>
         </div>
 
       </div>

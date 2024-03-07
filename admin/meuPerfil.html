@@ -1,11 +1,5 @@
-<script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
-  }
-</script>
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -21,14 +15,17 @@
   <link rel="stylesheet" href="meuPerfil.css">
   <link rel="stylesheet" href="modal.css" />
   <link rel="stylesheet" href="modalSalvo.css">
-  <style>
-    /* Adicione estilos específicos do hospital aqui */
-  </style>
+  <script>
+    if (JSON.parse(localStorage.getItem("user")) == null) {
+      document.location.href = "../index.html"
+    }
+  </script>
 </head>
 
 <body style="position: relative;" onload="minhaImagem()">
   <!-- BARRA LATERAL -->
   <section id="sidebar">
+    
     <a href="utente.html" class="brand">
       <i class='bx bxs-hospital'></i>
       <span class="text">Utente</span>
@@ -66,7 +63,7 @@
           <span class="text">Meu Perfil</span>
         </a>
       </li>
-    
+
       <li>
         <a href="#" class="logout">
           <i class="bx bxs-log-out-circle"></i>

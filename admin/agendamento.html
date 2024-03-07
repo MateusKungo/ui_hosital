@@ -1,9 +1,3 @@
-<script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
-  }
-</script>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -21,9 +15,11 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-  <style>
-    /* Adicione estilos específicos do hospital aqui */
-  </style>
+  <script>
+    if (JSON.parse(localStorage.getItem("user")) == null) {
+      document.location.href = "../index.html"
+    }
+  </script>
 </head>
 
 <body onload="minhaImagem()">

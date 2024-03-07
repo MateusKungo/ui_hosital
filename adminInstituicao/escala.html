@@ -1,6 +1,6 @@
 <script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    document.location.href = "../index.html"
   }
 </script>
 <!DOCTYPE html>
@@ -166,6 +166,9 @@
             <i class='bx bx-filter'></i>
           </div>
           <table>
+            <div class="alert alert-warning mt-3 mb-3" role="alert" style="display: none;" id="mensagem">
+              <p class="mb-0">Nenhum medico escalado.</p>
+            </div>
             <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true" data-backdrop="static" data-keyboard="false">
               <div class="modal-dialog modal-dialog-centered" role="document">
@@ -188,7 +191,7 @@
               </tr>
             </thead>
             <tbody id="TabelasMedicosEscala">
-              <!-- Outras linhas de agendamento aqui -->
+
             </tbody>
           </table>
         </div>
@@ -283,7 +286,7 @@
           </div>
           <div class="modal-body">
             <div class="alert alert-success mt-3" role="alert">
-                Informações salvo com sucesso
+              Informações salvo com sucesso
             </div>
           </div>
         </div>
@@ -302,8 +305,8 @@
     <script src="../solicitacoes/requisicoes.js"></script>
     <script>
       getMyMedicoForEscala()
-      function actualizar(){
-          location.reload()
+      function actualizar() {
+        location.reload()
       }
     </script>
 </body>
