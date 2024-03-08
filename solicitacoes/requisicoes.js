@@ -1,4 +1,4 @@
-var url = "https://93ab-102-214-36-131.ngrok-free.app";
+var url = "https://2cde-102-214-36-126.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -7,13 +7,13 @@ idMedico = null
 
 function minhaImagem() {
   user = JSON.parse(localStorage.getItem("user"))
-  if(user.user[0].categoria=="admin"){
+  if (user.user[0].categoria == "admin") {
     document.getElementById("minhaImagem").src = url + "/api/imagem/" + JSON.parse(localStorage.getItem("user")).user[0].admin.instituicao.imagem
 
-  }else{
+  } else {
     document.getElementById("minhaImagem").src = url + "/api/imagem/" + JSON.parse(localStorage.getItem("user")).user[0].imagem
   }
- }
+}
 
 //usei
 function guardarUser(user) {
@@ -522,8 +522,8 @@ function getMyMedicoForEscala() {
       try {
         if (retorno) {
           for (cont = 0; cont < retorno.length; cont++) {
-            adicionarLinhaMedico(retorno[cont].pclinico.id, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal, retorno[cont].imagem)
-            adicionarLinhaTabela(retorno[cont].imagem, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].pclinico.id)
+            DashbordMedico(retorno[cont].pclinico.id, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].contacto.telefone_principal, retorno[cont].imagem)
+            DashbordTabela(retorno[cont].imagem, retorno[cont].nome, retorno[cont].pclinico.especialidade.nome, retorno[cont].pclinico.id)
           }
           $("#loadingModal").hide()
           $(".modal-backdrop").remove();
@@ -552,7 +552,7 @@ function getMyMedicoForEscala() {
 
 
 //usei
-function adicionarLinhaTabela(imagem, nome, especialidade, id) {
+function DashbordTabela(imagem, nome, especialidade, id) {
   //$("#TabelasMedicosEscala").empty();
   var tabelaBody = document.getElementById("TabelasMedicosEscala");
 
@@ -919,6 +919,7 @@ function pegarMeuHistorico(idUser) {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display = "block"
         $("#loadingModal").modal("hide");
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
@@ -935,6 +936,7 @@ function pegarMeuHistorico(idUser) {
         }
 
       } catch (error) {
+        document.getElementById("mensagem").style.display = "block"
         $("#loadingModal").modal("hide");
         console.log(error)
       }
@@ -949,10 +951,13 @@ function pegarMeuHistorico(idUser) {
         }
         $("#loadingModal").modal("hide");
       } catch (error) {
+        document.getElementById("mensagem").style.display = "block"
+        document.getElementById("mensagem").style.display = "block"
         console.log(error)
       }
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display = "block"
       $("#loadingModal").modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
@@ -1339,6 +1344,78 @@ function myDashborderUser() {
 
 }
 
+function adicionarLinhaDashbord(tdody, nome, dataInicio, dataFim, foto) {
+  const linha = document.createElement("tr");
+  const colunaNome = document.createElement("td");
+  const colunaDataInicio = document.createElement("td");
+  const colunaDataFim = document.createElement("td");
+  const imagemPaciente = document.createElement("img");
+
+  imagemPaciente.src = foto;
+  imagemPaciente.alt = "medico";
+  colunaNome.appendChild(imagemPaciente);
+  colunaNome.appendChild(document.createTextNode(nome));
+  colunaDataInicio.textContent = dataInicio;
+  colunaDataFim.textContent = dataFim;
+
+  linha.appendChild(colunaNome);
+  linha.appendChild(colunaDataInicio);
+  linha.appendChild(colunaDataFim);
+
+  // Adicionando a linha à tabela
+  tdody.appendChild(linha);
+}
+
+
+function myDashborderInstituicao() {
+  user = JSON.parse(localStorage.getItem("user"));
+  id = user.user[0].admin.instituicao_id
+  token = JSON.parse(localStorage.getItem("user")).token
+  //$("#loadingModal").modal("show")
+  fetch(url + "/api/instituicao/pegarDadosDiversosDaIntituicao/" + id, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      document.getElementById("quantidade").innerHTML = data.total_marcacoes;
+      document.getElementById("quantidadeP").innerHTML = data.total_pacientes;
+      document.getElementById("nomeUser").innerHTML = data.ultima_marcacao.user.nome
+      document.getElementById("imagemUser").src = url + "/api/imagem/" + data.ultima_marcacao.user.imagem
+      document.getElementById("tipoServico").innerHTML = data.ultima_marcacao.tipo_servico
+      document.getElementById("dataHora").innerHTML = data.ultima_marcacao.data + " " + data.ultima_marcacao.hora
+      document.getElementById("total_dinheiro").innerHTML = data.total_dinheiro + " kz"
+      if (data.ultima_marcacao.estado == 0) {
+        document.getElementById("estado").innerHTML = "marcado"
+      } else if (data.ultima_marcacao.estado == 1) {
+        document.getElementById("estado").innerHTML = "confirmado"
+      } else {
+        document.getElementById("estado").innerHTML = "atendido"
+      }
+      if (data.escalas.length != 0) {
+        escalas = data.escalas
+        tdbody= document.getElementById("tdbody");
+        for (cont = 0; cont < escalas.length; cont++) {
+          adicionarLinhaDashbord(tdbody,escalas[cont].user.nome,escalas[cont].data_inicio+" "+escalas[cont].hora_inicio,escalas[cont].data_fim+" "+escalas[cont].hora_fim,url+"/api/imagem/"+escalas[cont].user.imagem)
+
+        }
+      }
+      console.log(data.quantidade)
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
 //usei
 function pegarMarcacoesMedicoElistar(imagem, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
   // Criação do elemento <tr>
@@ -1493,7 +1570,7 @@ function fazerLogin() {
       } else if (user.user[0].categoria == "pessoalclinico") {
         document.location.href = "pessoalClinico/pessoalClinico.html"
       } else if (user.user[0].categoria == "admin") {
-        document.location.href = "adminInstituicao/agendamento.html"
+        document.location.href = "adminInstituicao/instituicao.html"
       } else if (user.user[0].categoria == "super_admin") {
         document.location.href = "page/contaInstituicao.html"
       }
@@ -1576,6 +1653,7 @@ function cadastrarOuEditar(valor) {
         console.error('Erro na solicitação:', error.message);
       });
   } else {
+
     user = JSON.parse(localStorage.getItem("user"))
     idUser = user.user[0].id;
     formData.append('user_id', idUser);
@@ -1592,7 +1670,7 @@ function cadastrarOuEditar(valor) {
     })
       .then(response => {
         if (!response.ok) {
-          $("#modalErro").modal("show")
+          //$("#modalErro").modal("show")
           document.getElementById("informacao").innerHTML = response.text;
           throw new Error(`Erro na resposta da API: status ${response.status}`);
         }
@@ -1603,9 +1681,10 @@ function cadastrarOuEditar(valor) {
         data.token = JSON.parse(localStorage.getItem("user")).token
         user = data
         guardarUser(user)
+        openModalSalvo()
       })
       .catch(error => {
-        $("#modalErro").modal("show")
+        //$("#modalErro").modal("show")
         document.getElementById("informacao").innerHTML = error.message;
         console.error('Erro na solicitação:', error.message);
       });
@@ -2088,23 +2167,30 @@ function getMyRCU() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display = "block"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      retorno = data.rcu;
-      if (retorno.estado == 0) {
-        estado = "Saudável"
-      } else if (retorno.estado == 1) {
-        estado = "doente"
-      } else {
-        estado = "falecido"
+      try {
+        retorno = data.rcu;
+        if (retorno.estado == 0) {
+          estado = "Saudável"
+        } else if (retorno.estado == 1) {
+          estado = "doente"
+        } else {
+          estado = "falecido"
+        }
+        document.getElementById("tableRCU").appendChild(criarTabelaRcu(retorno.grupo_sanguineo, estado))
+        $("#loadingModal").modal("hide")
+      } catch (error) {
+        $("#loadingModal").modal("hide")
+        document.getElementById("mensagem").style.display = "block"
       }
-      document.getElementById("tableRCU").appendChild(criarTabelaRcu(retorno.grupo_sanguineo, estado))
-      $("#loadingModal").modal("hide")
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display = "block"
       $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
@@ -2147,23 +2233,30 @@ function getMyAgendamento() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display = "block"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      retorno = data.marcacoes;
-      for (let a = 0; a < retorno.length; a++) {
-        try {
-          document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico, retorno[a].pclinico.especialidade.nome, retorno[a].data, retorno[a].hora, retorno[a].pclinico.user.nome, retorno[a].instituicao.nome, retorno[a].estado, (retorno[a].data_escolhida == null) ? "Aguarde" : retorno[a].data_escolhida, (retorno[a].hora_escolhida == null) ? "Aguarde" : retorno[a].hora_escolhidaa))
-        } catch (error) {
-          document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico, "Aguarde", retorno[a].data, retorno[a].hora, "Aguarde", retorno[a].instituicao.nome, retorno[a].estado, (retorno[a].data_escolhida == null) ? "Aguarde" : retorno[a].data_escolhida, (retorno[a].hora_escolhida == null) ? "Aguarde" : retorno[a].hora_escolhida))
-        }
+      try {
+        retorno = data.marcacoes;
+        for (let a = 0; a < retorno.length; a++) {
+          try {
+            document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico, retorno[a].pclinico.especialidade.nome, retorno[a].data, retorno[a].hora, retorno[a].pclinico.user.nome, retorno[a].instituicao.nome, retorno[a].estado, (retorno[a].data_escolhida == null) ? "Aguarde" : retorno[a].data_escolhida, (retorno[a].hora_escolhida == null) ? "Aguarde" : retorno[a].hora_escolhidaa))
+          } catch (error) {
+            document.getElementById("tabelaAgendamento").appendChild(ListarMinhaAgenda(retorno[a].tipo_servico, "Aguarde", retorno[a].data, retorno[a].hora, "Aguarde", retorno[a].instituicao.nome, retorno[a].estado, (retorno[a].data_escolhida == null) ? "Aguarde" : retorno[a].data_escolhida, (retorno[a].hora_escolhida == null) ? "Aguarde" : retorno[a].hora_escolhida))
+          }
 
+        }
+        $("#loadingModal").modal("hide")
+      } catch (error) {
+        $("#loadingModal").modal("hide")
+        document.getElementById("mensagem").style.display = "block"
       }
-      $("#loadingModal").modal("hide")
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display = "block"
       console.error('Erro na solicitação:', error.message);
     });
 }
@@ -2386,26 +2479,31 @@ function criarMarcacoes() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagems").style.display = "block";
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      retorno = data.marcacoes;
-      console.log(retorno)
-      //alert()
-      for (cont = 0; cont < retorno.length; cont++) {
+      try {
+        retorno = data.marcacoes;
+        for (cont = 0; cont < retorno.length; cont++) {
 
-        if (retorno[cont].tipo_servico == "consulta") {
-          listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].consulta.nome, retorno[cont].consulta.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
-        } else {
-          listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].exame.nome, retorno[cont].exame.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
+          if (retorno[cont].tipo_servico == "consulta") {
+            listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].consulta.nome, retorno[cont].consulta.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
+          } else {
+            listarMarcacoes(retorno[cont].id, data.escalas, retorno[cont].user.imagem, retorno[cont].pclinico, retorno[cont].descricao, retorno[cont].exame.nome, retorno[cont].exame.tipo, retorno[cont].data, (retorno[cont].estado) ? "Pendente" : "Confirmado", retorno[cont].preco, retorno[cont].tipo_servico, retorno[cont].hora, retorno[cont].user.nome, retorno[cont].user.id)
+          }
         }
+        $('#loadingModal').modal("hide");
+      } catch (error) {
+        $('#loadingModal').modal("hide");
+        document.getElementById("mensagems").style.display = "block";
       }
-      $('#loadingModal').modal("hide");
 
     })
     .catch(error => {
+      document.getElementById("mensagems").style.display = "block";
       $('#loadingModal').modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
@@ -2605,7 +2703,7 @@ function adicionarMedico(imagem, nome, especialidade) {
 }
 
 //usei
-function adicionarLinhaMedico(id, nome, especialidade, contacto, imagemSrc) {
+function DashbordMedico(id, nome, especialidade, contacto, imagemSrc) {
   var tabela = document.getElementById("tabelaMedicosEscalar");
   var novaLinha = tabela.insertRow(tabela.rows.length);
   var colunaImagem = novaLinha.insertCell(0);

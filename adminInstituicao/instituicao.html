@@ -1,8 +1,8 @@
 <script>
-    if(JSON.parse(localStorage.getItem("user"))==null){
-      document.location.href="../index.html"
+    if (JSON.parse(localStorage.getItem("user")) == null) {
+        document.location.href = "../index.html"
     }
-  </script>
+</script>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -20,14 +20,13 @@
 </head>
 
 <body onload="minhaImagem()">
-    <!-- BARRA LATERAL -->
     <section id="sidebar">
-        <a href="instituicao.html" class="brand">
+        <a href="instituicao.html" class="brand" >
             <i class="bx bxs-hospital"></i>
-            <span class="text">Hospital</span>
+            <span>Hospital</span>
         </a>
         <ul class="side-menu top">
-            <li>
+            <li >
                 <a href="agendamento.html">
                     <i class='bx bxs-calendar'></i>
                     <span class="text">Marcaçoes</span>
@@ -49,12 +48,6 @@
                 <a href="expecialidade.html">
                     <i class='bx bxs-dollar-circle'></i>
                     <span class="text">Especialidade</span>
-                </a>
-            </li>
-            <li>
-                <a href="medicamentos.html">
-                    <i class='bx bxs-dollar-circle'></i>
-                    <span class="text">Medicamentos</span>
                 </a>
             </li>
             <li>
@@ -98,7 +91,7 @@
         <!-- BARRA DE NAVEGAÇÃO -->
         <nav>
             <i class="bx bx-menu"></i>
-            <a href="#" class="nav-link">Instituições</a>
+            <a href="#" class="nav-link">Medico</a>
             <form action="#">
                 <div class="form-input">
                     <input type="search" placeholder="Pesquisar..." />
@@ -128,31 +121,34 @@
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="btn-download">
-                    <i class='bx bxs-cloud-download'></i>
-                    <span class="text">Baixar PDF</span>
-                </a>
+                <!--
+                    <a href="#" class="btn-download">
+                        <i class='bx bxs-cloud-download'></i>
+                        <span class="text">Baixar PDF</span>
+                    </a>
+                -->
+
             </div>
 
             <ul class="box-info">
                 <li>
                     <i class='bx bxs-calendar-check'></i>
                     <span class="text">
-                        <h3>1020</h3>
-                        <p>Novos Agendamentos</p>
+                        <h3 id="quantidade"></h3>
+                        <p>Total de agendamento</p>
                     </span>
                 </li>
                 <li>
                     <i class='bx bxs-user'></i>
                     <span class="text">
-                        <h3>2834</h3>
-                        <p>Pacientes</p>
+                        <h3 id="quantidadeP"></h3>
+                        <p>Pacientes diagnosticados</p>
                     </span>
                 </li>
                 <li>
                     <i class='bx bxs-dollar-circle'></i>
                     <span class="text">
-                        <h3>$2543</h3>
+                        <h3 id="total_dinheiro" ></h3>
                         <p>Faturamento Total</p>
                     </span>
                 </li>
@@ -169,17 +165,19 @@
                             <tr>
                                 <th>Paciente</th>
                                 <th>Tipo de Serço</th>
-                                <th>Status</th>
+                                <th>Data e hora</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="img/people.png" alt="Paciente">
-                                    <p>João Silva</p>
+                                    <img id="imagemUser" alt="Paciente">
+                                    <p id="nomeUser"></p>
                                 </td>
-                                <td>01-10-2021 09:00</td>
-                                <td><span class="status completed">Concluído</span></td>
+                                <td id="tipoServico"></td>
+                                <td id="dataHora"></td>
+                                <td id="estado"></td>
                             </tr>
                             <!-- Outras linhas de agendamento aqui -->
                         </tbody>
@@ -187,25 +185,20 @@
                 </div>
                 <div class="order">
                     <div class="head">
-                        <h3>Escala</h3>
+                        <h3>Escalas dos pessoais clinicos</h3>
                         <i class='bx bx-plus'></i>
                         <i class='bx bx-filter'></i>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>Paciente</th>
-                                <th>Data & Hora</th>
+                                <th>Nome</th>
+                                <th>Data & Hora inicio</th>
+                                <th>Data & Hora Fim</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <p>João Silva</p>
-                                </td>
-                                <td>01-10-2021 09:00</td>
-                            </tr>
-                            <!-- Outras linhas de agendamento aqui -->
+                        <tbody id="tdbody"> 
+                           
                         </tbody>
                     </table>
                 </div>
@@ -216,6 +209,11 @@
     <!-- CONTEÚDO -->
 
     <script src="script.js"></script>
+    <script src="../solicitacoes/requisicoes.js"></script>
+    <script>
+        myDashborderInstituicao()
+    </script>
+
 </body>
 
 </html>

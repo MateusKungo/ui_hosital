@@ -6,4 +6,5 @@ function openModalSalvo() {
 
 function closeModalSalvo() {
   modal.classList.remove('active')
+  location.reload()
 }
