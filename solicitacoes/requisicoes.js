@@ -1,4 +1,4 @@
-var url = "https://2cde-102-214-36-126.ngrok-free.app";
+var url = "https:/c29d-102-218-85-249.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -1344,6 +1344,55 @@ function myDashborderUser() {
 
 }
 
+function myDashborderMeico() {
+  user = JSON.parse(localStorage.getItem("user"));
+  id = user.user[0].pclinico.id
+  token = JSON.parse(localStorage.getItem("user")).token
+  //$("#loadingModal").modal("show")
+  fetch(url + "/api/pclinico/pegarDadosDiversosSobreOMedico/" + id, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      document.getElementById("quantidade").innerHTML = data.total_marcacoes;
+      document.getElementById("diagnosticados").innerHTML = data.total_pacientes;
+      document.getElementById("imagemPaciente").src = url + "/api/imagem/" + data.ultima_marcacao.user.imagem
+      document.getElementById("servico").innerHTML = data.ultima_marcacao.tipo_servico
+      document.getElementById("dataHora").innerHTML = data.ultima_marcacao.data + " " + data.ultima_marcacao.hora
+      if (data.ultima_marcacao.estado == 0) {
+        document.getElementById("estado").innerHTML = "marcado"
+      } else if (data.ultima_marcacao.estado == 1) {
+        document.getElementById("estado").innerHTML = "confirmado"
+      } else {
+        document.getElementById("estado").innerHTML = "atendido"
+      }
+
+      document.getElementById("dataHoraInicio").innerHTML = data.escala.data_inicio + " " + data.escala.hora_inicio
+      document.getElementById("diaSemanaInicio").innerHTML = data.escala.dia_da_semana
+      document.getElementById("dataHoraFim").innerHTML = data.escala.data_fim + " " + data.escala.hora_fim
+      document.getElementById("diaSemanaFim").innerHTML = data.escala.dia_da_semana
+  
+      
+      diaSemana
+
+      console.log(data.quantidade)
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
+
 function adicionarLinhaDashbord(tdody, nome, dataInicio, dataFim, foto) {
   const linha = document.createElement("tr");
   const colunaNome = document.createElement("td");
@@ -1402,9 +1451,9 @@ function myDashborderInstituicao() {
       }
       if (data.escalas.length != 0) {
         escalas = data.escalas
-        tdbody= document.getElementById("tdbody");
+        tdbody = document.getElementById("tdbody");
         for (cont = 0; cont < escalas.length; cont++) {
-          adicionarLinhaDashbord(tdbody,escalas[cont].user.nome,escalas[cont].data_inicio+" "+escalas[cont].hora_inicio,escalas[cont].data_fim+" "+escalas[cont].hora_fim,url+"/api/imagem/"+escalas[cont].user.imagem)
+          adicionarLinhaDashbord(tdbody, escalas[cont].pclinico.user.nome, escalas[cont].data_inicio + " " + escalas[cont].hora_inicio, escalas[cont].data_fim + " " + escalas[cont].hora_fim, url + "/api/imagem/" + escalas[cont].pclinico.user.imagem)
 
         }
       }
