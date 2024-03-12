@@ -1,6 +1,6 @@
 <script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    document.location.href = "../index.html"
   }
 </script>
 <!DOCTYPE html>
@@ -24,7 +24,7 @@
   </style>
 </head>
 
-<body>
+<body onload="minhaImagem()">
   <!-- BARRA LATERAL -->
   <section id="sidebar">
     <a href="pessoalClinico.html" class="brand">
@@ -95,7 +95,7 @@
         </div>
       </form>
       <a href="#" class="profile">
-        <img src="img/people.png" alt="Perfil" />
+        <img id="minhaImagem" alt="Perfil" />
       </a>
     </nav>
     <!-- BARRA DE NAVEGAÇÃO -->
@@ -109,6 +109,9 @@
             <h3>Agendamento de Consulta e Exame</h3>
             <i class='bx bx-search'></i>
             <i class='bx bx-filter'></i>
+          </div>
+          <div class="alert alert-warning mt-3 mb-3" role="alert" style="display: none;" id="mensagem">
+            <p class="mb-0">Nenhuma marcação de Serviços.</p>
           </div>
           <table>
             <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -151,7 +154,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
-    
     pegarMarcacoesParaUmMedico()
   </script>
 </body>

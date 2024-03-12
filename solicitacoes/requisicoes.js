@@ -1,4 +1,4 @@
-var url = "https:/c29d-102-218-85-249.ngrok-free.app";
+var url = "https://77d1-197-216-101-234.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -978,6 +978,7 @@ function pegarMarcacoesParaUmMedico() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display="block"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -995,12 +996,19 @@ function pegarMarcacoesParaUmMedico() {
 
           }
           $("#loadingModal").modal("hide")
+        }else{
+          $("#loadingModal").modal("hide")
+          document.getElementById("mensagem").style.display="block"
         }
       } catch (error) {
+        $("#loadingModal").modal("hide")
+        document.getElementById("mensagem").style.display="block"
         console.log(error)
       }
     })
     .catch(error => {
+      $("#loadingModal").modal("hide")
+      document.getElementById("mensagem").style.display="block"
       console.error('Erro na solicitação:', error.message);
     });
 
@@ -1117,6 +1125,7 @@ function pegarMarcacoesParaUmMedicoDiagnosticar() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display="block"
         $("#loadingModal").modal("hide");
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
@@ -1135,11 +1144,13 @@ function pegarMarcacoesParaUmMedicoDiagnosticar() {
         $("#loadingModal").modal("hide");
         pegarTodasAsDoencas();
       } catch (error) {
+        document.getElementById("mensagem").style.display="block"
         $("#loadingModal").modal("hide");
         console.log(error)
       }
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display="block"
       $("#loadingModal").modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
@@ -1283,6 +1294,8 @@ function pegarMinhasAgendas() {
   })
     .then(response => {
       if (!response.ok) {
+        document.getElementById("mensagem").style.display="block"
+        $("#loadingModal").modal("hide")
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -1297,10 +1310,14 @@ function pegarMinhasAgendas() {
         }
         $("#loadingModal").modal("hide")
       } catch (error) {
+        document.getElementById("mensagem").style.display="block"
+        $("#loadingModal").modal("hide")
         console.log(error)
       }
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display="block"
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 
@@ -1379,7 +1396,7 @@ function myDashborderMeico() {
       document.getElementById("dataHoraInicio").innerHTML = data.escala.data_inicio + " " + data.escala.hora_inicio
       document.getElementById("diaSemanaInicio").innerHTML = data.escala.dia_da_semana
       document.getElementById("dataHoraFim").innerHTML = data.escala.data_fim + " " + data.escala.hora_fim
-      document.getElementById("diaSemanaFim").innerHTML = data.escala.dia_da_semana
+      document.getElementById("diaSemanaFim").innerHTML = data.escala.dia_da_semana_fim
   
       
       diaSemana
@@ -1533,6 +1550,7 @@ function pegarHistoricosDosMeusPacientes() {
     .then(response => {
       if (!response.ok) {
         $("#loadingModal").modal("hide");
+        document.getElementById("mensagem").style.display="block"
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -1547,11 +1565,13 @@ function pegarHistoricosDosMeusPacientes() {
         }
         $("#loadingModal").modal("hide");
       } catch (error) {
+        document.getElementById("mensagem").style.display="block"
         $("#loadingModal").modal("hide");
         console.log(error)
       }
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display="block"
       $("#loadingModal").modal("hide");
       console.error('Erro na solicitação:', error.message);
     });
