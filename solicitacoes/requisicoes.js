@@ -1,4 +1,4 @@
-var url = "https://77d1-197-216-101-234.ngrok-free.app";
+var url = "https://37b8-197-216-101-234.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -323,6 +323,52 @@ function getMyMedico() {
 function addExame() {
   const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
   $('#loadingModals').modal('show');
+  const formData = new FormData();
+  user = JSON.parse(localStorage.getItem("user"))
+  iuser = user.user[0].admin.instituicao_id
+
+
+  token = JSON.parse(localStorage.getItem("user")).token
+
+
+  formData.append('nome', document.getElementById("nomeExame").value);
+  formData.append('preco', document.getElementById("PrecoExame").value);
+  formData.append('instituicao_id', iuser);
+
+  fetch(url + "/api/exame/create", {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420",
+      'X-CSRF-TOKEN': tokenCSRF
+    },
+    body: formData,
+  })
+    .then(response => {
+      //$('#loadingModal').modal('hide');
+      if (!response.ok) {
+        $('#loadingModals').modal('hide');
+        throw new Error(`Erro na resposta da API: status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      $('#loadingModals').modal('hide');
+      $('#modalSucesso').modal('show');
+      console.log(data)
+    })
+    .catch(error => {
+      $('#loadingModals').modal('hide');
+      //$('#loadingModal').modal('hide');
+      console.error('Erro na solicitação:', error.message);
+    });
+
+}
+
+function addSujestao() {
+  const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
+  $('#loadingModals').modal('show');
+
   const formData = new FormData();
   user = JSON.parse(localStorage.getItem("user"))
   iuser = user.user[0].admin.instituicao_id
@@ -1849,8 +1895,11 @@ function pegarTodosUtentes() {
 function createAdivInstituicao(nome, descricao, id, provincia, municipio, destrito, imagem) {
   // Cria um elemento div
 
+
+
   var divInstituicao = document.createElement("div");
   divInstituicao.className = "instituicao";
+ 
 
   // Cria um elemento div para o cabeçalho
   var divHeader = document.createElement("div");
@@ -1864,8 +1913,8 @@ function createAdivInstituicao(nome, descricao, id, provincia, municipio, destri
   var divImagem = document.createElement("div");
   divImagem.className = "imge_instituicoa";
   var img = document.createElement("img");
-  img.src = url + "/api/imagem/" + imagem;
-  img.alt = "";
+  img.src = url + "/api/imagem/" +imagem;
+  img.alt = "imagem";
   divImagem.appendChild(img);
   divInstituicao.appendChild(divImagem);
 
@@ -1883,6 +1932,7 @@ function createAdivInstituicao(nome, descricao, id, provincia, municipio, destri
   divFooter.className = "footer";
   var a = document.createElement("a");
   a.href = "perfilhospital.html?idHospital=" + id;
+
   a.className = "btn btn_vermais";
   a.textContent = "Saber mais";
   divFooter.appendChild(a);
@@ -2090,7 +2140,73 @@ function exameInstituicao(idInstituicao, idMedico, dataInicio, horaInicio) {
 
 }
 
+function getCSRFToken() {
+  const tokenElement = document.querySelector('meta[name="csrf-token"]');
+  return tokenElement ? tokenElement.getAttribute('content') : null;
+}
 
+
+function addSujestao() {
+  token = JSON.parse(localStorage.getItem("user")).token
+  const tokenCSRF = document.querySelector('meta[name="csrf-token"]').content;
+
+  user = JSON.parse(localStorage.getItem("user"));
+  idUser = user.user[0].id;
+
+  queryString = window.location.search;
+  searchParams = new URLSearchParams(queryString);
+  getUrl = Object.fromEntries(searchParams.entries());
+
+  //$('#loadingModal').modal('show');
+
+    var jsonData = {
+      descricao: document.getElementById("descricao").value,
+      instituicao_id: getUrl.idHospital,
+      user_id: idUser,
+    };
+  
+
+    token = JSON.parse(localStorage.getItem("user")).token
+
+    fetch(url + "/api/solicitacao_utente/create", {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "69420",
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': tokenCSRF
+      },
+      body: JSON.stringify(jsonData)
+    })
+      .then(response => {
+        //$('#loadingModal').modal('hide');
+        if (!response.ok) {
+          throw new Error(`Erro na resposta da API: status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+       // $('#modalSucesso').modal('show');
+       // $('#loadingModal').modal('hide');
+        console.log(data)
+      })
+      .catch(error => {
+       // $('#loadingModal').modal('hide');
+        console.error('Erro na solicitação:', error.message);
+      });
+}
+
+function adicionarTokenCSRF(url) {
+  const token = getCSRFToken();
+  if (token) {
+      if (url.includes('?')) {
+          url= '&_token=' + encodeURIComponent(token)+"&"+url;
+      } else {
+          url= '?_token=' + encodeURIComponent(token)+"&"+url;
+      }
+  }
+  return url;
+}
 
 function pegarUmaisntituicao() {
   /*user= JSON.parse(localStorage.getItem("user"))
@@ -2098,9 +2214,12 @@ function pegarUmaisntituicao() {
   queryString = window.location.search;
   searchParams = new URLSearchParams(queryString);
   getUrl = Object.fromEntries(searchParams.entries());
+  //parametro =adicionarTokenCSRF("h="+getUrl.idHospital);
+ // console.log(adicionarTokenCSRF("sugestao.html?idHospital="+getUrl.idHospital))
 
   token = JSON.parse(localStorage.getItem("user")).token
 
+  document.getElementById("sujestao").href="sugestao.html?idHospital="+getUrl.idHospital;
 
   fetch(url + "/api/instituicao/pegarInstituicao/" + getUrl.idHospital, {
     method: 'GET',
@@ -2116,9 +2235,10 @@ function pegarUmaisntituicao() {
       return response.json();
     })
     .then(data => {
+     
       //divPai = document.getElementById("pai");
       dados = data.instituicao
-      document.getElementById("imagemInstituicao").src = url + "/api/imagem/" + dados.imagem
+      document.getElementById("imagemInstituicao").src = url +"/api/imagem/" + dados.imagem
       document.getElementById("nomeHospital").innerHTML = dados.nome;
       document.getElementById("emailHospital").innerHTML = dados.email;
       document.getElementById("descricaoHospital").innerHTML = dados.Descricao;
@@ -3076,6 +3196,10 @@ async function criarDiagnostico(idUser) {
     console.error('Erro na solicitação:', error.message);
   }
 }
+
+
+
+
 
 //usei
 function pegandoOsMedicamentosDoInPut() {
