@@ -1066,8 +1066,6 @@ function pegarMarcacoesParaUmMedicoParaReceitar() {
   id = user.user[0].pclinico.id
   token = JSON.parse(localStorage.getItem("user")).token
   $("#loadingModal").modal("show")
-
-
   fetch(url + "/api/marcacao_user/pegarMarcacoesUsersPorPessoalClinico/" + id, {
     method: 'GET',
     headers: {
@@ -1077,6 +1075,8 @@ function pegarMarcacoesParaUmMedicoParaReceitar() {
   })
     .then(response => {
       if (!response.ok) {
+        $("#loadingModal").modal("hide")
+        document.getElementById("mensagem").style.display="block";
         throw new Error(`Erro na resposta da API: status ${response.status}`);
       }
       return response.json();
@@ -1097,10 +1097,14 @@ function pegarMarcacoesParaUmMedicoParaReceitar() {
         }
         pegarMedicamentos(1);
       } catch (error) {
+        document.getElementById("mensagem").style.display="block";
+        $("#loadingModal").modal("hide")
         console.log(error)
       }
     })
     .catch(error => {
+      document.getElementById("mensagem").style.display="block";
+      $("#loadingModal").modal("hide")
       console.error('Erro na solicitação:', error.message);
     });
 
@@ -1108,39 +1112,39 @@ function pegarMarcacoesParaUmMedicoParaReceitar() {
 
 function pegarMarcacoesMedicoElistarParaRceitar(id, nomePaciente, nomeServico, tipoServico, descricao, dataHora) {
   // Criação do elemento <tr>
-  var tr = document.createElement("tr");
+  let tr = document.createElement("tr");
 
 
-  var tdName = document.createElement("td");
-  var namePara = document.createElement("p");
+  let tdName = document.createElement("td");
+  let namePara = document.createElement("p");
   namePara.textContent = nomePaciente;
   tdName.appendChild(namePara);
   tr.appendChild(tdName);
 
   // Criação do segundo <td> para o tipo sanguíneo
-  var tdBloodType = document.createElement("td");
-  var bloodTypePara = document.createElement("p");
+  let tdBloodType = document.createElement("td");
+  let bloodTypePara = document.createElement("p");
   bloodTypePara.textContent = nomeServico;
   tdBloodType.appendChild(bloodTypePara);
   tr.appendChild(tdBloodType);
 
   // Criação do terceiro <td> para o tipo de exame
-  var tdExam = document.createElement("td");
-  var examPara = document.createElement("p");
+  let tdExam = document.createElement("td");
+  let examPara = document.createElement("p");
   examPara.textContent = tipoServico;
   tdExam.appendChild(examPara);
   tr.appendChild(tdExam);
 
 
-  var descricaoTd = document.createElement("td");
+  let descricaoTd = document.createElement("td");
   descricaoTd.textContent = descricao;
   tr.appendChild(descricaoTd);
   // Criação do quarto <td> para a data e hora
-  var tdDateTime = document.createElement("td");
+  let tdDateTime = document.createElement("td");
   tdDateTime.textContent = dataHora;
   tr.appendChild(tdDateTime);
 
-  var button = document.createElement("button");
+  let button = document.createElement("button");
   button.textContent = "Receitar";
   button.className = "btn btn-primary";
   tr.appendChild(button)
@@ -3219,8 +3223,6 @@ function pegandoOsMedicamentosDoInPut() {
     }
     medicamentosVector.push(medicamentos)
   }
-
-
   return medicamentosVector
 
 }
