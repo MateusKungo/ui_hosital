@@ -1,4 +1,4 @@
-var url = "https://37b8-197-216-101-234.ngrok-free.app";
+var url = "https://a964-105-168-130-63.ngrok-free.app";
 var user = null
 var apiProvincia = null
 pessoalClinico = []
@@ -2157,7 +2157,7 @@ function addSujestao() {
   searchParams = new URLSearchParams(queryString);
   getUrl = Object.fromEntries(searchParams.entries());
 
-  //$('#loadingModal').modal('show');
+  $('#loadingModal').modal('show');
 
     var jsonData = {
       descricao: document.getElementById("descricao").value,
@@ -2179,19 +2179,19 @@ function addSujestao() {
       body: JSON.stringify(jsonData)
     })
       .then(response => {
-        //$('#loadingModal').modal('hide');
+        $('#loadingModal').modal('hide');
         if (!response.ok) {
           throw new Error(`Erro na resposta da API: status ${response.status}`);
         }
         return response.json();
       })
       .then(data => {
-       // $('#modalSucesso').modal('show');
-       // $('#loadingModal').modal('hide');
+        $('#modalSucesso').modal('show');
+        $('#loadingModal').modal('hide');
         console.log(data)
       })
       .catch(error => {
-       // $('#loadingModal').modal('hide');
+        $('#loadingModal').modal('hide');
         console.error('Erro na solicitação:', error.message);
       });
 }
@@ -2249,16 +2249,18 @@ function pegarUmaisntituicao() {
       document.getElementById("exameInstituicao").addEventListener("click", function () {
         exameInstituicao(getUrl.idHospital, 0, null, null);
       })
-
-
+      
+      console.log(dados.pclinicos)
       if (dados.pclinicos.length > 0) {
         dados = dados.pclinicos;
         // console.log(dados)
         //$("paiMedicos").empty();
         paiMedicos = document.getElementById("paiMedicos")
         for (cont = 0; cont < dados.length; cont++) {
-          paiMedicos.appendChild(criarMedicos(dados[cont].id, dados[cont].user.nome, dados[cont].especialidade.nome, dados[cont].user.contacto.telefone_principal, dados[cont].user.imagem));
+            paiMedicos.appendChild(criarMedicos(dados[cont].id, dados[cont].user.nome, dados[cont].especialidade.nome, dados[cont].user.contacto.telefone_principal, dados[cont].user.imagem));
         }
+      }else{
+        document.getElementById("mensagem").style.display="block"
       }
 
     })
