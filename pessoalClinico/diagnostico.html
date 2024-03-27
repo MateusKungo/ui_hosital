@@ -1,6 +1,6 @@
 <script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    document.location.href = "../index.html"
   }
 </script>
 <!DOCTYPE html>
@@ -87,7 +87,7 @@
           <span class="text">Meu Perfil</span>
         </a>
       </li>
-      
+
       <li>
         <a href="#" class="logout">
           <i class="bx bxs-log-out-circle"></i>
@@ -206,7 +206,7 @@
               </div>
 
               <div class="form-group">
-                <label for="descricao">Descrição da Receita:</label>
+                <label for="descricao">Descrição do diagnostico:</label>
                 <textarea id="descricao" name="descricao" class="form-control"></textarea>
               </div>
             </div>
@@ -234,12 +234,22 @@
               <button type="button" id="adicionarMedicamento" class="btn btn-primary">Adicionar
                 Medicamento</button>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" id="rcu">
               <!-- Informações do RCU -->
-              <h4>Registro Clínico do Utente (RCU):</h4>
+              <h5>Registro Clínico do Utente (RCU):</h5>
               <div class="form-group">
                 <label for="rcu_id">Grupo Sanguineo</label>
-                <input type="text" id="grupo_sanguineo" name="grupo_sanguineo" class="form-control">
+                <select name="grupo_sanguineo" id="grupo_sanguineo" class="form-control">
+                  <option value="">Selecione</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
               </div>
             </div>
           </div>

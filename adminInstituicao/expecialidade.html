@@ -1,6 +1,6 @@
 <script>
-  if(JSON.parse(localStorage.getItem("user"))==null){
-    document.location.href="../index.html"
+  if (JSON.parse(localStorage.getItem("user")) == null) {
+    document.location.href = "../index.html"
   }
 </script>
 
@@ -108,12 +108,6 @@
         </a>
       </li>
       <li>
-        <a href="#">
-          <i class="bx bxs-cog"></i>
-          <span class="text">Configurações</span>
-        </a>
-      </li>
-      <li>
         <a href="#" class="logout">
           <i class="bx bxs-log-out-circle"></i>
           <span class="text" onclick="sair()">Sair</span>
@@ -144,7 +138,7 @@
 
     <!-- PRINCIPAL -->
     <main class="agendaBody">
-      <button class="btn btn-primary" onclick="openPopup('Tipo de Consulta','')">Cadastrar especialidade</button>
+      <button class="btn btn-primary" data-toggle="modal" data-target="#cadastroModal">Cadastrar especialidade</button>
 
       <div class="table-data">
         <div class="order">
@@ -170,6 +164,7 @@
       </div>
 
     </main>
+
     <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -188,18 +183,50 @@
 
   </section>
   <!-- CONTEÚDO -->
-  <div class="popup" id="popup">
-    <img src="img/logo.webp" alt="" />
-    <div class="crud">
-      <h2 class="h2_title">Nome consulta:</h2>
-      <input type="text" placeholder="Nome da expecialidade:*" id="nome">
-      <div class="add_cancelar">
-        <button onclick="closePopup()" style="background-color: red;">Cancelar</button>
-        <button onclick="addEspecialidade()">Salvar</button>
-      </div>
 
+  <div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
+    <div class="modal fade" id="loadingModals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Carregando...</span>
+            </div>
+            <p class="mt-2">Carregando...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cadastroModalLabel">Cadastro de Especialidade</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" class="form-control" id="nome" placeholder="Nome da Especialidade" required>
+          </div>
+          <div class="form-group">
+            <label for="pacientes">Quantos Pacientes atender ao dia:</label>
+            <input type="number" class="form-control" id="qtd_atendimento_diario" placeholder="Quantidade de Pacientes"
+              required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary" onclick="addEspecialidade()">Salvar</button>
+        </div>
+      </div>
     </div>
   </div>
+
 
   <div class="modal fade" id="modalSucesso" tabindex="-1" role="dialog" aria-labelledby="modalSucessoLabel"
     aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -219,6 +246,8 @@
       </div>
     </div>
   </div>
+
+
   <script src="script.js"></script>
   <script src="modal.js"></script>
 
@@ -230,10 +259,10 @@
 
   <script>
     getAllEspecialidade();
-    function actualizar(){
+    function actualizar() {
       location.reload()
     }
-    
+
   </script>
 
 </body>
